@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="416.0" prefWidth="842.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.LoginFX">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+      <children>
+            <ImageView fitHeight="439.0" fitWidth="842.0" layoutY="-19.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-19.0">
+               <image>
+                  <Image url="@Images/Login.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="53.0" fitWidth="50.0" layoutX="443.0" layoutY="120.0">
+               <image>
+                  <Image url="@Images/braude.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="login" defaultButton="true" layoutX="171.0" layoutY="265.0" mnemonicParsing="false" onAction="#loginWasPressed" text="Login" />
+            <Text fill="#1c2383" layoutX="516.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ICM" wrappingWidth="106.50845503301923">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Text>
+            <Text fx:id="date" fontSmoothingType="LCD" layoutX="299.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="19 Nov 2019" wrappingWidth="88.60001220703123" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+            <Text fontSmoothingType="LCD" layoutX="299.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In case of errors or lost credentials contact I.S.D. division - 050-000-0000" wrappingWidth="308.20703125" />
+            <Text fx:id="wrongPassword" fill="#f50a0a" layoutX="116.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="223.99999618530273">
+               <font>
+                  <Font size="12.0" />
+               </font></Text>
+            <JFXTextField fx:id="id" focusColor="#30a73a" labelFloat="true" layoutX="117.0" layoutY="148.0" prefHeight="25.0" prefWidth="173.0" promptText="I.D" style="-fx-background-color: WHITE;" unFocusColor="BLACK" />
+            <JFXPasswordField fx:id="password" focusColor="#30a73a" layoutX="117.0" layoutY="206.0" prefHeight="25.0" prefWidth="173.0" promptText="Password" style="-fx-background-color: white;" unFocusColor="#1e1e1e" />
+            <ImageView fx:id="eror2" disable="true" fitHeight="16.0" fitWidth="16.0" layoutX="273.0" layoutY="185.0">
+               <image>
+                  <Image url="@Images/icons8_cancel_48px_2.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="eror1" fitHeight="16.0" fitWidth="16.0" layoutX="273.0" layoutY="240.0">
+               <image>
+                  <Image url="@Images/icons8_cancel_48px_2.png" />
+               </image>
+            </ImageView>
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1259.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ConnectServerManualyFX">
+   <children>
+      <AnchorPane layoutX="-2.0" layoutY="-2.0" prefHeight="80.0" prefWidth="1280.0" style="-fx-background-color: #4682b4;">
+         <children>
+            <Text fill="#fffdfd" layoutX="406.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect to Server Manually">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="7.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/ICM_LOGO.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+      <JFXButton fx:id="connect" buttonType="RAISED" layoutX="340.0" layoutY="442.0" onAction="#connectWasPressed" prefHeight="53.0" prefWidth="268.0" style="-fx-background-color: #4682b4; -fx-background-radius: 30;" text="Connect" textFill="#fff8f8">
+         <font>
+            <Font name="Tahoma" size="24.0" />
+         </font></JFXButton>
+      <JFXTextField fx:id="ip" focusColor="STEELBLUE" labelFloat="true" layoutX="340.0" layoutY="341.0" prefHeight="45.0" prefWidth="651.0" promptText="Server IP" style="-fx-border-color: BLACK;" />
+      <Text fx:id="erorMessage" layoutX="340.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please insert the Server IP" wrappingWidth="566.6708984375">
+         <font>
+            <Font size="20.0" />
+         </font></Text>
+      <JFXButton fx:id="connectDefault" buttonType="RAISED" layoutX="666.0" layoutY="442.0" onAction="#connectToDefaultWasPressed" prefHeight="53.0" prefWidth="328.0" style="-fx-background-color: #4682b4; -fx-background-radius: 30;" text="Connect to Default Server" textFill="#fff9f9">
+         <font>
+            <Font name="Tahoma" size="24.0" />
+         </font>
+      </JFXButton>
+      <Text fx:id="errorMessage" fill="#e40202" layoutX="340.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="629.24609375">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

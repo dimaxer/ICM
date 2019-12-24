@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1203.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.RequestFormFX">
+   <children>
+      <JFXTextArea fx:id="requestid" editable="false" focusColor="STEELBLUE" layoutX="35.0" layoutY="191.0" prefHeight="44.0" prefWidth="411.0" style="-fx-background-color: #F8F8FF;" />
+      <Label layoutX="159.0" layoutY="164.0" prefHeight="34.0" prefWidth="151.0" text="Request Id">
+         <font>
+            <Font name="Tahoma" size="16.0" />
+         </font>
+      </Label>
+      <JFXTextArea fx:id="initatorName" editable="false" focusColor="STEELBLUE" layoutX="35.0" layoutY="287.0" prefHeight="44.0" prefWidth="411.0" style="-fx-background-color: #F8F8FF;" />
+      <Label layoutX="159.0" layoutY="260.0" prefHeight="34.0" prefWidth="151.0" text="Initator Name">
+         <font>
+            <Font name="Tahoma" size="16.0" />
+         </font>
+      </Label>
+      <JFXTextArea fx:id="descreaption" editable="false" focusColor="STEELBLUE" layoutX="29.0" layoutY="392.0" prefHeight="258.0" prefWidth="411.0" style="-fx-background-color: #F8F8FF;" />
+      <Label layoutX="159.0" layoutY="358.0" prefHeight="34.0" prefWidth="94.0" text="descreaption">
+         <font>
+            <Font name="Tahoma" size="16.0" />
+         </font>
+      </Label>
+      <JFXTextArea fx:id="handlerName" editable="false" focusColor="STEELBLUE" layoutX="519.0" layoutY="189.0" prefHeight="44.0" prefWidth="411.0" style="-fx-background-color: #F8F8FF;" />
+      <Label layoutX="643.0" layoutY="162.0" prefHeight="34.0" prefWidth="151.0" text="Handler Name">
+         <font>
+            <Font name="Tahoma" size="16.0" />
+         </font>
+      </Label>
+      <JFXTextArea fx:id="currentStage" editable="false" focusColor="STEELBLUE" layoutX="518.0" layoutY="287.0" prefHeight="44.0" prefWidth="411.0" style="-fx-background-color: #F8F8FF;" />
+      <Label layoutX="642.0" layoutY="260.0" prefHeight="34.0" prefWidth="151.0" text="Current Stage">
+         <font>
+            <Font name="Tahoma" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="642.0" layoutY="356.0" prefHeight="34.0" prefWidth="151.0" text="Handler Name">
+         <font>
+            <Font name="Tahoma" size="16.0" />
+         </font>
+      </Label>
+      <JFXComboBox fx:id="status" focusColor="STEELBLUE" layoutX="519.0" layoutY="402.0" prefHeight="45.0" prefWidth="411.0" />
+      <AnchorPane prefHeight="89.0" prefWidth="1203.0" style="-fx-background-color: #4682B4;">
+         <children>
+            <Label layoutX="397.0" layoutY="19.0" prefHeight="46.0" prefWidth="397.0" text="Request Information" textFill="GHOSTWHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="36.0" />
+               </font>
+            </Label>
+            <ImageView accessibleRole="BUTTON" fitHeight="50.0" fitWidth="50.0" layoutX="1045.0" layoutY="17.0" onMouseClicked="#homeWasPressed" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/ICM_HOME.png" />
+               </image>
+            </ImageView>
+            <JFXButton fx:id="home" layoutX="1037.0" layoutY="15.0" onAction="#homeWasPressed" prefHeight="58.0" prefWidth="60.0" />
+            <JFXButton fx:id="Back" layoutX="1111.0" layoutY="12.0" onAction="#backWasPressed" prefHeight="50.0" prefWidth="60.0">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#backWasPressed" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/ICM_BACK.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children></AnchorPane>
+      <JFXButton fx:id="save" buttonType="RAISED" layoutX="573.0" layoutY="488.0" onAction="#editWasPressed" prefHeight="44.0" prefWidth="301.0" ripplerFill="#9b92ff" style="-fx-background-color: #4682B4; -fx-background-radius: 80;" text="Save Status" textFill="WHITESMOKE">
+         <font>
+            <Font size="22.0" />
+         </font></JFXButton>
+      <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="48.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/ICM_LOGO.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="34.0" fitWidth="50.0" layoutX="793.0" layoutY="495.0">
+         <image>
+            <Image url="@Images/icons8_right_32px_1.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="erorStatus" layoutX="518.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="411.0000134110451" />
+   </children>
+</AnchorPane>
