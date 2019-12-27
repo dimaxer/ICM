@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Common.Request;
-import Common.User;
 import Utilities.MessageObject;
 import Utilities.RequestType;
 
@@ -130,7 +128,7 @@ public class mysqlConnection {
 
 		// SELECT * WILL CHANGE TO SELECT SPECIFIC RELEVANT FIELDS AND NOT PWD - IN
 		// ORDER TO FILL AcademicUser Instance
-		String query = "SELECT * FROM Users WHERE UserID = \'" + uid + "\' AND Password = \'" + pwd + "\'";
+		String query = "SELECT * FROM sample_login WHERE uid = \'" + uid + "\' AND upassword = \'" + pwd + "\'";
 		System.out.println(query);
 
 		try {
@@ -157,7 +155,6 @@ public class mysqlConnection {
 	public static MessageObject searchRequest(Object msg) {
 		MessageObject message = (MessageObject) msg;
 		String requestID = (String) message.getArgs().get(0);
-		String role = (String)message.getArgs().get(1);
 		ResultSet result;
 
 		// new MessageObject to send back to the use the answer
@@ -165,7 +162,7 @@ public class mysqlConnection {
 		MessageObject newMessage = new MessageObject(RequestType.View_Req_Details, args);
 
 		// create query to search the requestID
-		String query = "SELECT * FROM Requests WHERE RequestID= \'" + requestID + "\'";
+		String query = "SELECT * FROM RequestInformation WHERE RequestID= \'" + requestID + "\'";
 		result = executeQuery(query);
 
 		try {
@@ -176,10 +173,12 @@ public class mysqlConnection {
 			}
 			// if request id was found return this data in the arrayList
 			newMessage.getArgs().add(true);
-			
-			Request request  = new Request(result);
-			newMessage.getArgs().add(role);
-			newMessage.getArgs().add(request);
+			newMessage.getArgs().add(result.getString("InitiatorName"));
+			newMessage.getArgs().add(result.getString("RequestID"));
+			newMessage.getArgs().add(result.getString("CurrentStageDetails"));
+			newMessage.getArgs().add(result.getString("Description"));
+			newMessage.getArgs().add(result.getString("Status"));
+			newMessage.getArgs().add(result.getString("HandlerName"));
 			return newMessage;
 		} catch (SQLException e) {
 
@@ -253,84 +252,5 @@ public class mysqlConnection {
 			return newMessage;
 		}
 
-	}
-
-	/**
-	 * this method gets from the DB all the relevant requests for user
-	 * 
-	 * @param msg userID
-	 * @return User that contain all relevant requests
-	 */
-	public static MessageObject viewUserRequestTable(MessageObject msg) throws SQLException {
-		MessageObject message = (MessageObject) msg;
-		String userID = (String) message.getArgs().get(0);
-		ResultSet userInfoResult, userRequestsResult;
-		ArrayList<Request> requests = new ArrayList<Request>();
-
-		// new MessageObject to send back to the use the answer
-		ArrayList<Object> args = new ArrayList<Object>();
-		MessageObject newMessage = new MessageObject(RequestType.viewUserRequestTable, args);
-
-		// Query for get user information
-		String userInfoQuery = "SELECT * FROM Users WHERE UserID= \'" + userID + "\'";
-
-		// Query for getting all the request where the user is relevent to them
-		String userRequestsQuery = "SELECT * " + "FROM Requests " + "WHERE (InitaitorID= \'" + userID + "\') "
-				+ "OR (TesterID= \'" + userID + "\') " + "OR (ExequtionLeaderID= \'" + userID + "\') "
-				+ "OR (CommitteeMember1ID= \'" + userID + "\') " + "OR (CommitteeMember2ID= \'" + userID + "\') "
-				+ "OR (CommitteeChairmenID= \'" + userID + "\') "+"OR (EvaluatorID= \'" + userID + "\') ";
-
-		try {
-
-			userInfoResult = executeQuery(userInfoQuery);
-
-			userRequestsResult = executeQuery(userRequestsQuery);
-
-			userInfoResult.next();
-			// initialize user with is data from the DB
-			User user = new User((String) userInfoResult.getString("UserID"),
-					(String) userInfoResult.getString("Password"), (String) userInfoResult.getString("Name"),
-					(String) userInfoResult.getString("Email"), (String) userInfoResult.getString("jobDescription"));
-
-			if (!userRequestsResult.next()) {
-
-				newMessage.getArgs().add(false);
-				return newMessage;
-			}
-
-			newMessage.getArgs().add(true);
-
-			do {
-				// Create request for every request that relevant to the user
-				Request request = new Request(userRequestsResult.getString("RequestID"),
-						userRequestsResult.getString("InformationSystem"),
-						userRequestsResult.getString("CurrentSituation"),
-						userRequestsResult.getString("RequestedChange"),
-						userRequestsResult.getString("ReasonForRequest"), userRequestsResult.getString("Note"),
-						userRequestsResult.getString("AttachFiles"), userRequestsResult.getString("Date"),
-						userRequestsResult.getString("CurrentStage"), userRequestsResult.getString("RequestStatus"),
-						userRequestsResult.getString("InitaitorID"), userRequestsResult.getString("TesterID"),
-						userRequestsResult.getString("ExequtionLeaderID"),
-						userRequestsResult.getString("CommitteeMember1ID"),
-						userRequestsResult.getString("CommitteeMember2ID"),
-						userRequestsResult.getString("CommitteeChairmenID"),
-						userRequestsResult.getString("EvaluatorID"));
-
-				requests.add(request);
-			} while (userRequestsResult.next());
-			// set the requests array to the user request Array
-			user.setRequestArray(requests);
-
-			newMessage.getArgs().add(user);
-
-			return newMessage;
-
-		} catch (SQLException e) {
-
-			System.out.println("An Error occured while trying to execute this viewUserRequestTable quesrys: ");
-			e.printStackTrace();
-		}
-
-		return null;
 	}
 }

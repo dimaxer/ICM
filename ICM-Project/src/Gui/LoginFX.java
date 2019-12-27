@@ -71,7 +71,7 @@ public class LoginFX implements BaseFx, Initializable {
 	public void loginWasPressed(ActionEvent event) {
 
 		setValdiator();
-		
+
 		// Getting the strings from the gui
 		IDText = id.getText();
 		passwordText = password.getText();
@@ -89,8 +89,6 @@ public class LoginFX implements BaseFx, Initializable {
 			// if everything is ok send a MessageObject to
 			// the server
 		} else {
-			
-			
 
 			loginController.loginWasPressed(IDText, passwordText);
 

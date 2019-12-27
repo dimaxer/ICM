@@ -1,7 +1,6 @@
 package server;
 
 import java.io.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Utilities.MessageObject;
@@ -61,14 +60,6 @@ public class DBServer extends AbstractServer {
 			case change_Status:
 				handleChangeStatus(message, client);
 				break;
-			case viewUserRequestTable:
-				try {
-					handleViewUserRequestTable(message, client);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
 			default:
 				break;
 			}
@@ -80,15 +71,6 @@ public class DBServer extends AbstractServer {
 
 		}
 
-	}
-
-	private void handleViewUserRequestTable(MessageObject message, ConnectionToClient client) throws SQLException {
-		
-		MessageObject response = mysqlConnection.viewUserRequestTable(message);
-
-		sendMessage(response, client);
-
-		
 	}
 
 	/**
