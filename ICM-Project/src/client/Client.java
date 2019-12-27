@@ -7,10 +7,11 @@ import java.io.*;
 import Gui.ClientUI;
 
 import Gui.LoginFX;
-
+import Gui.PanelFX;
 import Gui.RequestFormFX;
 
 import Gui.SearchRequestFX;
+import Gui.ViewAllRequestsFX;
 import Utilities.MessageObject;
 import Utilities.ScreenManager;
 
@@ -70,15 +71,26 @@ public class Client extends AbstractClient {
 		}
 		case View_Req_Details: {
 
-			if (currentFX instanceof SearchRequestFX) {
+			if (currentFX instanceof ViewAllRequestsFX) {
 
-				((SearchRequestFX) currentFX).handleSearchRequest(message);
+				((ViewAllRequestsFX) currentFX).handleSearchRequest(message);
 
 			} else {
 				System.out.println("Controller instance is NOT SearchRequestController!");
 			}
 
 			break;
+		}
+		case viewUserRequestTable: {
+			if (currentFX instanceof PanelFX) {
+
+				((PanelFX) currentFX).handleViewRequestDetailsRequest(message);
+
+			} else {
+				System.out.println("Controller instance is NOT PanelFXController!");
+			}
+			break;
+			
 		}
 		case change_Status: {
 			if (currentFX instanceof RequestFormFX) {
@@ -89,6 +101,7 @@ public class Client extends AbstractClient {
 				System.out.println("Controller instance is NOT RequestFormController!");
 
 			}
+			break;
 		}
 		default:
 			break;
