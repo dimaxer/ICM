@@ -6,13 +6,17 @@ import Gui.ClientUI;
 import Gui.ConnectServerManualyFX;
 import Gui.LoginFX;
 import Gui.PanelFX;
+import Gui.RequestDetailsInitiatorFX;
 import Gui.RequestFormFX;
 import Gui.SearchRequestFX;
+import Gui.ViewAllRequestsFX;
 import LogicController.BasePanelController;
 import LogicController.ConnectServerManualyController;
 import LogicController.LoginController;
+import LogicController.RequestDetailsInitiatorController;
 import LogicController.RequestFormController;
 import LogicController.SearchRequestController;
+import LogicController.ViewAllRequestsController;
 import client.Client;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -156,9 +160,13 @@ public class ScreenManager {
 		case "RequestForm":
 			((RequestFormFX) FX).setLogicController(new RequestFormController(client));
 			break;
-		case "SearchRequest":
-			((SearchRequestFX) FX).setLogicController(new SearchRequestController(client));
+		case "ViewAllRequests":
+			((ViewAllRequestsFX) FX).setLogicController(new ViewAllRequestsController(client));
 			break;
+		case "RequestDetailsInitiator":
+			((RequestDetailsInitiatorFX) FX).setLogicController(new RequestDetailsInitiatorController(client));
+			break;
+			
 		default:
 
 		}

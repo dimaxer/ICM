@@ -3,8 +3,10 @@ package Gui;
 import com.jfoenix.controls.JFXButton;
 import LogicController.BaseController;
 import LogicController.BasePanelController;
+import Utilities.MessageObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class PanelFX implements BaseFx {
@@ -45,11 +47,25 @@ public class PanelFX implements BaseFx {
 	@FXML
 	public void viewRequestDetailsWasPressed(ActionEvent event) {
 
-		panelController.switchScene("SearchRequest");
-		SearchRequestFX FX = (SearchRequestFX) panelController.getCurrentFX();
-		FX.clearFields();
+
+		
+		// send the User id to the server
+		panelController.viewRequestDetailsWasPressed();
 
 	}
+	
+	
+	
+	public void handleViewRequestDetailsRequest(MessageObject massage) {
+
+		panelController.switchScene("ViewAllRequests");
+		ViewAllRequestsFX FX = (ViewAllRequestsFX) panelController.getCurrentFX();
+		FX.clearFields();
+		FX.loadRequests(massage);
+		}
+
+	
+	
 
 	/**
 	 * This event handler switches scenes back to the login page
