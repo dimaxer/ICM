@@ -22,5 +22,6 @@ NEW:
 TODO:
 - need to make the code readable and friendly for every one else
 -improve the GUI
+-need to create in viewAllRequestFX  the transformation to RequestDetails to all the roles except RequestDetailsInitaitor
 
 ### DO NOT CONTINUE WORKING ON THE MAIN BEFORE TALKING TO DIMA OR NOAM!!!!!.
