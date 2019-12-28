@@ -8,6 +8,9 @@ phpAdmin: https://remotemysql.com/phpmyadmin/index.php?db=ZZUehgwcK6
 committed 28/12/19 - 02:46 AM, see details
 
 ### DO NOT CONTINUE WORKING ON THE MAIN BEFORE TALKING TO MALKA ###
+Raz Afriate Notes:\
+integrated newRequest creation\
+ VERY IMPORTANT!!! TODO: integrate tables with shoam \
 Dima's UPDATE NOTES:
 1. refactored screen manager
 2. changed BaseLogicController to get instances from ScreenManager\
