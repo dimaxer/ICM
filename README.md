@@ -1,9 +1,8 @@
 [@DIMAXER ( https://github.com/DIMAXER )]
 B.Sc. Software Engineering 3rd year project - ONGOING.
 
-Connecting to remote Cloud DB:
+Connecting to remote Cloud DB - username: ZZUehgwcK6 | password: hfwrGUeVv7
 phpAdmin: https://remotemysql.com/phpmyadmin/index.php?db=ZZUehgwcK6
-username: ZZUehgwcK6  password: hfwrGUeVv7
 
 [@RAZMALKA ( https://github.com/RAZMALKA )] - ICM on Steroids v1
 committed 28/12/19 - 02:46 AM, see details
@@ -95,7 +94,7 @@ RECENT UPDATE NOTES:
 16.2 clearScreenMap function added to ScreenManager
 16.3 normalizeAppearance function added to ScreenManager
 
-17. Design made to be identical:
+17. GUI Improved and Design of following was made to be identical:
 17.1 AcademicUserPanel
 17.2 ConnectServerManualy
 17.3 ViewAllRequests
