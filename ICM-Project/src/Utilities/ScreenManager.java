@@ -22,19 +22,21 @@ public class ScreenManager {
 	private Scene currentScene;
 	private Stage primaryStage;
 
-	private ScreenManager() {}
-	
+	private ScreenManager() {
+	}
+
 	/**
 	 * Get the Singleton's Instance
+	 * 
 	 * @return ScreenManager Singleton Instance
 	 */
 	public static ScreenManager getInstance() {
 		return singletonInstance;
 	}
-	
+
 	/**
-	 * Initialization of Screen Manager Singleton
-	 * May be called only once.
+	 * Initialization of Screen Manager Singleton May be called only once.
+	 * 
 	 * @param currentScene
 	 * @param primaryStage
 	 * @param FXMLName
@@ -45,7 +47,7 @@ public class ScreenManager {
 	public static void initialize(Scene currentScene, Stage primaryStage, String FXMLName) throws Exception {
 		if (singletonInstance != null)
 			return;
-		
+
 		singletonInstance = new ScreenManager();
 		singletonInstance.currentScene = currentScene;
 		singletonInstance.primaryStage = primaryStage;
@@ -60,22 +62,28 @@ public class ScreenManager {
 	 * @param loader The FXMLLoader linked to the fxml screen
 	 */
 	public void addScreen(String name, Scene scene) {
+		if (singeltonInitialized())
+			return;
+		screenMap.put(name, scene);
+	}
+
+	private boolean singeltonInitialized() {
 		if (singletonInstance == null) {
 			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
-			return;
+			return false;
+
 		}
-		screenMap.put(name, scene);
+		return true;
 	}
 
 	/**
 	 * @return current Controller instance
 	 */
 	public Object getCurrentFX() {
-		if (singletonInstance == null) {
-			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+		if (singeltonInitialized())
 			return null;
-		}
-		FXMLLoader userData = (FXMLLoader)currentScene.getUserData();
+
+		FXMLLoader userData = (FXMLLoader) currentScene.getUserData();
 		Object currentFX = userData.getController();
 		return currentFX;
 	}
@@ -86,10 +94,8 @@ public class ScreenManager {
 	 * @param name name of fxml to remove
 	 */
 	public void removeScreen(String scene) {
-		if (singletonInstance == null) {
-			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+		if (singeltonInitialized())
 			return;
-		}
 		screenMap.remove(scene);
 	}
 
@@ -100,18 +106,14 @@ public class ScreenManager {
 	 * @throws Exception
 	 */
 	public void activate(String scene) throws Exception {
-		if (singletonInstance == null) {
-			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+		if (singeltonInitialized())
 			return;
-		}
-		
+
 		if (!screenMap.containsKey(scene)) {
 			Alert.showAlert(AlertType.ERROR, "Non-Existent Screen", "Screen does not exist in ScreenManager.");
 		}
 
 		currentScene = screenMap.get(scene);
-		System.out.println("123123");
-		System.out.println(scene);
 		primaryStage.setScene(currentScene);
 
 	}
@@ -124,12 +126,10 @@ public class ScreenManager {
 	 * @param ui_class  class of the source via this.getClass()
 	 */
 	public void switchScene(String fxml_name) throws Exception {
-		if (singletonInstance == null) {
-			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+		if (singeltonInitialized())
 			return;
-		}
 		System.out.println("SWITCH SCENE CALLED!");
-		
+
 		if (screenMap.containsKey(fxml_name)) {
 			try {
 				currentScene = screenMap.get(fxml_name);
@@ -159,9 +159,10 @@ public class ScreenManager {
 		}
 
 	}
-	
+
 	/**
 	 * Returns whether a specific scene exists.
+	 * 
 	 * @author Raz Malka
 	 * @param fxml_name
 	 * @return Boolean, indicating if the scene exists.
@@ -169,15 +170,20 @@ public class ScreenManager {
 	public Boolean sceneExists(String fxml_name) {
 		return screenMap.containsKey(fxml_name);
 	}
-	
-	/** Empties the Screen Map HashMap, should be called only upon log-out.
+
+	/**
+	 * Empties the Screen Map HashMap, should be called only upon log-out.
+	 * 
 	 * @author Raz Malka
 	 */
 	public void clearScreenMap() {
 		screenMap.clear();
 	}
-	
-	/** This function centers the current stage and normalizes the position, resizability and borders among all scenes.
+
+	/**
+	 * This function centers the current stage and normalizes the position,
+	 * resizability and borders among all scenes.
+	 * 
 	 * @author Raz Malka
 	 */
 	public void normalizeAppearance() {
@@ -185,20 +191,18 @@ public class ScreenManager {
 		primaryStage.setResizable(false);
 		primaryStage.sizeToScene();
 	}
-	
+
 	public Scene getCurrentScene() {
-		if (singletonInstance == null) {
-			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+		if (singeltonInitialized())
 			return null;
-		}
+
 		return currentScene;
 	}
 
 	public HashMap<String, Scene> getScreenMap() {
-		if (singletonInstance == null) {
-			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+		if (singeltonInitialized())
 			return null;
-		}
+
 		return screenMap;
 	}
 }
