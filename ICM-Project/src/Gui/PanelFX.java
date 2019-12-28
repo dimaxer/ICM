@@ -32,7 +32,6 @@ public class PanelFX implements BaseFx {
 	 * 
 	 */
 
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
@@ -58,11 +57,11 @@ public class PanelFX implements BaseFx {
 		else
 			panelController.viewRequestDetailsWasPressed();
 	}
-	
+
 	public void handleViewRequestDetailsRequest(MessageObject message) {
 		panelController.switchScene("ViewAllRequests");
-		((ViewAllRequestsFX)Client.getInstance().getCurrentFX()).clearFields();
-		((ViewAllRequestsFX)Client.getInstance().getCurrentFX()).loadRequests(message);
+		((ViewAllRequestsFX) ScreenManager.getInstance().getCurrentFX()).clearFields();
+		((ViewAllRequestsFX) ScreenManager.getInstance().getCurrentFX()).loadRequests(message);
 	}
 
 	/**
