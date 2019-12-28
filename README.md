@@ -14,43 +14,43 @@ RECENT UPDATE NOTES:
 	Author of Changes:	Raz Malka
 	Details of Changes:
 1. Client:\
-1.1 customized according to Singleton Design Pattern
-1.2 getInstance() function added
-1.3 initialize() function added
-1.4 deprecated functions removed
-1.5 all of the previous static functions turned non-static
+1.1 customized according to Singleton Design Pattern\
+1.2 getInstance() function added\
+1.3 initialize() function added\
+1.4 deprecated functions removed\
+1.5 all of the previous static functions turned non-static\
 
-2. ClientUI:
-2.1 customized according to Singleton Design Pattern
-2.2 getInstance() function added
-2.3 clientUI() constructor changed
-2.4 start() function changed to fit into Singleton accessibility
-2.5 client property removed
-2.6 deprecated functions removed
-2.7 all of the previous static functions turned non-static
+2. ClientUI:\
+2.1 customized according to Singleton Design Pattern\
+2.2 getInstance() function added\
+2.3 clientUI() constructor changed\
+2.4 start() function changed to fit into Singleton accessibility\
+2.5 client property removed\
+2.6 deprecated functions removed\
+2.7 all of the previous static functions turned non-static\
 
-3. ServerUI:
-3.1 Java Class ServerUI added
-3.2 customized according to Singleton Design Pattern
-3.3 getInstance() function added
-3.3 moved onto - functions main() & start() from ServerController
-3.4 extensions added: Application
+3. ServerUI:\
+3.1 Java Class ServerUI added\
+3.2 customized according to Singleton Design Pattern\
+3.3 getInstance() function added\
+3.3 moved onto - functions main() & start() from ServerController\
+3.4 extensions added: Application\
 
-4. ServerController:
-4.1 cleaned - main() & start functions moved to ServerUI
-4.2 extensions removed: Application
+4. ServerController:\
+4.1 cleaned - main() & start functions moved to ServerUI\
+4.2 extensions removed: Application\
 
-5. DBServer:
-5.1 customized according to Singleton Design Pattern
-5.2 cleaned - handler functions moved to RequestHandler
-5.3 all of the previous static functions turned non-static
-5.4 getInstance() function added
+5. DBServer:\
+5.1 customized according to Singleton Design Pattern\
+5.2 cleaned - handler functions moved to RequestHandler\
+5.3 all of the previous static functions turned non-static\
+5.4 getInstance() function added\
 
-6. RequestHandler:
-6.1 Java Class RequestHandler added
-6.2 customized according to Singleton Design Pattern
-6.3 moved onto - handler functions from DBServer
-6.4 getInstance() function added
+6. RequestHandler:\
+6.1 Java Class RequestHandler added\
+6.2 customized according to Singleton Design Pattern\
+6.3 moved onto - handler functions from DBServer\
+6.4 getInstance() function added\
 
 7. mysqlConnection:
 7.1 customized according to Singleton Design Pattern
