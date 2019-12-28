@@ -8,9 +8,9 @@ phpAdmin: https://remotemysql.com/phpmyadmin/index.php?db=ZZUehgwcK6
 committed 28/12/19 - 02:46 AM, see details
 
 ### DO NOT CONTINUE WORKING ON THE MAIN BEFORE TALKING TO MALKA ###
-Dima's UPDATE NOTES:
-1.refactored screen manager\
-2.changed BaseLogicController to get instances from ScreenManager\
+Dima's UPDATE NOTES:\
+1. refactored screen manager\
+2. changed BaseLogicController to get instances from ScreenManager\
 2.1 deleted unnneccesery functions from client such as switch scene get current fx and so on\
 
 RECENT UPDATE NOTES:\
