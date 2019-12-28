@@ -9,10 +9,11 @@ committed 28/12/19 - 02:46 AM, see details
 
 ### DO NOT CONTINUE WORKING ON THE MAIN BEFORE TALKING TO MALKA ###
 
-RECENT UPDATE NOTES:
-	Date of Changes:	25/12/19 - 28/12/19
-	Author of Changes:	Raz Malka
+RECENT UPDATE NOTES:\
+	Date of Changes:	25/12/19 - 28/12/19\
+	Author of Changes:	Raz Malka\
 	Details of Changes:
+	
 1. Client:\
 1.1 customized according to Singleton Design Pattern\
 1.2 getInstance() function added\
