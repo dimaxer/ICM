@@ -42,25 +42,25 @@ public class RequestHandler {
 			if (currentFX instanceof LoginFX)
 				((LoginFX) currentFX).loginHandle(message);
 			else
-				System.out.println("Controller instance is NOT LoginController!");
+				System.out.println("FX instance is NOT LoginFX!");
 			break;
 		case View_Req_Details:
 			if (currentFX instanceof ViewAllRequestsFX)
 				((ViewAllRequestsFX) currentFX).handleSearchRequest(message);
 			else
-				System.out.println("Controller instance is NOT SearchRequestController!");
+				System.out.println("FX instance is NOT SearchRequestFX!");
 			break;
 		case viewUserRequestTable:
 			if (currentFX instanceof PanelFX)
 				((PanelFX) currentFX).handleViewRequestDetailsRequest(message);
 			else
-				System.out.println("Controller instance is NOT PanelFXController!");
+				System.out.println("FX instance is NOT PanelFX!");
 			break;
 		case change_Status:
 			if (currentFX instanceof RequestFormFX)
 				((RequestFormFX) currentFX).handleChangeStatus(message);
 			else
-				System.out.println("Controller instance is NOT RequestFormController!");
+				System.out.println("FX instance is NOT RequestFormFX!");
 			break;
 		default:
 			break;
