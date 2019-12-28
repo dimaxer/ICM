@@ -36,22 +36,23 @@ public class Client extends AbstractClient {
 		super(host, port); // Call the superclass constructor
 		openConnection();
 	}
-	
+
 	/**
 	 * Get the Singleton's Instance
+	 * 
 	 * @return Client Singleton Instance
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public static Client getInstance() {
 		if (singletonInstance == null)
 			try {
-			singletonInstance = new Client(ClientUI.DEFAULT_SERVER, ClientUI.DEFAULT_PORT);
+				singletonInstance = new Client(ClientUI.DEFAULT_SERVER, ClientUI.DEFAULT_PORT);
 			} catch (Exception ex) {
 				// ex.printStackTrace();
 			}
 		return singletonInstance;
 	}
-	
+
 	public static void initialize(String host, int port) throws IOException {
 		singletonInstance = new Client(host, port);
 	}
@@ -67,36 +68,6 @@ public class Client extends AbstractClient {
 	 */
 	public void handleMessageFromServer(Object msg) {
 		RequestHandler.getInstance().handle(msg);
-	}
-
-	/**
-	 * A method to switch Scene's on the main stage method needs the fxml file name
-	 * (without .fxml)
-	 * 
-	 * @param fxml
-	 */
-	public void switchScene(String fxml) {
-		try {
-			ScreenManager.getInstance().switchScene(fxml);
-		} catch (Exception e) {
-			System.out.println("Error occured while trying to switch to  scene: " + fxml);
-			e.printStackTrace();
-		}
-	}
-	
-	public Boolean sceneExists(String fxml_name) {
-		return ScreenManager.getInstance().sceneExists(fxml_name);
-	}
-
-	/**
-	 * returns the instance of the current controller that is being used by a scene
-	 * it is important in order to use the controllers methods when you switch
-	 * between new scene's
-	 * 
-	 * @return
-	 */
-	public Object getCurrentFX() {
-		return ScreenManager.getInstance().getCurrentFX();
 	}
 
 	/**

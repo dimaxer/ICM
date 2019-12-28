@@ -5,10 +5,11 @@ import Gui.PanelFX;
 import Gui.RequestFormFX;
 import Gui.ViewAllRequestsFX;
 import Utilities.MessageObject;
+import Utilities.ScreenManager;
 
 public class RequestHandler {
 	private static RequestHandler singletonInstance = null;
-	
+
 	// Constructors ****************************************************
 
 	/**
@@ -22,6 +23,7 @@ public class RequestHandler {
 
 	/**
 	 * Get the Singleton's Instance
+	 * 
 	 * @return RequestHandler Singleton Instance
 	 */
 	public static RequestHandler getInstance() {
@@ -29,11 +31,11 @@ public class RequestHandler {
 			singletonInstance = new RequestHandler();
 		return singletonInstance;
 	}
-	
+
 	public void handle(Object msg) {
 		MessageObject message = (MessageObject) msg;
 		Client.getInstance().printMessageRecieved(message);
-		Object currentFX = Client.getInstance().getCurrentFX();
+		Object currentFX = ScreenManager.getInstance().getCurrentFX();
 		System.out.println("REACHED CLIENT REQUEST HANDLER! " + message.getTypeRequest() + " " + message.getArgs());
 		switch (message.getTypeRequest()) {
 		case Login:
