@@ -139,6 +139,31 @@ public class mysqlConnection {
 			e.printStackTrace();
 		}
 	}
+	public  Boolean addCRToDB(String date, String infsys, String name, String position, String email, String situation, String wantedChange, String notes) 
+	{
+		int id=0;
+		System.out.println("here");
+		Statement stmt;
+		try 
+		{
+			Statement stmt0 = con.createStatement();
+			ResultSet rs = stmt0.executeQuery("SELECT COUNT(*) AS COUNT FROM requestForm");
+			rs.next();
+			id=rs.getInt("COUNT");
+			id++;
+			String query = "INSERT INTO requestForm (date, infSys, InitiatorName, jobTitle, email, Description, wantedChange, Notes, RequestID) VALUES (\'" + date + "\', \'" + infsys + "\' , \'"+name+"\', \'"+position+"\', \'"+email+"\', \'"+situation+"\',\'"+wantedChange+"\',\'"+notes+"\',\'"+id+"\')";
+			System.out.println(id);
+			stmt = con.createStatement();
+			stmt.executeUpdate(query);
+			System.out.println("executed");
+		} 
+		catch (SQLException e)
+		{
+			System.out.println("not");
+			e.printStackTrace();
+		}
+		return true;
+	}
 
 	/**
 	 * this method checks if the user exists in the db return true if it does and
