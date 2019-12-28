@@ -4,7 +4,7 @@ B.Sc. Software Engineering 3rd year project - ONGOING.
 Connecting to remote Cloud DB - username: ZZUehgwcK6 | password: hfwrGUeVv7
 phpAdmin: https://remotemysql.com/phpmyadmin/index.php?db=ZZUehgwcK6
 
-[@RAZMALKA ( https://github.com/RAZMALKA )] - ICM on Steroids v1
+[@RAZMALKA ( https://github.com/RazMalka )] - ICM on Steroids v1
 committed 28/12/19 - 02:46 AM, see details
 
 ### DO NOT CONTINUE WORKING ON THE MAIN BEFORE TALKING TO MALKA ###
