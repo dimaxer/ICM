@@ -49,6 +49,9 @@ public class RequestHandler {
 				break;
 			case viewUserRequestTable:
 				DBServer.getInstance().sendMessage(handleViewUserRequestTable(message, client), client);
+				break;
+			case NewChangeRequest:
+				DBServer.getInstance().sendMessage(handleNewChange(message,client),client);
 			default:
 				break;
 			}
@@ -67,6 +70,24 @@ public class RequestHandler {
 	 * @param client
 	 * @return MessageObject that should be sent back to the client, indicating specific request response.
 	 */
+	public MessageObject handleNewChange(MessageObject message, ConnectionToClient client) {
+
+		ArrayList<Object> formysql = new ArrayList<Object>();
+		formysql=message.getArgs();
+		String[] strings =new String[8];
+		for(int i=0;i<8;i++)
+		{
+			strings[i]=formysql.get(i).toString();
+		}
+		boolean res= mysqlConnection.getInstance().addCRToDB(strings[0],strings[1],strings[2],strings[3],strings[4],strings[5],strings[6],strings[7]);
+		ArrayList<Object> args = new ArrayList<Object>();
+		args.add(res);
+
+		MessageObject response = new MessageObject(RequestType.NewChangeRequest, args);
+		return response;
+
+		//sendMessage(response, client);
+	}
 	public MessageObject handleLogin(MessageObject message, ConnectionToClient client) {
 		try {
 			Boolean res = mysqlConnection.getInstance().checkUserCredentials(message.getArgs().get(0).toString(),
