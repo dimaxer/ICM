@@ -20,6 +20,8 @@ public class PanelFX implements BaseFx {
 
 	@FXML
 	private JFXButton logOut;
+	@FXML
+	private JFXButton newChangeRequest;
 
 	@FXML
 	private Text firstName;
@@ -75,6 +77,11 @@ public class PanelFX implements BaseFx {
 		panelController.switchScene("LoginPage");
 		LoginFX controller = (LoginFX) panelController.getCurrentFX();
 		controller.clearFields();
+	}
+	@FXML
+	public void newChangeRequestWasPressed(ActionEvent event)
+	{
+		panelController.switchScene("submitNewRequestGui");
 	}
 
 }
