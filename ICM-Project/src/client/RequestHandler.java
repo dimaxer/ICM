@@ -1,6 +1,7 @@
 package client;
 
 import Gui.LoginFX;
+import Gui.NewChangeRequestFX;
 import Gui.PanelFX;
 import Gui.RequestFormFX;
 import Gui.ViewAllRequestsFX;
@@ -62,6 +63,10 @@ public class RequestHandler {
 			else
 				System.out.println("FX instance is NOT RequestFormFX!");
 			break;
+		case NewChangeRequest:
+			if(currentFX instanceof NewChangeRequestFX)
+				((NewChangeRequestFX) currentFX).newCRHandler(message);
+			else System.out.println("FX instance is Not NewChangeRequestFX");
 		default:
 			break;
 		}
