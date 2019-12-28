@@ -62,25 +62,25 @@ public class ScreenManager {
 	 * @param loader The FXMLLoader linked to the fxml screen
 	 */
 	public void addScreen(String name, Scene scene) {
-		if (singeltonInitialized())
+		if (singeltonNotInitialized())
 			return;
 		screenMap.put(name, scene);
 	}
 
-	private boolean singeltonInitialized() {
+	private boolean singeltonNotInitialized() {
 		if (singletonInstance == null) {
 			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
-			return false;
+			return true;
 
 		}
-		return true;
+		return false;
 	}
 
 	/**
 	 * @return current Controller instance
 	 */
 	public Object getCurrentFX() {
-		if (singeltonInitialized())
+		if (singeltonNotInitialized())
 			return null;
 
 		FXMLLoader userData = (FXMLLoader) currentScene.getUserData();
@@ -94,7 +94,7 @@ public class ScreenManager {
 	 * @param name name of fxml to remove
 	 */
 	public void removeScreen(String scene) {
-		if (singeltonInitialized())
+		if (singeltonNotInitialized())
 			return;
 		screenMap.remove(scene);
 	}
@@ -106,7 +106,7 @@ public class ScreenManager {
 	 * @throws Exception
 	 */
 	public void activate(String scene) throws Exception {
-		if (singeltonInitialized())
+		if (singeltonNotInitialized())
 			return;
 
 		if (!screenMap.containsKey(scene)) {
@@ -126,7 +126,7 @@ public class ScreenManager {
 	 * @param ui_class  class of the source via this.getClass()
 	 */
 	public void switchScene(String fxml_name) throws Exception {
-		if (singeltonInitialized())
+		if (singeltonNotInitialized())
 			return;
 		System.out.println("SWITCH SCENE CALLED!");
 
@@ -193,14 +193,14 @@ public class ScreenManager {
 	}
 
 	public Scene getCurrentScene() {
-		if (singeltonInitialized())
+		if (singeltonNotInitialized())
 			return null;
 
 		return currentScene;
 	}
 
 	public HashMap<String, Scene> getScreenMap() {
-		if (singeltonInitialized())
+		if (singeltonNotInitialized())
 			return null;
 
 		return screenMap;
