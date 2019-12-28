@@ -3,16 +3,10 @@ package Common;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
-import LogicController.BaseController;
-import Utilities.MessageObject;
-import Utilities.RequestType;
-import client.Client;
 
 //class for saving all the request data in one place under Request
 public class Request implements Serializable {
-
+	private static final long serialVersionUID = 1L;
 	// Form info
 	private String requestID;
 	private String informationSystem;
@@ -79,9 +73,9 @@ public class Request implements Serializable {
 			this.date = result.getString("Date");
 			this.currentStage = result.getString("CurrentStage");
 			this.requestStatus = result.getString("RequestStatus");
-			this.initaitorID = result.getString("InitaitorID");
+			this.initaitorID = result.getString("InitiatorID");
 			this.testerID = result.getString("TesterID");
-			this.exequtionLeaderID = result.getString("ExequtionLeaderID");
+			this.exequtionLeaderID = result.getString("ExecutionLeaderID");
 			this.committeeMember1ID = result.getString("CommitteeMember1ID");
 			this.committeeMember2ID = result.getString("CommitteeMember2ID");
 			this.committeeChairmenID = result.getString("CommitteeChairmenID");

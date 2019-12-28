@@ -16,14 +16,36 @@ import Utilities.RequestType;
 public class mysqlConnection {
 
 	// Instance variables **********************************************
-	private static Connection con;
+	private static mysqlConnection singletonInstance = null;
+	private Connection con = null;
 
+	// Constructors ****************************************************
+
+	/**
+	 * Constructs an instance of the server singleton.
+	 */
+	private mysqlConnection() {
+		singletonInstance = this;
+	}
+
+	// Instance methods ************************************************
+
+	/**
+	 * Get the Singleton's Instance
+	 * @return mysqlConnection Singleton Instance
+	 */
+	public static mysqlConnection getInstance() {
+		if (singletonInstance == null)
+			singletonInstance = new mysqlConnection();
+		return singletonInstance;
+	}
+	
 	// Class methods ***************************************************
 
 	/**
 	 * this method defines the jdbc driver so that we can connect to the database
 	 */
-	private static void defineDriver() {
+	private void defineDriver() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 			System.out.println("Driver definition succeed");
@@ -43,7 +65,7 @@ public class mysqlConnection {
 	 * @param password
 	 * @return
 	 */
-	public static boolean connectToDB(String hostname, String dbname, String username, String password) {
+	public boolean connectToDB(String hostname, String dbname, String username, String password) {
 		defineDriver();
 		return establishDBConnection(hostname, dbname, username, password);
 	}
@@ -53,7 +75,7 @@ public class mysqlConnection {
 	 * 
 	 * @return
 	 */
-	public static boolean connectToBraudeDefault() {
+	public boolean connectToBraudeDefault() {
 		defineDriver();
 		return establishDBConnection("localhost", "request_db", "root", "Aa123456");
 	}
@@ -61,7 +83,7 @@ public class mysqlConnection {
 	/**
 	 * this method establishes a connection to the database
 	 */
-	private static boolean establishDBConnection(String hostname, String dbname, String username, String password) {
+	private boolean establishDBConnection(String hostname, String dbname, String username, String password) {
 		try {
 			// if any of the fields is empty connect to this db
 			if (hostname.isEmpty() || dbname.isEmpty() || password.isEmpty() || username.isEmpty())
@@ -89,9 +111,10 @@ public class mysqlConnection {
 	 * 
 	 * @return
 	 */
-	public static boolean closeConnectionToDB() {
+	public boolean closeConnectionToDB() {
 		try {
-			con.close();
+			if (con != null)
+				con.close();
 		} catch (SQLException ex) {
 			System.out.println("an Error occured while trying to close the DB connection");
 			return false;
@@ -105,7 +128,7 @@ public class mysqlConnection {
 	 * @param uid
 	 * @param pwd
 	 */
-	public static void saveUserToDB(String uid, String pwd) {
+	public void saveUserToDB(String uid, String pwd) {
 		Statement stmt;
 		String query = "INSERT INTO sample_login (uid, upassword) VALUES (\'" + uid + "\', \'" + pwd + "\')";
 		try {
@@ -124,17 +147,21 @@ public class mysqlConnection {
 	 * @param uid
 	 * @param pwd
 	 * @return
+	 * @throws SQLException 
 	 */
 	// It will not stay boolean, but will change to AcademicUser or another entity.
-	public static Boolean checkUserCredentials(String uid, String pwd) {
+	public Boolean checkUserCredentials(String uid, String pwd) throws SQLException {
 
 		// SELECT * WILL CHANGE TO SELECT SPECIFIC RELEVANT FIELDS AND NOT PWD - IN
 		// ORDER TO FILL AcademicUser Instance
-		String query = "SELECT * FROM Users WHERE UserID = \'" + uid + "\' AND Password = \'" + pwd + "\'";
+		String query = "SELECT * FROM Users WHERE UserID = ? AND Password = ?";
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setString(1, uid);
+		stmt.setString(2, pwd);
 		System.out.println(query);
 
 		try {
-			return executeQuery(query).next();
+			return stmt.executeQuery().next();
 		} catch (SQLException e) {
 
 			System.out.println("An Error occured while trying to execute the quesry: " + query);
@@ -154,7 +181,7 @@ public class mysqlConnection {
 	 * @return
 	 */
 
-	public static MessageObject searchRequest(Object msg) {
+	public MessageObject searchRequest(Object msg) {
 		MessageObject message = (MessageObject) msg;
 		String requestID = (String) message.getArgs().get(0);
 		String role = (String)message.getArgs().get(1);
@@ -176,7 +203,6 @@ public class mysqlConnection {
 			}
 			// if request id was found return this data in the arrayList
 			newMessage.getArgs().add(true);
-			
 			Request request  = new Request(result);
 			newMessage.getArgs().add(role);
 			newMessage.getArgs().add(request);
@@ -189,6 +215,71 @@ public class mysqlConnection {
 
 		return null;
 	}
+	
+
+	/**
+	 * this method gets from the DB all the relevant requests for user
+	 * 
+	 * @param msg userID
+	 * @return User that contain all relevant requests
+	 * @author Shoham Yamin
+	 * @LastModified Raz Malka
+	 */
+	public MessageObject viewUserRequestTable(MessageObject msg) {
+		String userID = (String) msg.getArgs().get(0);
+		ResultSet userInfoResult, userRequestsResult;
+		// new MessageObject to send back to the use the answer
+		MessageObject newMessage = new MessageObject(RequestType.viewUserRequestTable, new ArrayList<>());
+
+		// Query for get user information
+		String userInfoQuery = "SELECT * FROM Users WHERE UserID= \'" + userID + "\'";
+
+		// Query for getting all the request where the user is relevent to them
+		String userRequestsQuery = "SELECT * " + "FROM Requests " + "WHERE \'" + userID + "\' IN (InitiatorID, TesterID, ExecutionLeaderID, CommitteeMember1ID, CommitteeMember2ID, CommitteeChairmenID, EvaluatorID)";
+
+		try {
+			userInfoResult = executeQuery(userInfoQuery);
+			userRequestsResult = executeQuery(userRequestsQuery);
+
+			// initialize user with is data from the DB
+			userInfoResult.next();
+			User user = new User((String) userInfoResult.getString("UserID"),
+					(String) userInfoResult.getString("Password"), (String) userInfoResult.getString("Name"),
+					(String) userInfoResult.getString("Email"), (String) userInfoResult.getString("jobDescription"));
+			
+			if (!userRequestsResult.next()) {
+				newMessage.getArgs().add(user);
+				return newMessage;
+			}
+			
+			do {
+				// Create request for every request that relevant to the user
+				Request request = new Request(userRequestsResult.getString("RequestID"),
+						userRequestsResult.getString("InformationSystem"),
+						userRequestsResult.getString("CurrentSituation"),
+						userRequestsResult.getString("RequestedChange"),
+						userRequestsResult.getString("ReasonForRequest"), userRequestsResult.getString("Note"),
+						userRequestsResult.getString("AttachFiles"), userRequestsResult.getString("Date"),
+						userRequestsResult.getString("CurrentStage"), userRequestsResult.getString("RequestStatus"),
+						userRequestsResult.getString("InitiatorID"), userRequestsResult.getString("TesterID"),
+						userRequestsResult.getString("ExecutionLeaderID"),
+						userRequestsResult.getString("CommitteeMember1ID"),
+						userRequestsResult.getString("CommitteeMember2ID"),
+						userRequestsResult.getString("CommitteeChairmenID"),
+						userRequestsResult.getString("EvaluatorID"));
+
+				user.getRequestArray().add(request);
+			} while (userRequestsResult.next());
+
+			newMessage.getArgs().add(user);
+			return newMessage;
+		} catch (SQLException e) {
+			System.out.println("An Error occured while trying to execute this viewUserRequestTable quesrys: ");
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 
 	/**
 	 * a Method to execute query's in the db
@@ -196,7 +287,7 @@ public class mysqlConnection {
 	 * @param query
 	 * @return
 	 */
-	public static ResultSet executeQuery(String query) {
+	public ResultSet executeQuery(String query) {
 
 		ResultSet result = null;
 		Statement stmt;
@@ -219,7 +310,7 @@ public class mysqlConnection {
 	 * @param msg
 	 * @return
 	 */
-	public static MessageObject changeStatus(Object msg) {
+	public MessageObject changeStatus(Object msg) {
 		int result = 0;
 		MessageObject message = (MessageObject) msg;
 
@@ -253,84 +344,5 @@ public class mysqlConnection {
 			return newMessage;
 		}
 
-	}
-
-	/**
-	 * this method gets from the DB all the relevant requests for user
-	 * 
-	 * @param msg userID
-	 * @return User that contain all relevant requests
-	 */
-	public static MessageObject viewUserRequestTable(MessageObject msg) throws SQLException {
-		MessageObject message = (MessageObject) msg;
-		String userID = (String) message.getArgs().get(0);
-		ResultSet userInfoResult, userRequestsResult;
-		ArrayList<Request> requests = new ArrayList<Request>();
-
-		// new MessageObject to send back to the use the answer
-		ArrayList<Object> args = new ArrayList<Object>();
-		MessageObject newMessage = new MessageObject(RequestType.viewUserRequestTable, args);
-
-		// Query for get user information
-		String userInfoQuery = "SELECT * FROM Users WHERE UserID= \'" + userID + "\'";
-
-		// Query for getting all the request where the user is relevent to them
-		String userRequestsQuery = "SELECT * " + "FROM Requests " + "WHERE (InitaitorID= \'" + userID + "\') "
-				+ "OR (TesterID= \'" + userID + "\') " + "OR (ExequtionLeaderID= \'" + userID + "\') "
-				+ "OR (CommitteeMember1ID= \'" + userID + "\') " + "OR (CommitteeMember2ID= \'" + userID + "\') "
-				+ "OR (CommitteeChairmenID= \'" + userID + "\') "+"OR (EvaluatorID= \'" + userID + "\') ";
-
-		try {
-
-			userInfoResult = executeQuery(userInfoQuery);
-
-			userRequestsResult = executeQuery(userRequestsQuery);
-
-			userInfoResult.next();
-			// initialize user with is data from the DB
-			User user = new User((String) userInfoResult.getString("UserID"),
-					(String) userInfoResult.getString("Password"), (String) userInfoResult.getString("Name"),
-					(String) userInfoResult.getString("Email"), (String) userInfoResult.getString("jobDescription"));
-
-			if (!userRequestsResult.next()) {
-
-				newMessage.getArgs().add(false);
-				return newMessage;
-			}
-
-			newMessage.getArgs().add(true);
-
-			do {
-				// Create request for every request that relevant to the user
-				Request request = new Request(userRequestsResult.getString("RequestID"),
-						userRequestsResult.getString("InformationSystem"),
-						userRequestsResult.getString("CurrentSituation"),
-						userRequestsResult.getString("RequestedChange"),
-						userRequestsResult.getString("ReasonForRequest"), userRequestsResult.getString("Note"),
-						userRequestsResult.getString("AttachFiles"), userRequestsResult.getString("Date"),
-						userRequestsResult.getString("CurrentStage"), userRequestsResult.getString("RequestStatus"),
-						userRequestsResult.getString("InitaitorID"), userRequestsResult.getString("TesterID"),
-						userRequestsResult.getString("ExequtionLeaderID"),
-						userRequestsResult.getString("CommitteeMember1ID"),
-						userRequestsResult.getString("CommitteeMember2ID"),
-						userRequestsResult.getString("CommitteeChairmenID"),
-						userRequestsResult.getString("EvaluatorID"));
-
-				requests.add(request);
-			} while (userRequestsResult.next());
-			// set the requests array to the user request Array
-			user.setRequestArray(requests);
-
-			newMessage.getArgs().add(user);
-
-			return newMessage;
-
-		} catch (SQLException e) {
-
-			System.out.println("An Error occured while trying to execute this viewUserRequestTable quesrys: ");
-			e.printStackTrace();
-		}
-
-		return null;
 	}
 }

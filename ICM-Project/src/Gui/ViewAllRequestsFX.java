@@ -7,29 +7,24 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
-import Common.Request;
-import Common.User;
 import Common.ViewAllRequestsRequest;
-import LogicController.BaseController;
-import LogicController.RequestDetailsInitiatorController;
-import LogicController.SearchRequestController;
 import LogicController.ViewAllRequestsController;
 import Utilities.MessageObject;
+import client.Client;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-public class ViewAllRequestsFX implements BaseFx, Initializable {
+public class ViewAllRequestsFX implements BaseFx {
 
 	// Class Buttons ***************************************************
 	@FXML
@@ -81,16 +76,26 @@ public class ViewAllRequestsFX implements BaseFx, Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		
-
-	}
-
-	@Override
-	public void setLogicController(BaseController controller) {
-		viewAllRequestsController = (ViewAllRequestsController) controller;
-
+		viewAllRequestsController = new ViewAllRequestsController();
+		onRowDoubleClick();
 	}
 	
+	/** This function sets an event handler on mouse double click on a row.
+	 * @author Raz Malka
+	 */
+	private void onRowDoubleClick() {
+		tableView.setRowFactory( tv -> {
+		    TableRow<ViewAllRequestsRequest> row = new TableRow<>();
+		    row.setOnMouseClicked(event -> {
+		        if (event.getClickCount() == 2 && (!row.isEmpty()) ) {
+		        	ViewAllRequestsRequest rowData = row.getItem();
+		        	viewAllRequestsController.searchWasPressed(rowData.getRequestId(), rowData.getMyRole());
+		        }
+		    });
+		    return row ;
+		});
+	}
+
 	/*
 	 * move the user to request details panel
 	 * */
@@ -117,7 +122,7 @@ public class ViewAllRequestsFX implements BaseFx, Initializable {
 			return;
 		}
 		
-		viewAllRequestsController.searchWasPressed(requestIDField.getText(),role);
+		viewAllRequestsController.searchWasPressed(requestIDField.getText(), role);
 
 	}
 
@@ -128,7 +133,6 @@ public class ViewAllRequestsFX implements BaseFx, Initializable {
 			}	
 		}
 		return "NotExist";
-		
 	}
 
 	/**
@@ -155,13 +159,13 @@ public class ViewAllRequestsFX implements BaseFx, Initializable {
 			}
 			case "Tester":{
 				
-//				viewAllRequestsController.switchScene("RequestDetailsTester");
-//				RequestDetailsTesterFX FX = (RequestDetailsTesterFX) viewAllRequestsController.getCurrentFX();
-//				FX.loadRequest(massage);
+			//	viewAllRequestsController.switchScene("RequestDetailsTester");
+			//	RequestDetailsTesterFX FX = (RequestDetailsTesterFX) viewAllRequestsController.getCurrentFX();
+			//	FX.loadRequest(massage);
 				
 				break;
 			}
-			case "Committee Chairmen":{
+			case "Committee Chairman":{
 				
 				
 				break;
@@ -171,7 +175,7 @@ public class ViewAllRequestsFX implements BaseFx, Initializable {
 				
 				break;
 			}
-			case "Exeqution Leader":{
+			case "Execution Leader":{
 				
 				
 				break;
@@ -181,7 +185,7 @@ public class ViewAllRequestsFX implements BaseFx, Initializable {
 				
 				break;
 			}
-			case "ISD Chif":{
+			case "ISD Chief":{
 				
 				
 				break;
@@ -191,29 +195,22 @@ public class ViewAllRequestsFX implements BaseFx, Initializable {
 				
 				break;
 			}
-				
-				
-				
-
 			default:
 				break;
 			}
 		} else {
 			requestIdNotFound.setFill(Color.RED);
-			requestIdNotFound.setText("Request id was not found");
+			requestIdNotFound.setText("Request ID was not found");
 		}
-
 	}
 
 	@FXML
 	public void backWasPressed(ActionEvent event) {
-
 		viewAllRequestsController.switchScene("AcademicUserPanel");
 	}
 
 	@FXML
 	public void homeWasPressed(ActionEvent event) {
-
 		viewAllRequestsController.switchScene("AcademicUserPanel");
 	}
 
@@ -242,7 +239,6 @@ public class ViewAllRequestsFX implements BaseFx, Initializable {
 					requestIDField.validate();
 					requestIdNotFound.setText("");
 				}
-
 			}
 		});
 
@@ -256,8 +252,7 @@ public class ViewAllRequestsFX implements BaseFx, Initializable {
 		initiatorColumn.setCellValueFactory(new PropertyValueFactory<ViewAllRequestsRequest, String>("Initiator"));
 		requestIdColumn.setCellValueFactory(new PropertyValueFactory<ViewAllRequestsRequest, String>("RequestId"));
 		
-		allTableInfo = viewAllRequestsController.loadRequests(message, tableView);
-
+		allTableInfo = viewAllRequestsController.loadRequests(message, tableView); // LINE UNDER TEST
 	}
 
 }

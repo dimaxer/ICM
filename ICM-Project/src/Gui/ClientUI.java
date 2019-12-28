@@ -29,40 +29,33 @@ public class ClientUI extends Application {
 	 * The default port to connect on.
 	 */
 	final public static int DEFAULT_PORT = 5555;
-
+	/**
+	 * The default server to connect to.
+	 */
 	final public static String DEFAULT_SERVER = "localhost";
-
-//Instance variables **********************************************
-
-	/**
-	 * The instance of the client that created this ConsoleChat.
-	 */
-	private Client client;
-
-	// Getter's ****************************************************
-	/**
-	 * returns the instance of the client
-	 * 
-	 * @return
-	 */
-	public Client getClient() {
-		return client;
-	}
-
-	/**
-	 * set Client manuall
-	 * 
-	 * 
-	 */
+	private static ClientUI singletonInstance = null;
 
 //Constructors ****************************************************
 
 	/**
-	 * there must be a constructor without param's because of the extension to
-	 * application
+	 * Constructs an instance of the ClientUI singleton.
+	 * Must stay public as required by those whom extend Application
 	 */
 	public ClientUI() {
+		if (singletonInstance == null)
+			singletonInstance = this;
+	}
 
+// Instance methods ************************************************
+
+	/**
+	 * Get the Singleton's Instance
+	 * @return ClientUI Singleton Instance
+	 */
+	public static ClientUI getInstance() {
+		if (singletonInstance == null)
+			singletonInstance = new ClientUI();
+		return singletonInstance;
 	}
 
 //Class methods ***************************************************
@@ -75,7 +68,7 @@ public class ClientUI extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		try {
-			client = new Client(DEFAULT_SERVER, DEFAULT_PORT);
+			Client.initialize(DEFAULT_SERVER, DEFAULT_PORT);
 			FirstScene = "LoginPage.fxml";
 		} catch (IOException exception) {
 			FirstScene = "ConnectServerManualy.fxml";
@@ -110,10 +103,7 @@ public class ClientUI extends Application {
 		});
 		primaryStage.show();
 
-		client.setScreenManager(
-				new ScreenManager(scene, primaryStage, FirstScene.substring(0, FirstScene.length() - 5), client, this));
-		client.getScreenManager().injectLogicController(FirstScene.substring(0, FirstScene.length() - 5));
-
+		ScreenManager.initialize(scene, primaryStage, FirstScene.substring(0, FirstScene.length() - 5));
 	}
 
 	/**
@@ -126,7 +116,7 @@ public class ClientUI extends Application {
 
 	public Boolean setClient(String ip) {
 		try {
-			client = new Client(ip, DEFAULT_PORT);
+			Client.initialize(ip, DEFAULT_PORT);
 			return true;
 		} catch (IOException e) {
 			return false;

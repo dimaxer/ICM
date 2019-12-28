@@ -7,19 +7,17 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
-import LogicController.BaseController;
 import LogicController.LoginController;
 import Utilities.MessageObject;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
-public class LoginFX implements BaseFx, Initializable {
+public class LoginFX implements BaseFx {
 
 	// Class Buttons ***************************************************
 	@FXML
@@ -54,11 +52,10 @@ public class LoginFX implements BaseFx, Initializable {
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
 		login.setDefaultButton(true);
 		eror1.setVisible(false);
 		eror2.setVisible(false);
-
+		loginController = new LoginController();
 	}
 
 	/**
@@ -71,7 +68,7 @@ public class LoginFX implements BaseFx, Initializable {
 	public void loginWasPressed(ActionEvent event) {
 
 		setValdiator();
-		
+
 		// Getting the strings from the gui
 		IDText = id.getText();
 		passwordText = password.getText();
@@ -89,11 +86,7 @@ public class LoginFX implements BaseFx, Initializable {
 			// if everything is ok send a MessageObject to
 			// the server
 		} else {
-			
-			
-
 			loginController.loginWasPressed(IDText, passwordText);
-
 		}
 	}
 
@@ -109,14 +102,11 @@ public class LoginFX implements BaseFx, Initializable {
 		MessageObject message = (MessageObject) msg;
 
 		if ((Boolean) message.getArgs().get(0)) { // check if the user exist or not [True|False]
-
 			// save user id here
-
 			loginController.switchScene("AcademicUserPanel");
 
 		} else {
 			wrongPassword.setText("Username/Password is Wrong");
-
 		}
 
 	}
@@ -168,10 +158,5 @@ public class LoginFX implements BaseFx, Initializable {
 		});
 
 		validatorPassword.setIcon(eror2);
-	}
-
-	@Override
-	public void setLogicController(BaseController controller) {
-		loginController = (LoginController) controller;
 	}
 }

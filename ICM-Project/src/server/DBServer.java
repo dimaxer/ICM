@@ -1,12 +1,8 @@
 package server;
 
 import java.io.*;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import Utilities.MessageObject;
-import Utilities.RequestType;
-import jdbc.mysqlConnection;
 import ocsf.server.*;
 
 /**
@@ -19,24 +15,33 @@ public class DBServer extends AbstractServer {
 	/**
 	 * The default port to listen on.
 	 */
-	final public static int DEFAULT_PORT = 5555;
-
-	private static DBServer serverInstance;
+	final private static int DEFAULT_PORT = 5555;
+	private static DBServer singletonInstance = null;
 
 	// Constructors ****************************************************
 
 	/**
-	 * Constructs an instance of the echo server.
+	 * Constructs an instance of the server singleton.
 	 *
 	 * @param port The port number to connect on.
 	 */
-	public DBServer(int port) {
+	private DBServer(int port) {
 		super(port);
-		serverInstance = this;
+		singletonInstance = this;
 	}
 
 	// Instance methods ************************************************
 
+	/**
+	 * Get the Singleton's Instance
+	 * @return DBServer Singleton Instance
+	 */
+	public static DBServer getInstance() {
+		if (singletonInstance == null)
+			singletonInstance = new DBServer(DEFAULT_PORT);
+		return singletonInstance;
+	}
+	
 	/**
 	 * This method handles any messages received from the client.
 	 *
@@ -44,98 +49,7 @@ public class DBServer extends AbstractServer {
 	 * @param client The connection from which the message originated.
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
-
-		if (msg instanceof MessageObject) {
-
-			// cast to MessageObject and send a print that a message was received
-			MessageObject message = (MessageObject) msg;
-			printMessageRecieved(message, client);
-
-			switch (message.getTypeRequest()) {
-			case Login:
-				handleLogin(message, client);
-				break;
-			case View_Req_Details:
-				handleSearchRequest(message, client);
-				break;
-			case change_Status:
-				handleChangeStatus(message, client);
-				break;
-			case viewUserRequestTable:
-				try {
-					handleViewUserRequestTable(message, client);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			default:
-				break;
-			}
-
-		}
-
-		else {
-			System.out.println("Error didnt recieve a MEssageObject");
-
-		}
-
-	}
-
-	private void handleViewUserRequestTable(MessageObject message, ConnectionToClient client) throws SQLException {
-		
-		MessageObject response = mysqlConnection.viewUserRequestTable(message);
-
-		sendMessage(response, client);
-
-		
-	}
-
-	/**
-	 * this method handles a login request from the client by extracting the
-	 * username and password from MessageObject checking if its in the the db and
-	 * sending back the message to the client if it was found or not
-	 * 
-	 * @param message
-	 * @param client
-	 */
-	public void handleLogin(MessageObject message, ConnectionToClient client) {
-
-		Boolean res = mysqlConnection.checkUserCredentials(message.getArgs().get(0).toString(),
-				message.getArgs().get(1).toString());
-
-		ArrayList<Object> args = new ArrayList<Object>();
-		args.add(res);
-
-		MessageObject response = new MessageObject(RequestType.Login, args);
-
-		sendMessage(response, client);
-	}
-
-	/**
-	 * A method to search a request by id in the db and return its data
-	 * 
-	 * @param message
-	 * @param client
-	 */
-	public void handleSearchRequest(MessageObject message, ConnectionToClient client) {
-
-		MessageObject response = mysqlConnection.searchRequest(message);
-
-		sendMessage(response, client);
-
-	}
-
-	/**
-	 * adding function to change status in DB and return true or false to client if
-	 * succeeded or not
-	 */
-	public void handleChangeStatus(MessageObject message, ConnectionToClient client) {
-
-		MessageObject response = mysqlConnection.changeStatus((message));
-
-		sendMessage(response, client);
-
+		RequestHandler.getInstance().handle(msg, client);
 	}
 
 	/**
@@ -159,10 +73,10 @@ public class DBServer extends AbstractServer {
 	 * 
 	 * @return
 	 */
-	public static boolean startServer() {
+	public boolean startServer() {
 
 		try {
-			serverInstance.listen(); // Start listening for connections
+			singletonInstance.listen(); // Start listening for connections
 		} catch (Exception ex) {
 			System.out.println("ERROR - Could not listen for clients!");
 			return false;
@@ -176,9 +90,9 @@ public class DBServer extends AbstractServer {
 	 * 
 	 * @return
 	 */
-	public static boolean closeServer() {
+	public boolean closeServer() {
 		try {
-			serverInstance.close();
+			singletonInstance.close();
 		} catch (Exception ex) {
 			return false;
 		}
@@ -192,7 +106,7 @@ public class DBServer extends AbstractServer {
 	 * @param response
 	 * @param client
 	 */
-	private void sendMessage(MessageObject response, ConnectionToClient client) {
+	public void sendMessage(MessageObject response, ConnectionToClient client) {
 
 		try {
 			client.sendToClient((Object) response);
@@ -211,7 +125,7 @@ public class DBServer extends AbstractServer {
 	 * 
 	 * @param message
 	 */
-	private void printMessageRecieved(MessageObject message, ConnectionToClient client) {
+	public void printMessageRecieved(MessageObject message, ConnectionToClient client) {
 		System.out.println("Message recieved: " + message.getTypeRequest().toString() + " | "
 				+ message.getArgs().toString() + " from " + client);
 	}

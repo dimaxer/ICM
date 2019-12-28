@@ -8,16 +8,14 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 
-import LogicController.BaseController;
 import LogicController.RequestFormController;
 import Utilities.MessageObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-public class RequestFormFX implements BaseFx, Initializable {
+public class RequestFormFX implements BaseFx {
 
 	@FXML
 	JFXTextArea requestid;
@@ -48,7 +46,7 @@ public class RequestFormFX implements BaseFx, Initializable {
 		status.getItems().add("Active");
 		status.getItems().add("Suspended");
 		status.getItems().add("Frezze");
-
+		requestFormController = new RequestFormController();
 	}
 
 	public void loadRequest(Object requestData) {
@@ -99,12 +97,6 @@ public class RequestFormFX implements BaseFx, Initializable {
 		{
 
 		}
-	}
-
-	@Override
-	public void setLogicController(BaseController controller) {
-		requestFormController = (RequestFormController) controller;
-
 	}
 
 }

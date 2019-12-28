@@ -1,7 +1,7 @@
 package Gui;
 
-import LogicController.BaseController;
+import javafx.fxml.Initializable;
 
-public interface BaseFx {
-	public void setLogicController(BaseController controller);
+public interface BaseFx extends Initializable {
+	
 }

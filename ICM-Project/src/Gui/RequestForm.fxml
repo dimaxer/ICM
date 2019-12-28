@@ -10,22 +10,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1203.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.RequestFormFX">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="697.0" prefWidth="1203.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.RequestFormFX">
    <children>
       <JFXTextArea fx:id="requestid" editable="false" focusColor="STEELBLUE" layoutX="35.0" layoutY="191.0" prefHeight="44.0" prefWidth="411.0" style="-fx-background-color: #F8F8FF;" />
-      <Label layoutX="159.0" layoutY="164.0" prefHeight="34.0" prefWidth="151.0" text="Request Id">
+      <Label layoutX="159.0" layoutY="162.0" prefHeight="34.0" prefWidth="151.0" text="Request Id">
          <font>
             <Font name="Tahoma" size="16.0" />
          </font>
       </Label>
       <JFXTextArea fx:id="initatorName" editable="false" focusColor="STEELBLUE" layoutX="35.0" layoutY="287.0" prefHeight="44.0" prefWidth="411.0" style="-fx-background-color: #F8F8FF;" />
-      <Label layoutX="159.0" layoutY="260.0" prefHeight="34.0" prefWidth="151.0" text="Initator Name">
+      <Label layoutX="155.0" layoutY="255.0" prefHeight="34.0" prefWidth="151.0" text="Initator Name">
          <font>
             <Font name="Tahoma" size="16.0" />
          </font>
       </Label>
       <JFXTextArea fx:id="descreaption" editable="false" focusColor="STEELBLUE" layoutX="29.0" layoutY="392.0" prefHeight="258.0" prefWidth="411.0" style="-fx-background-color: #F8F8FF;" />
-      <Label layoutX="159.0" layoutY="358.0" prefHeight="34.0" prefWidth="94.0" text="descreaption">
+      <Label layoutX="159.0" layoutY="362.0" prefHeight="34.0" prefWidth="94.0" text="Description">
          <font>
             <Font name="Tahoma" size="16.0" />
          </font>
@@ -42,13 +42,13 @@
             <Font name="Tahoma" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="642.0" layoutY="356.0" prefHeight="34.0" prefWidth="151.0" text="Handler Name">
+      <Label layoutX="642.0" layoutY="356.0" prefHeight="34.0" prefWidth="151.0" text="Request Status">
          <font>
             <Font name="Tahoma" size="16.0" />
          </font>
       </Label>
       <JFXComboBox fx:id="status" focusColor="STEELBLUE" layoutX="519.0" layoutY="402.0" prefHeight="45.0" prefWidth="411.0" />
-      <AnchorPane prefHeight="89.0" prefWidth="1203.0" style="-fx-background-color: #4682B4;">
+      <AnchorPane prefHeight="86.0" prefWidth="1203.0" style="-fx-background-color: #4682B4;">
          <children>
             <Label layoutX="397.0" layoutY="19.0" prefHeight="46.0" prefWidth="397.0" text="Request Information" textFill="GHOSTWHITE">
                <font>
@@ -75,7 +75,7 @@
          <font>
             <Font size="22.0" />
          </font></JFXButton>
-      <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="48.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/ICM_LOGO.png" />
          </image>

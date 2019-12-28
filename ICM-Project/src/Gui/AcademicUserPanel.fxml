@@ -8,35 +8,51 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.PanelFX">
+<AnchorPane prefHeight="613.0" prefWidth="922.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.PanelFX">
    <children>
-      <AnchorPane layoutX="-2.0" layoutY="-2.0" prefHeight="109.0" prefWidth="1280.0" style="-fx-background-color: #4682b4;">
+      <AnchorPane prefHeight="86.0" prefWidth="922.0" style="-fx-background-color: #4682b4;">
          <children>
-            <Text fill="GHOSTWHITE" layoutX="557.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ICM Panel">
+            <Text fill="GHOSTWHITE" layoutX="377.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ICM Panel">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
             </Text>
          </children></AnchorPane>
-      <JFXButton fx:id="viewRequestDetails" buttonType="RAISED" depthTest="ENABLE" layoutX="560.0" layoutY="161.0" onAction="#viewRequestDetailsWasPressed" prefHeight="100.0" prefWidth="171.0" style="-fx-background-color: white; -fx-background-radius: 20;" text="View Request Details" textFill="STEELBLUE">
+      <JFXButton fx:id="viewRequestDetails" buttonType="RAISED" depthTest="ENABLE" layoutX="375.0" layoutY="139.0" onAction="#viewRequestDetailsWasPressed" prefHeight="100.0" prefWidth="171.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: gray; -fx-border-radius: 20;" text="View Request Details" textFill="STEELBLUE">
          <effect>
             <Bloom />
          </effect>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
       </JFXButton>
-      <Text fx:id="firstName" layoutX="100.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, Name" visible="false">
+      <Text fx:id="firstName" layoutX="100.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, Name">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Text>
-      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="619.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="442.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/view_change_request.png" />
          </image>
       </ImageView>
-      <JFXButton fx:id="logOut" buttonType="RAISED" layoutX="94.0" layoutY="24.0" prefHeight="32.0" prefWidth="105.0" style="-fx-background-color: grey; -fx-background-radius: 30;" text="Log out" visible="false" />
+      <JFXButton fx:id="logOut" buttonType="RAISED" layoutX="94.0" layoutY="24.0" onAction="#logOutWasPressed" prefHeight="32.0" prefWidth="105.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" text="Log out" />
       <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/ICM_LOGO.png" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="newChangeRequest" buttonType="RAISED" depthTest="ENABLE" layoutX="373.0" layoutY="277.0" prefHeight="100.0" prefWidth="171.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: gray; -fx-border-radius: 20;" text="New Change Request" textFill="STEELBLUE">
+         <effect>
+            <Bloom />
+         </effect>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </JFXButton>
+      <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="442.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/new_change_request.png" />
          </image>
       </ImageView>
    </children>

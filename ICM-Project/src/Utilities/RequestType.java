@@ -1,7 +1,5 @@
 package Utilities;
 
-
-  
 //getLinkedRequests is for get all the requests that involve the user ID;
 public enum RequestType {
 	Login,

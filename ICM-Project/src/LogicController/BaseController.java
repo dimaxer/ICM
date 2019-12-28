@@ -7,22 +7,24 @@ import Utilities.MessageObject;
 import client.Client;
 
 public class BaseController {
-	private Client client;
-
-	public BaseController(Client client) {
-		this.client = client;
+	public void switchScene(String fxml_name) {
+		Client.getInstance().switchScene(fxml_name);
 	}
-
-	public Client getClient() {
-		return client;
-	}
-
-	public void switchScene(String fxml) {
-		client.switchScene(fxml);
+	
+	/**
+	 * This function returns true if a certain scene already exists, and false otherwise.
+	 * It should be utilized regularly before switching scenes in order to prevent reinitializing FX's and LC's over and over.
+	 * Regular utilization will lead to extreme acceleration of scene switching.
+	 * @author Raz Malka
+	 * @param fxml_name
+	 * @return Boolean indicating whether the scene already exists.
+	 */
+	public Boolean sceneExists(String fxml_name) {
+		return Client.getInstance().sceneExists(fxml_name);
 	}
 
 	public Object getCurrentFX() {
-		return client.getCurrentFX();
+		return Client.getInstance().getCurrentFX();
 	}
 
 	/**
@@ -32,15 +34,14 @@ public class BaseController {
 	 * @param response
 	 * @param client
 	 */
-	protected void sendMessage(MessageObject response, Client client) {
-
+	protected void sendMessage(MessageObject response) {
 		try {
-			client.sendToServer((Object) response);
+			Client.getInstance().sendToServer((Object) response);
 			System.out.println("Message sent: " + response.getTypeRequest().toString() + " | "
 					+ response.getArgs().toString() + " from Client");
 		} catch (IOException e) {
 			System.out.println("An Error occurd while trying to send: " + response.getTypeRequest().toString() + " | "
-					+ response.getArgs().toString() + "to Client");
+					+ response.getArgs().toString() + " to Client");
 			e.printStackTrace();
 		}
 	}

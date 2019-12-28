@@ -8,8 +8,8 @@ enum JobDescription {
 }
 
 //class for saving all the User data in one place under User
-public class User implements Serializable{
-
+public class User implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String password;
 	private String name;
@@ -20,12 +20,12 @@ public class User implements Serializable{
 	private ArrayList<Request> requestArray;
 
 	public User(String id, String password, String name, String email, String jobDescription) {
-		super();
 		this.id = id;
 		this.password = password;
 		this.name = name;
 		this.email = email;
 		this.jobDescription = jobDescription;
+		this.requestArray = new ArrayList<>();
 	}
 
 	public String getId() {
@@ -74,6 +74,10 @@ public class User implements Serializable{
 
 	public void setRequestArray(ArrayList<Request> requestArray) {
 		this.requestArray = requestArray;
-
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("USER[%s,%s,%s,%s,%s,{%s}]", id, password, name, email, jobDescription, requestArray.toString());
 	}
 }

@@ -2,22 +2,6 @@ package Utilities;
 
 import java.util.HashMap;
 
-import Gui.ClientUI;
-import Gui.ConnectServerManualyFX;
-import Gui.LoginFX;
-import Gui.PanelFX;
-import Gui.RequestDetailsInitiatorFX;
-import Gui.RequestFormFX;
-import Gui.SearchRequestFX;
-import Gui.ViewAllRequestsFX;
-import LogicController.BasePanelController;
-import LogicController.ConnectServerManualyController;
-import LogicController.LoginController;
-import LogicController.RequestDetailsInitiatorController;
-import LogicController.RequestFormController;
-import LogicController.SearchRequestController;
-import LogicController.ViewAllRequestsController;
-import client.Client;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -33,19 +17,40 @@ import javafx.stage.Stage;
  * @since 04-12-19
  */
 public class ScreenManager {
+	private static ScreenManager singletonInstance = null;
 	private HashMap<String, Scene> screenMap = new HashMap<>();
 	private Scene currentScene;
 	private Stage primaryStage;
-	private Client client;
-	private ClientUI clientUI;
 
-	public ScreenManager(Scene currentScene, Stage primaryStage, String FXMLName, Client client, ClientUI clientUI) {
-
-		this.currentScene = currentScene;
-		this.primaryStage = primaryStage;
-		addScreen(FXMLName, currentScene);
-		this.client = client;
-		this.clientUI = clientUI;
+	private ScreenManager() {}
+	
+	/**
+	 * Get the Singleton's Instance
+	 * @return ScreenManager Singleton Instance
+	 */
+	public static ScreenManager getInstance() {
+		return singletonInstance;
+	}
+	
+	/**
+	 * Initialization of Screen Manager Singleton
+	 * May be called only once.
+	 * @param currentScene
+	 * @param primaryStage
+	 * @param FXMLName
+	 * @param Client.getInstance()
+	 * @param clientUI
+	 * @throws Exception
+	 */
+	public static void initialize(Scene currentScene, Stage primaryStage, String FXMLName) throws Exception {
+		if (singletonInstance != null)
+			return;
+		
+		singletonInstance = new ScreenManager();
+		singletonInstance.currentScene = currentScene;
+		singletonInstance.primaryStage = primaryStage;
+		singletonInstance.addScreen(FXMLName, currentScene);
+		singletonInstance.normalizeAppearance();
 	}
 
 	/**
@@ -55,6 +60,10 @@ public class ScreenManager {
 	 * @param loader The FXMLLoader linked to the fxml screen
 	 */
 	public void addScreen(String name, Scene scene) {
+		if (singletonInstance == null) {
+			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+			return;
+		}
 		screenMap.put(name, scene);
 	}
 
@@ -62,9 +71,13 @@ public class ScreenManager {
 	 * @return current Controller instance
 	 */
 	public Object getCurrentFX() {
-
-		return ((FXMLLoader) currentScene.getUserData()).getController();
-
+		if (singletonInstance == null) {
+			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+			return null;
+		}
+		FXMLLoader userData = (FXMLLoader)currentScene.getUserData();
+		Object currentFX = userData.getController();
+		return currentFX;
 	}
 
 	/**
@@ -73,6 +86,10 @@ public class ScreenManager {
 	 * @param name name of fxml to remove
 	 */
 	public void removeScreen(String scene) {
+		if (singletonInstance == null) {
+			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+			return;
+		}
 		screenMap.remove(scene);
 	}
 
@@ -83,10 +100,13 @@ public class ScreenManager {
 	 * @throws Exception
 	 */
 	public void activate(String scene) throws Exception {
+		if (singletonInstance == null) {
+			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+			return;
+		}
+		
 		if (!screenMap.containsKey(scene)) {
-
 			Alert.showAlert(AlertType.ERROR, "Non-Existent Screen", "Screen does not exist in ScreenManager.");
-
 		}
 
 		currentScene = screenMap.get(scene);
@@ -104,17 +124,24 @@ public class ScreenManager {
 	 * @param ui_class  class of the source via this.getClass()
 	 */
 	public void switchScene(String fxml_name) throws Exception {
-
+		if (singletonInstance == null) {
+			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+			return;
+		}
+		System.out.println("SWITCH SCENE CALLED!");
+		
 		if (screenMap.containsKey(fxml_name)) {
-
-			currentScene = screenMap.get(fxml_name);
-
-			Platform.runLater(() -> {
-				primaryStage.setScene(currentScene);
-			});
-
+			try {
+				currentScene = screenMap.get(fxml_name);
+				Platform.runLater(() -> {
+					primaryStage.setScene(currentScene);
+					normalizeAppearance();
+				});
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
-
 			Parent parent;
 			FXMLLoader loader = new FXMLLoader();
 			loader = new FXMLLoader();
@@ -124,52 +151,54 @@ public class ScreenManager {
 			scene.setUserData(loader);
 			currentScene = scene;
 			addScreen(fxml_name, currentScene);
-			injectLogicController(fxml_name);
 
 			Platform.runLater(() -> {
 				primaryStage.setScene(currentScene);
+				normalizeAppearance();
 			});
-
 		}
 
 	}
-
+	
+	/**
+	 * Returns whether a specific scene exists.
+	 * @author Raz Malka
+	 * @param fxml_name
+	 * @return Boolean, indicating if the scene exists.
+	 */
+	public Boolean sceneExists(String fxml_name) {
+		return screenMap.containsKey(fxml_name);
+	}
+	
+	/** Empties the Screen Map HashMap, should be called only upon log-out.
+	 * @author Raz Malka
+	 */
+	public void clearScreenMap() {
+		screenMap.clear();
+	}
+	
+	/** This function centers the current stage and normalizes the position, resizability and borders among all scenes.
+	 * @author Raz Malka
+	 */
+	public void normalizeAppearance() {
+		primaryStage.centerOnScreen();
+		primaryStage.setResizable(false);
+		primaryStage.sizeToScene();
+	}
+	
 	public Scene getCurrentScene() {
+		if (singletonInstance == null) {
+			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+			return null;
+		}
 		return currentScene;
 	}
 
 	public HashMap<String, Scene> getScreenMap() {
-		return screenMap;
-	}
-
-	public void injectLogicController(String fxml_name) {
-		Object FX = getCurrentFX();
-
-		switch (fxml_name) {
-		case "AcademicUserPanel":
-			((PanelFX) FX).setLogicController(new BasePanelController(client));
-			break;
-		case "ConnectServerManualy":
-			((ConnectServerManualyFX) FX).setLogicController(new ConnectServerManualyController(client, clientUI));
-			break;
-		case "LoginPage":
-			((LoginFX) FX).setLogicController(new LoginController(client));
-
-			break;
-
-		case "RequestForm":
-			((RequestFormFX) FX).setLogicController(new RequestFormController(client));
-			break;
-		case "ViewAllRequests":
-			((ViewAllRequestsFX) FX).setLogicController(new ViewAllRequestsController(client));
-			break;
-		case "RequestDetailsInitiator":
-			((RequestDetailsInitiatorFX) FX).setLogicController(new RequestDetailsInitiatorController(client));
-			break;
-			
-		default:
-
+		if (singletonInstance == null) {
+			System.out.println("DEVELOPER WARNING: YOU HAVE NOT INITIALIZE() THE SCREEN MANAGER!");
+			return null;
 		}
-
+		return screenMap;
 	}
 }

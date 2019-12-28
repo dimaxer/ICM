@@ -1,17 +1,9 @@
 package client;
 
 import ocsf.client.*;
-
 import java.io.*;
 
 import Gui.ClientUI;
-
-import Gui.LoginFX;
-import Gui.PanelFX;
-import Gui.RequestFormFX;
-
-import Gui.SearchRequestFX;
-import Gui.ViewAllRequestsFX;
 import Utilities.MessageObject;
 import Utilities.ScreenManager;
 
@@ -23,12 +15,12 @@ import Utilities.ScreenManager;
 public class Client extends AbstractClient {
 	// Instance variables **********************************************
 
+	private static Client singletonInstance = null;
 	private String userID;
 	/**
 	 * Instance of screenManager witch saves all scenes and the stage with this
 	 * screenManager you can add new scenes and switch between them
 	 */
-	private ScreenManager screenManager;
 
 	// Constructors ****************************************************
 
@@ -40,9 +32,28 @@ public class Client extends AbstractClient {
 	 * @param clientUI The interface type variable.
 	 */
 
-	public Client(String host, int port) throws IOException {
+	private Client(String host, int port) throws IOException {
 		super(host, port); // Call the superclass constructor
 		openConnection();
+	}
+	
+	/**
+	 * Get the Singleton's Instance
+	 * @return Client Singleton Instance
+	 * @throws IOException 
+	 */
+	public static Client getInstance() {
+		if (singletonInstance == null)
+			try {
+			singletonInstance = new Client(ClientUI.DEFAULT_SERVER, ClientUI.DEFAULT_PORT);
+			} catch (Exception ex) {
+				// ex.printStackTrace();
+			}
+		return singletonInstance;
+	}
+	
+	public static void initialize(String host, int port) throws IOException {
+		singletonInstance = new Client(host, port);
 	}
 
 	// Instance methods ************************************************
@@ -55,58 +66,7 @@ public class Client extends AbstractClient {
 	 * @param msg The message from the server.
 	 */
 	public void handleMessageFromServer(Object msg) {
-
-		MessageObject message = (MessageObject) msg;
-		printMessageRecieved(message);
-		Object currentFX = getCurrentFX();
-
-		switch (message.getTypeRequest()) {
-		case Login: {
-			if (currentFX instanceof LoginFX) {
-
-				((LoginFX) currentFX).loginHandle(message);
-			} else
-				System.out.println("Controller instance is NOT LoginController!");
-			break;
-		}
-		case View_Req_Details: {
-
-			if (currentFX instanceof ViewAllRequestsFX) {
-
-				((ViewAllRequestsFX) currentFX).handleSearchRequest(message);
-
-			} else {
-				System.out.println("Controller instance is NOT SearchRequestController!");
-			}
-
-			break;
-		}
-		case viewUserRequestTable: {
-			if (currentFX instanceof PanelFX) {
-
-				((PanelFX) currentFX).handleViewRequestDetailsRequest(message);
-
-			} else {
-				System.out.println("Controller instance is NOT PanelFXController!");
-			}
-			break;
-			
-		}
-		case change_Status: {
-			if (currentFX instanceof RequestFormFX) {
-
-				((RequestFormFX) currentFX).handleChangeStatus(message);
-
-			} else {
-				System.out.println("Controller instance is NOT RequestFormController!");
-
-			}
-			break;
-		}
-		default:
-			break;
-		}
-
+		RequestHandler.getInstance().handle(msg);
 	}
 
 	/**
@@ -117,11 +77,15 @@ public class Client extends AbstractClient {
 	 */
 	public void switchScene(String fxml) {
 		try {
-			screenManager.switchScene(fxml);
+			ScreenManager.getInstance().switchScene(fxml);
 		} catch (Exception e) {
 			System.out.println("Error occured while trying to switch to  scene: " + fxml);
 			e.printStackTrace();
 		}
+	}
+	
+	public Boolean sceneExists(String fxml_name) {
+		return ScreenManager.getInstance().sceneExists(fxml_name);
 	}
 
 	/**
@@ -132,16 +96,7 @@ public class Client extends AbstractClient {
 	 * @return
 	 */
 	public Object getCurrentFX() {
-		return screenManager.getCurrentFX();
-	}
-
-	public void setScreenManager(ScreenManager screenManager) {
-		this.screenManager = screenManager;
-
-	}
-
-	public ScreenManager getScreenManager() {
-		return screenManager;
+		return ScreenManager.getInstance().getCurrentFX();
 	}
 
 	/**

@@ -9,7 +9,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
-import LogicController.BaseController;
 import LogicController.SearchRequestController;
 import Utilities.MessageObject;
 
@@ -18,13 +17,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import javafx.fxml.Initializable;
-
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-public class SearchRequestFX implements BaseFx, Initializable {
+public class SearchRequestFX implements BaseFx {
 	// Class Buttons ***************************************************
 	@FXML
 	private JFXButton search;
@@ -57,6 +54,7 @@ public class SearchRequestFX implements BaseFx, Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		eror.setVisible(false);
+		searchRequestController = new SearchRequestController();
 	}
 
 	@FXML
@@ -140,10 +138,5 @@ public class SearchRequestFX implements BaseFx, Initializable {
 		});
 
 	}
-
-	@Override
-	public void setLogicController(BaseController controller) {
-		searchRequestController = (SearchRequestController) controller;
-	}
-
+	
 }

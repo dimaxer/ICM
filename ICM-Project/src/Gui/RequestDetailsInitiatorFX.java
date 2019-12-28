@@ -3,24 +3,17 @@ package Gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.swing.JFormattedTextField;
-
 import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
 
 import Common.Request;
-import LogicController.BaseController;
 import LogicController.RequestDetailsInitiatorController;
 import Utilities.MessageObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 
-public class  RequestDetailsInitiatorFX implements BaseFx, Initializable {
+public class  RequestDetailsInitiatorFX implements BaseFx {
 
-	
-	
 	@FXML
 	private JFXTextArea requestID;
 	@FXML
@@ -46,12 +39,11 @@ public class  RequestDetailsInitiatorFX implements BaseFx, Initializable {
 	private RequestDetailsInitiatorController requestDetailsInitiatorController;
 	
 	@Override
-	public void setLogicController(BaseController controller) {
+	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		requestDetailsInitiatorController = (RequestDetailsInitiatorController) controller;
-		
+		requestDetailsInitiatorController = new RequestDetailsInitiatorController();
 	}
-
+	
 	//load the data to the GUI
 	public void loadRequest(MessageObject massage) {
 		Request request = (Request)(massage.getArgs().get(2));
@@ -78,12 +70,4 @@ public class  RequestDetailsInitiatorFX implements BaseFx, Initializable {
 
 		requestDetailsInitiatorController.switchScene("AcademicUserPanel");
 	}
-
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-
 }

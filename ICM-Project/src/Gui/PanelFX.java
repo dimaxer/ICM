@@ -1,12 +1,16 @@
 package Gui;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import com.jfoenix.controls.JFXButton;
-import LogicController.BaseController;
+
 import LogicController.BasePanelController;
 import Utilities.MessageObject;
+import Utilities.ScreenManager;
+import client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class PanelFX implements BaseFx {
@@ -28,9 +32,12 @@ public class PanelFX implements BaseFx {
 	 * 
 	 */
 
-	@FXML
-	public void initialize() {
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
 		firstName.setText("Welcome, " + getFirstNameFromSQL());
+		panelController = new BasePanelController();
 	}
 
 	// THIS FUNCTION WILL BE DELETED AND REPLACED WITH AN ACTUAL GET FUNCTION FROM
@@ -46,26 +53,17 @@ public class PanelFX implements BaseFx {
 	 */
 	@FXML
 	public void viewRequestDetailsWasPressed(ActionEvent event) {
-
-
-		
-		// send the User id to the server
-		panelController.viewRequestDetailsWasPressed();
-
+		if (panelController.sceneExists("ViewAllRequests"))
+			panelController.switchScene("ViewAllRequests");
+		else
+			panelController.viewRequestDetailsWasPressed();
 	}
 	
-	
-	
-	public void handleViewRequestDetailsRequest(MessageObject massage) {
-
+	public void handleViewRequestDetailsRequest(MessageObject message) {
 		panelController.switchScene("ViewAllRequests");
-		ViewAllRequestsFX FX = (ViewAllRequestsFX) panelController.getCurrentFX();
-		FX.clearFields();
-		FX.loadRequests(massage);
-		}
-
-	
-	
+		((ViewAllRequestsFX)Client.getInstance().getCurrentFX()).clearFields();
+		((ViewAllRequestsFX)Client.getInstance().getCurrentFX()).loadRequests(message);
+	}
 
 	/**
 	 * This event handler switches scenes back to the login page
@@ -74,15 +72,10 @@ public class PanelFX implements BaseFx {
 	 */
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
+		ScreenManager.getInstance().clearScreenMap();
 		panelController.switchScene("LoginPage");
 		LoginFX controller = (LoginFX) panelController.getCurrentFX();
 		controller.clearFields();
-	}
-
-	@Override
-	public void setLogicController(BaseController controller) {
-		panelController = (BasePanelController) controller;
-
 	}
 
 }
