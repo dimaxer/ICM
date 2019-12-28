@@ -13,11 +13,11 @@ RECENT UPDATE NOTES:
 	Date of Changes:	25/12/19 - 28/12/19
 	Author of Changes:	Raz Malka
 	Details of Changes:
-1. Client:
-1.1 customized according to Singleton Design Pattern
-1.2 getInstance() function added
-1.3 initialize() function added
-1.4 deprecated functions removed
+1. Client:&nbsp;
+1.1 customized according to Singleton Design Pattern&nbsp;
+1.2 getInstance() function added&nbsp;
+1.3 initialize() function added&nbsp;
+1.4 deprecated functions removed&nbsp;
 1.5 all of the previous static functions turned non-static
 
 2. ClientUI:
