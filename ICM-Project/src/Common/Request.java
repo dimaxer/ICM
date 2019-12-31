@@ -57,6 +57,14 @@ public class Request implements Serializable {
 		this.evaluatorID = evaluatorID;
 	}
 
+	public String getEvaluatorID() {
+		return evaluatorID;
+	}
+
+	public void setEvaluatorID(String evaluatorID) {
+		this.evaluatorID = evaluatorID;
+	}
+
 	/*
 	 * Contractor that get ResultSet of single Request and create the request make
 	 * it easy to create a Request by simply give him the result from the DB
