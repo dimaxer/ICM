@@ -44,7 +44,7 @@ public class ViewAllRequestsController extends BaseController {
 				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Tester",
 						r.getInitaitorID()));
 			} else if (Client.getInstance().getUserID().equals(r.getCommitteeChairmenID())) {
-				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Committee Chairmen",
+				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Committee Chairman",
 						r.getInitaitorID()));
 			} else if (Client.getInstance().getUserID().equals(r.getCommitteeMember1ID())
 					|| Client.getInstance().getUserID().equals(r.getCommitteeMember2ID())) {
