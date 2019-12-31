@@ -47,10 +47,10 @@ public class NewChangeRequestFX implements BaseFx {
 	private JFXTextField jfxdate;
 	@FXML
 	private JFXTextField jfxname;
-	@FXML
-	private JFXTextField jfxemail;
-	@FXML
-	private JFXTextField jfxposition;
+	//@FXML
+	//private JFXTextField jfxemail;
+	//@FXML
+	//private JFXTextField jfxposition;
 	@FXML
 	private JFXTextField jfxinfSys;
 	@FXML
@@ -84,19 +84,19 @@ public class NewChangeRequestFX implements BaseFx {
 		setValdiator();
 		date = jfxdate.getText();
 		name = jfxname.getText();
-		email = jfxemail.getText();
-		position = jfxposition.getText();
+		//email = jfxemail.getText();
+		//position = jfxposition.getText();
 		infSys = jfxinfSys.getText();
 		situation = jfxsituation.getText();
 		wantedChange = jfxwantedChange.getText();
 		notes = jfxnotes.getText();
-
-		if (date.isEmpty() || name.isEmpty() || email.isEmpty() || position.isEmpty() || infSys.isEmpty()
+		//deleted position.isempty() and email
+		if (date.isEmpty() || name.isEmpty() || infSys.isEmpty()
 				|| situation.isEmpty() || wantedChange.isEmpty()) {
 			jfxdate.validate();
 			jfxname.validate();
-			jfxemail.validate();
-			jfxposition.validate();
+			//jfxemail.validate();
+			//jfxposition.validate();
 			jfxinfSys.validate();
 			jfxsituation.validate();
 			jfxwantedChange.validate();
@@ -105,11 +105,13 @@ public class NewChangeRequestFX implements BaseFx {
 			args.add(date);
 			args.add(infSys);
 			args.add(name);
-			args.add(position);
-			args.add(email);
+			//args.add(position);
+			//args.add(email);
 			args.add(situation);
 			args.add(wantedChange);
 			args.add(notes);
+			//The initiator ID
+			args.add(Client.getInstance().getUserID());
 
 			newChangeRequestController.submitWasPressed(args);
 
@@ -142,11 +144,11 @@ public class NewChangeRequestFX implements BaseFx {
 
 		jfxdate.getValidators().add(validator);
 		jfxname.getValidators().add(validator);
-		jfxposition.getValidators().add(validator);
+		//jfxposition.getValidators().add(validator);
 		jfxsituation.getValidators().add(validator);
 		jfxwantedChange.getValidators().add(validator);
 		jfxinfSys.getValidators().add(validator);
-		jfxemail.getValidators().add(validator);
+		//jfxemail.getValidators().add(validator);
 
 		validator.setMessage("*required");
 	}

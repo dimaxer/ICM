@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="758.0" prefWidth="1173.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.RequestDetailsCommitteeMemberFX">
+   <children>
+      <AnchorPane prefHeight="86.0" prefWidth="1177.0" style="-fx-background-color: #4682B4;">
+         <children>
+            <Label layoutX="397.0" layoutY="19.0" prefHeight="46.0" prefWidth="397.0" text="Request Information" textFill="GHOSTWHITE">
+               <font>
+                  <Font name="Tahoma Bold" size="36.0" />
+               </font>
+            </Label>
+            <ImageView accessibleRole="BUTTON" fitHeight="50.0" fitWidth="50.0" layoutX="1045.0" layoutY="17.0" onMouseClicked="#homeWasPressed" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/ICM_HOME.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1111.0" layoutY="17.0" onMouseClicked="#backWasPressed" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/ICM_BACK.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="1.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/ICM_LOGO.png" />
+         </image>
+      </ImageView>
+      <TabPane layoutX="1.0" layoutY="86.0" prefHeight="673.0" prefWidth="1177.0" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab text="Details">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="609.0" prefWidth="1158.0">
+                     <children>
+                        <SplitPane dividerPositions="0.3484978540772532" layoutX="7.0" layoutY="6.0" prefHeight="641.0" prefWidth="1167.0">
+                           <items>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="752.0" prefWidth="394.0">
+                                 <children>
+                                    <JFXTextArea fx:id="requestID" layoutX="37.0" layoutY="46.0" prefHeight="52.0" prefWidth="301.0" promptText="Request id">
+                                       <font>
+                                          <Font name="Tahoma" size="18.0" />
+                                       </font>
+                                    </JFXTextArea>
+                                    <JFXTextArea fx:id="status" focusColor="#838897" layoutX="38.0" layoutY="154.0" prefHeight="51.0" prefWidth="299.0" promptText="Status">
+                                       <font>
+                                          <Font name="Tahoma" size="18.0" />
+                                       </font>
+                                    </JFXTextArea>
+                                    <JFXTextArea fx:id="stage" focusColor="#838897" layoutX="38.0" layoutY="261.0" prefHeight="51.0" prefWidth="300.0" promptText="Stage">
+                                       <font>
+                                          <Font name="Tahoma" size="18.0" />
+                                       </font>
+                                    </JFXTextArea>
+                                    <JFXButton layoutX="204.0" layoutY="340.0" prefHeight="46.0" prefWidth="140.0" style="-fx-background-color: grey; -fx-background-radius: 30;" text="Evaluator Report" />
+                                    <JFXButton layoutX="31.0" layoutY="340.0" prefHeight="46.0" prefWidth="140.0" style="-fx-background-color: grey; -fx-background-radius: 30;" text="Request More Details" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="604.0" prefWidth="770.0">
+                                 <children>
+                                    <JFXTextArea layoutX="61.0" layoutY="22.0" prefHeight="71.0" prefWidth="281.0" text="Request Form&#10;">
+                                       <font>
+                                          <Font name="Tahoma Bold" size="24.0" />
+                                       </font>
+                                    </JFXTextArea>
+                                    <JFXTextField layoutX="52.0" layoutY="132.0" prefHeight="25.0" prefWidth="171.0" text="Requested information system: " />
+                                    <JFXTextField layoutX="63.0" layoutY="202.0" prefHeight="25.0" prefWidth="108.0" text="Current stiuation:" />
+                                    <JFXTextField layoutX="53.0" layoutY="304.0" text="The requested change:" />
+                                    <JFXTextField layoutX="51.0" layoutY="417.0" text="Resons for the change:" />
+                                    <JFXTextField layoutX="66.0" layoutY="514.0" prefHeight="25.0" prefWidth="45.0" text="Notes:" />
+                                    <JFXTextField layoutX="482.0" layoutY="535.0" prefHeight="25.0" prefWidth="83.0" text="Documents:" />
+                                    <TextArea fx:id="requestedInformationSystem" layoutX="240.0" layoutY="129.0" prefHeight="37.0" prefWidth="190.0" text="Information Station" />
+                                    <TextArea fx:id="currentStiuation" layoutX="239.0" layoutY="199.0" prefHeight="93.0" prefWidth="458.0" text="I can't order grade sheet in English directly from the Information Station" />
+                                    <TextArea fx:id="requestedChange" layoutX="240.0" layoutY="309.0" prefHeight="93.0" prefWidth="458.0" text="I will be able to order grade sheet in english from the Information Station.&#10; And if needed take the money directly from my bank account." />
+                                    <TextArea fx:id="reason" layoutX="238.0" layoutY="425.0" prefHeight="62.0" prefWidth="458.0" text="Not to go to college every time I have to get a Grade sheet" />
+                                    <TextArea fx:id="notes" layoutX="105.0" layoutY="545.0" prefHeight="83.0" prefWidth="274.0" text="There is no English option under the Languages category&#10; when trying to order a Grade sheet" />
+                                    <Hyperlink layoutX="588.0" layoutY="539.0" text="ExampleCV.pdf" />
+                                 </children>
+                              </AnchorPane>
+                           </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <JFXButton fx:id="back" layoutX="1109.0" layoutY="19.0" onAction="#backWasPressed" prefHeight="46.0" prefWidth="52.0" />
+      <JFXButton fx:id="home" layoutX="1046.0" layoutY="19.0" onAction="#homeWasPressed" prefHeight="46.0" prefWidth="52.0" />
+   </children>
+</AnchorPane>

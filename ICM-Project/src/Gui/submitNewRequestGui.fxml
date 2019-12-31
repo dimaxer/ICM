@@ -16,9 +16,7 @@
       <JFXTextField fx:id="jfxnotes" layoutX="34.0" layoutY="294.0" prefHeight="60.0" prefWidth="354.0" promptText="Notes(Optional)" />
       <JFXTextField fx:id="jfxwantedChange" layoutX="34.0" layoutY="206.0" prefHeight="78.0" prefWidth="354.0" promptText="Requested Change" />
       <JFXTextField fx:id="jfxsituation" layoutX="33.0" layoutY="137.0" prefHeight="60.0" prefWidth="354.0" promptText="Situation Description" />
-      <JFXTextField fx:id="jfxposition" layoutX="412.0" layoutY="330.0" prefHeight="23.0" prefWidth="138.0" promptText="Job Title" />
-      <JFXTextField fx:id="jfxemail" layoutX="412.0" layoutY="260.0" prefHeight="23.0" prefWidth="138.0" promptText="E-mail" />
-      <JFXTextField fx:id="jfxname" layoutX="414.0" layoutY="173.0" prefHeight="23.0" prefWidth="138.0" promptText="Full Name" />
+      <JFXTextField fx:id="jfxname" layoutX="414.0" layoutY="278.0" prefHeight="78.0" prefWidth="138.0" promptText="Reasons for change" />
       <JFXTextField fx:id="jfxdate" layoutX="418.0" layoutY="107.0" prefHeight="23.0" prefWidth="130.0" promptText="DD/MM/YY" />
       <AnchorPane prefHeight="96.0" prefWidth="600.0" style="-fx-background-color: #4682b4;">
          <children>

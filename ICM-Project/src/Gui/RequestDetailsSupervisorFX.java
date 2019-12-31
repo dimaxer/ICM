@@ -7,13 +7,13 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 
 import Common.Request;
-import LogicController.RequestDetailsInitiatorController;
+import LogicController.RequestDetailsSupervisorController;
 import Utilities.MessageObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
-public class RequestDetailsInitiatorFX implements BaseFx {
+public class RequestDetailsSupervisorFX implements BaseFx{
 
 	@FXML
 	private JFXButton back;
@@ -38,12 +38,12 @@ public class RequestDetailsInitiatorFX implements BaseFx {
 	private TextArea notes;
 
 	// Class variables *************************************************
-	private RequestDetailsInitiatorController requestDetailsInitiatorController;
+	private RequestDetailsSupervisorController requestDetailsSupervisorController;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		requestDetailsInitiatorController = new RequestDetailsInitiatorController();
+		requestDetailsSupervisorController = new RequestDetailsSupervisorController();
 	}
 
 	// load the data to the GUI
@@ -63,12 +63,14 @@ public class RequestDetailsInitiatorFX implements BaseFx {
 
 	public void backWasPressed(ActionEvent event) {
 
-		requestDetailsInitiatorController.switchScene("ViewAllRequests");
+		requestDetailsSupervisorController.switchScene("ViewAllRequests");
 	}
 
 	@FXML
 	public void homeWasPressed(ActionEvent event) {
 
-		requestDetailsInitiatorController.switchScene("AcademicUserPanel");
+		requestDetailsSupervisorController.switchScene("AcademicUserPanel");
 	}
+
+
 }

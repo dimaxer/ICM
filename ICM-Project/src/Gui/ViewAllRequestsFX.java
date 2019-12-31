@@ -159,42 +159,57 @@ public class ViewAllRequestsFX implements BaseFx {
 			}
 			case "Tester":{
 				
-			//	viewAllRequestsController.switchScene("RequestDetailsTester");
-			//	RequestDetailsTesterFX FX = (RequestDetailsTesterFX) viewAllRequestsController.getCurrentFX();
-			//	FX.loadRequest(massage);
+				viewAllRequestsController.switchScene("RequestDetailsTester");
+				RequestDetailsTesterFX FX = (RequestDetailsTesterFX) viewAllRequestsController.getCurrentFX();
+				FX.loadRequest(massage);
 				
 				break;
 			}
 			case "Committee Chairman":{
 				
+				viewAllRequestsController.switchScene("RequestDetailsCommitteeChairman");
+				RequestDetailsCommitteeChairmanFX FX = (RequestDetailsCommitteeChairmanFX) viewAllRequestsController.getCurrentFX();
+				FX.loadRequest(massage);
 				
 				break;
 			}
 			case "Committee Member":{
 				
+				viewAllRequestsController.switchScene("RequestDetailsCommitteeMember");
+				RequestDetailsCommitteeMemberFX FX = (RequestDetailsCommitteeMemberFX) viewAllRequestsController.getCurrentFX();
+				FX.loadRequest(massage);
 				
 				break;
 			}
 			case "Execution Leader":{
+				viewAllRequestsController.switchScene("RequestDetailsExecutionLeader");
+				RequestDetailsExecutionLeaderFX FX = (RequestDetailsExecutionLeaderFX) viewAllRequestsController.getCurrentFX();
+				FX.loadRequest(massage);
 				
+				break;
+			}
+			case "Evaluator":{
+				viewAllRequestsController.switchScene("RequestDetailsEvaluator");
+				RequestDetailsEvaluatorFX FX = (RequestDetailsEvaluatorFX) viewAllRequestsController.getCurrentFX();
+				FX.loadRequest(massage);
 				
 				break;
 			}
 			case "Supervisor":{
-				
+				viewAllRequestsController.switchScene("RequestDetailsSupervisor");
+				RequestDetailsSupervisorFX FX = (RequestDetailsSupervisorFX) viewAllRequestsController.getCurrentFX();
+				FX.loadRequest(massage);
 				
 				break;
 			}
 			case "ISD Chief":{
-				
-				
-				break;
-			}
-			case "EvaluatorID":{
-				
+				viewAllRequestsController.switchScene("RequestDetailsISDChif");
+				RequestDetailsISDChifFX FX = (RequestDetailsISDChifFX) viewAllRequestsController.getCurrentFX();
+				FX.loadRequest(massage);
 				
 				break;
 			}
+
 			default:
 				break;
 			}
