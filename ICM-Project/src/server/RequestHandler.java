@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Utilities.MessageObject;
 import Utilities.RequestType;
+import client.Client;
 import jdbc.mysqlConnection;
 import ocsf.server.ConnectionToClient;
 
@@ -75,11 +76,20 @@ public class RequestHandler {
 		ArrayList<Object> formysql = new ArrayList<Object>();
 		formysql=message.getArgs();
 		String[] strings =new String[8];
-		for(int i=0;i<8;i++)
+		for(int i=0;i<7;i++)
 		{
 			strings[i]=formysql.get(i).toString();
+			System.out.println(strings[i]);
+
 		}
-		boolean res= mysqlConnection.getInstance().addCRToDB(strings[0],strings[1],strings[2],strings[3],strings[4],strings[5],strings[6],strings[7]);
+		//
+		System.out.println("here2");
+		System.out.println("here2");
+		//System.out.println(Client.getInstance().getUserID());
+		System.out.println("here2");
+		
+
+		boolean res= mysqlConnection.getInstance().addCRToDB(strings[0],strings[1],strings[2],"hi","hi",strings[3],strings[4],strings[5],strings[6]);
 		ArrayList<Object> args = new ArrayList<Object>();
 		args.add(res);
 
