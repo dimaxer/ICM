@@ -53,7 +53,10 @@ public class ViewAllRequestsController extends BaseController {
 			} else if (Client.getInstance().getUserID().equals(r.getExequtionLeaderID())) {
 				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Exeqution Leader",
 						r.getInitaitorID()));
-			} else if (user.getJobDescription().equals("Supervisor")) {
+			}else if (Client.getInstance().getUserID().equals(r.getEvaluatorID())) {
+				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Evaluator",
+						r.getInitaitorID()));
+			}else if (user.getJobDescription().equals("Supervisor")) {
 				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Supervisor",
 						r.getInitaitorID()));
 			} else {
