@@ -139,19 +139,25 @@ public class mysqlConnection {
 			e.printStackTrace();
 		}
 	}
-	public  Boolean addCRToDB(String date, String infsys, String name, String position, String email, String situation, String wantedChange, String notes) 
+	public  Boolean addCRToDB(String date, String infsys, String reasons, String position, String files, String situation, String wantedChange, String notes,String inID) 
 	{
 		int id=0;
-		System.out.println("here");
+
 		Statement stmt;
 		try 
 		{
 			Statement stmt0 = con.createStatement();
-			ResultSet rs = stmt0.executeQuery("SELECT COUNT(*) AS COUNT FROM requestForm");
+			ResultSet rs = stmt0.executeQuery("SELECT COUNT(*) AS COUNT FROM Requests");
 			rs.next();
 			id=rs.getInt("COUNT");
 			id++;
-			String query = "INSERT INTO requestForm (date, infSys, InitiatorName, jobTitle, email, Description, wantedChange, Notes, RequestID) VALUES (\'" + date + "\', \'" + infsys + "\' , \'"+name+"\', \'"+position+"\', \'"+email+"\', \'"+situation+"\',\'"+wantedChange+"\',\'"+notes+"\',\'"+id+"\')";
+			String currStage="New";
+			String reqStat="Active";
+			files="f";
+			//email=files, name=reasons
+			//String query = "INSERT INTO requestForm (date, infSys, InitiatorName, jobTitle, email, Description, wantedChange, Notes, RequestID) VALUES (\'" + date + "\', \'" + infsys + "\' , \'"+name+"\', \'"+position+"\', \'"+email+"\', \'"+situation+"\',\'"+wantedChange+"\',\'"+notes+"\',\'"+id+"\')";
+			String query = "INSERT INTO Requests (RequestID, informationSystem, CurrentSituation, RequestedChange, ReasonForRequest, Note, AttachFiles, Date, CurrentStage,RequestStatus,InitiatorID) VALUES (\'" + id + "\', \'" + infsys + "\' , \'"+situation+"\', \'"+wantedChange+"\', \'"+reasons+"\', \'"+notes+"\',\'"+files+"\',\'"+date+"\',\'"+currStage+"\',\'"+reqStat+"\',\'"+inID+"\')";
+
 			System.out.println(id);
 			stmt = con.createStatement();
 			stmt.executeUpdate(query);
