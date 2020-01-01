@@ -3,9 +3,7 @@ package client;
 import ocsf.client.*;
 import java.io.*;
 
-import Gui.ClientUI;
 import Utilities.MessageObject;
-import Utilities.ScreenManager;
 
 /**
  * This class overrides some of the methods defined in the abstract superclass

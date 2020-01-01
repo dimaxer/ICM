@@ -8,7 +8,6 @@ import com.jfoenix.controls.JFXButton;
 import LogicController.BasePanelController;
 import Utilities.MessageObject;
 import Utilities.ScreenManager;
-import client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
@@ -41,15 +40,17 @@ public class PanelFX implements BaseFx {
 		panelController = new BasePanelController();
 	}
 
-	// THIS FUNCTION WILL BE DELETED AND REPLACED WITH AN ACTUAL GET FUNCTION FROM
-	// SQL CONTROLLER STATIC CLASS
+	/**
+	 * THIS FUNCTION WILL BE DELETED AND REPLACED WITH AN ACTUAL GET FUNCTION FROM
+	 * SQL CONTROLLER STATIC CLASS
+	 * @return
+	 */
 	private String getFirstNameFromSQL() {
 		return "David";
 	}
 
 	/**
-	 * This event handler switches scene to SearchReaquest
-	 * 
+	 * This event handler switches scene to View Request Details page
 	 * @param event
 	 */
 	@FXML
@@ -60,6 +61,11 @@ public class PanelFX implements BaseFx {
 			panelController.viewRequestDetailsWasPressed();
 	}
 
+	/**
+	 * This method is called by server request,
+	 * switches scenes to View Request Details page and initializes the new page
+	 * @param event
+	 */
 	public void handleViewRequestDetailsRequest(MessageObject message) {
 		panelController.switchScene("ViewAllRequests");
 		((ViewAllRequestsFX) ScreenManager.getInstance().getCurrentFX()).clearFields();
@@ -67,8 +73,7 @@ public class PanelFX implements BaseFx {
 	}
 
 	/**
-	 * This event handler switches scenes back to the login page
-	 * 
+	 * This event handler switches scenes back to the Login page
 	 * @param event
 	 */
 	@FXML
@@ -78,10 +83,15 @@ public class PanelFX implements BaseFx {
 		LoginFX controller = (LoginFX) panelController.getCurrentFX();
 		controller.clearFields();
 	}
+	
+	/**
+	 * This event handler switches scenes to Create New Request page
+	 * @param event
+	 */
 	@FXML
-	public void newChangeRequestWasPressed(ActionEvent event)
-	{
-		panelController.switchScene("submitNewRequestGui");
+	public void newChangeRequestWasPressed(ActionEvent event) {
+		panelController.switchScene("NewRequest");
+		((NewChangeRequestFX) ScreenManager.getInstance().getCurrentFX()).clearFields();
 	}
 
 }

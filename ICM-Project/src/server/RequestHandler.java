@@ -2,9 +2,9 @@ package server;
 
 import java.util.ArrayList;
 
+import Common.AttachedFile;
 import Utilities.MessageObject;
 import Utilities.RequestType;
-import client.Client;
 import jdbc.mysqlConnection;
 import ocsf.server.ConnectionToClient;
 
@@ -32,36 +32,110 @@ public class RequestHandler {
 		return singletonInstance;
 	}
 	
+	/**
+	 * This function handles messages from clients
+	 * @param msg Message from Client
+	 * @param client Client that sent the message
+	 */
 	public void handle(Object msg, ConnectionToClient client) {
 		if (msg instanceof MessageObject) {
 			// cast to MessageObject and send a print that a message was received
 			MessageObject message = (MessageObject) msg;
 			System.out.println("REACHED SERVER REQUEST HANDLER! " + message.getTypeRequest() + " " + message.getArgs());
 			DBServer.getInstance().printMessageRecieved(message, client);
+			
+			MessageObject responseMessage = null;
 			switch (message.getTypeRequest()) {
 			case Login:
-				DBServer.getInstance().sendMessage(handleLogin(message, client), client);
+				responseMessage = handleLogin(message, client);
 				break;
 			case View_Req_Details:
-				DBServer.getInstance().sendMessage(handleSearchRequest(message, client), client);
+				responseMessage = handleSearchRequest(message, client);
 				break;
 			case change_Status:
-				DBServer.getInstance().sendMessage(handleChangeStatus(message, client), client);
+				responseMessage = handleChangeStatus(message, client);
 				break;
 			case viewUserRequestTable:
-				DBServer.getInstance().sendMessage(handleViewUserRequestTable(message, client), client);
+				responseMessage = handleViewUserRequestTable(message, client);
+				break;
+			case refreshViewUserRequestTable:
+				responseMessage = handleRefreshViewUserRequestTable(message, client);
 				break;
 			case NewChangeRequest:
-				DBServer.getInstance().sendMessage(handleNewChange(message,client),client);
+				responseMessage = handleNewChange(message,client);
+				break;
+			case AttachedFile:
+				handleAttachedFile(message, client);
+				break;
 			default:
 				break;
 			}
-
+			
+			if (responseMessage != null)
+				DBServer.getInstance().sendMessage(responseMessage, client);
 		}
-		else {
-			System.out.println("Error didnt recieve a MessageObject");
+		else
+			System.out.println("Error - Message rechieved is not a MessageObject");
+	}
+	
+	/**
+	 * this method handles a refresh of View User Request Table
+	 * @param message
+	 * @param client
+	 * @return MessageObject that should be sent back to the client, indicating specific request response.
+	 */
+	private MessageObject handleRefreshViewUserRequestTable(MessageObject message, ConnectionToClient client) {
+		// TODO Auto-generated method stub
+		try {
+			return mysqlConnection.getInstance().viewUserRequestTable(message);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 	}
+
+	/**
+	 * this method handles a creation of new change request
+	 * @param message
+	 * @param client
+	 * @return MessageObject that should be sent back to the client, indicating specific request response.
+	 */
+	public MessageObject handleNewChange(MessageObject message, ConnectionToClient client) {
+		boolean res= mysqlConnection.getInstance().addCRToDB(message.getArgs());
+		
+		ArrayList<Object> args = new ArrayList<Object>();
+		if (res && message.getArgs().get(6) != null) {
+			AttachedFile attachedFile = (AttachedFile) message.getArgs().get(6);
+			attachedFile.setFileName(mysqlConnection.getInstance().getLastInsertID());
+			args.add(attachedFile);
+			
+			message.setTypeRequest(RequestType.AttachedFile);
+			message.setArgs(args);
+			handleAttachedFile(message, client);
+		}
+		args.clear();
+		args.add(res);
+
+		message.setTypeRequest(RequestType.NewChangeRequest);
+		message.setArgs(args);
+		return message;
+	}
+	
+	  /**
+	   * This method handles any attached files received from the client.
+	   *
+	   * @param msg The message received from the client.
+	   * @param client The connection from which the message originated.
+	   * @author Raz Malka
+	   */
+	  public void handleAttachedFile(MessageObject message, ConnectionToClient client) {
+		  if (message.getArgs().get(0) instanceof AttachedFile) {
+			  AttachedFile attachedFile = (AttachedFile)message.getArgs().get(0);
+			  attachedFile.copy("server\\RequestAttachments");
+		  }
+	  }
+	
 	/**
 	 * this method handles a login request from the client by extracting the
 	 * username and password from MessageObject checking if its in the the db and
@@ -71,33 +145,6 @@ public class RequestHandler {
 	 * @param client
 	 * @return MessageObject that should be sent back to the client, indicating specific request response.
 	 */
-	public MessageObject handleNewChange(MessageObject message, ConnectionToClient client) {
-
-		ArrayList<Object> formysql = new ArrayList<Object>();
-		formysql=message.getArgs();
-		String[] strings =new String[8];
-		for(int i=0;i<7;i++)
-		{
-			strings[i]=formysql.get(i).toString();
-			System.out.println(strings[i]);
-
-		}
-		//
-		System.out.println("here2");
-		System.out.println("here2");
-		//System.out.println(Client.getInstance().getUserID());
-		System.out.println("here2");
-		
-
-		boolean res= mysqlConnection.getInstance().addCRToDB(strings[0],strings[1],strings[2],"hi","hi",strings[3],strings[4],strings[5],strings[6]);
-		ArrayList<Object> args = new ArrayList<Object>();
-		args.add(res);
-
-		MessageObject response = new MessageObject(RequestType.NewChangeRequest, args);
-		return response;
-
-		//sendMessage(response, client);
-	}
 	public MessageObject handleLogin(MessageObject message, ConnectionToClient client) {
 		try {
 			Boolean res = mysqlConnection.getInstance().checkUserCredentials(message.getArgs().get(0).toString(),

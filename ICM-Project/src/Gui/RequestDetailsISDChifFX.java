@@ -8,7 +8,6 @@ import com.jfoenix.controls.JFXTextArea;
 
 import Common.Request;
 import LogicController.RequestDetailsISDChifController;
-import LogicController.RequestDetailsInitiatorController;
 import Utilities.MessageObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

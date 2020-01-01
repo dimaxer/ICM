@@ -90,13 +90,8 @@ public class RequestFormFX implements BaseFx {
 		if (!(boolean) massage.getArgs().get(0)) {
 			erorStatus.setText("The status hasn't been changed / already is the selected value ");
 			erorStatus.setFill(Color.RED);
-
 		} else
 			erorStatus.setText("");
-
-		{
-
-		}
 	}
 
 }

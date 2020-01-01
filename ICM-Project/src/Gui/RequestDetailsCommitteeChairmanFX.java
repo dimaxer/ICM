@@ -8,7 +8,6 @@ import com.jfoenix.controls.JFXTextArea;
 
 import Common.Request;
 import LogicController.RequestDetailsCommitteeChairmanController;
-import LogicController.RequestDetailsTesterController;
 import Utilities.MessageObject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -78,8 +77,7 @@ public class RequestDetailsCommitteeChairmanFX implements BaseFx {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		RequestDetailsCommitteeChairmanController requestDetailsCommitteeChairmanController = new RequestDetailsCommitteeChairmanController();
-		
+		requestDetailsCommitteeChairmanController = new RequestDetailsCommitteeChairmanController();
 	}
 
 }

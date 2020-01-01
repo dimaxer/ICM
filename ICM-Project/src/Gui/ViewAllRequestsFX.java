@@ -10,7 +10,6 @@ import com.jfoenix.validation.RequiredFieldValidator;
 import Common.ViewAllRequestsRequest;
 import LogicController.ViewAllRequestsController;
 import Utilities.MessageObject;
-import client.Client;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -36,6 +35,9 @@ public class ViewAllRequestsFX implements BaseFx {
 	@FXML
 	private JFXButton home;
 
+	@FXML
+	private JFXButton refresh;
+	
 	@FXML
 	private Text requestIdNotFound;
 
@@ -124,6 +126,15 @@ public class ViewAllRequestsFX implements BaseFx {
 		
 		viewAllRequestsController.searchWasPressed(requestIDField.getText(), role);
 
+	}
+	
+	@FXML
+	public void refreshWasPressed(ActionEvent event) {
+		viewAllRequestsController.refresh();
+	}
+	
+	public void handleRefresh(MessageObject message) {
+		allTableInfo = viewAllRequestsController.loadRequests(message, tableView);
 	}
 
 	private String findRole(String text) {
@@ -267,7 +278,7 @@ public class ViewAllRequestsFX implements BaseFx {
 		initiatorColumn.setCellValueFactory(new PropertyValueFactory<ViewAllRequestsRequest, String>("Initiator"));
 		requestIdColumn.setCellValueFactory(new PropertyValueFactory<ViewAllRequestsRequest, String>("RequestId"));
 		
-		allTableInfo = viewAllRequestsController.loadRequests(message, tableView); // LINE UNDER TEST
+		allTableInfo = viewAllRequestsController.loadRequests(message, tableView);
 	}
 
 }

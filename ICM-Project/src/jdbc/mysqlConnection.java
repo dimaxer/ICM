@@ -139,36 +139,51 @@ public class mysqlConnection {
 			e.printStackTrace();
 		}
 	}
-	public  Boolean addCRToDB(String date, String infsys, String reasons, String position, String files, String situation, String wantedChange, String notes,String inID) 
+	
+	/**
+	 * This method adds a new Change Request.
+	 * @author Raz Malka
+	 * @param args Arguments of New Request
+	 * @return Success or Failure of the adding.
+	 */
+	public Boolean addCRToDB(ArrayList<Object> args) 
 	{
-		int id=0;
+		PreparedStatement stmt;
 
-		Statement stmt;
 		try 
 		{
-			Statement stmt0 = con.createStatement();
-			ResultSet rs = stmt0.executeQuery("SELECT COUNT(*) AS COUNT FROM Requests");
-			rs.next();
-			id=rs.getInt("COUNT");
-			id++;
-			String currStage="New";
-			String reqStat="Active";
-			files="f";
-			//email=files, name=reasons
-			//String query = "INSERT INTO requestForm (date, infSys, InitiatorName, jobTitle, email, Description, wantedChange, Notes, RequestID) VALUES (\'" + date + "\', \'" + infsys + "\' , \'"+name+"\', \'"+position+"\', \'"+email+"\', \'"+situation+"\',\'"+wantedChange+"\',\'"+notes+"\',\'"+id+"\')";
-			String query = "INSERT INTO Requests (RequestID, informationSystem, CurrentSituation, RequestedChange, ReasonForRequest, Note, AttachFiles, Date, CurrentStage,RequestStatus,InitiatorID) VALUES (\'" + id + "\', \'" + infsys + "\' , \'"+situation+"\', \'"+wantedChange+"\', \'"+reasons+"\', \'"+notes+"\',\'"+files+"\',\'"+date+"\',\'"+currStage+"\',\'"+reqStat+"\',\'"+inID+"\')";
-
-			System.out.println(id);
-			stmt = con.createStatement();
-			stmt.executeUpdate(query);
-			System.out.println("executed");
+			String query = "INSERT INTO Requests (Date, InformationSystem, RequestedChange, CurrentSituation, RequestReason, Note, AttachFiles, CurrentStage, RequestStatus, InitiatorID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			stmt = con.prepareStatement(query);
+			for (int i = 0; i < 10; i++)
+				if (i == 6) stmt.setBoolean(i+1, (args.get(i) != null));
+				else stmt.setString(i+1, args.get(i).toString());
+			
+			stmt.executeUpdate();
+			System.out.println("Query of Create New Request Executed Successfully!");
 		} 
 		catch (SQLException e)
 		{
-			System.out.println("not");
+			System.out.println("Query of Create New Request Failed to be Executed!");
 			e.printStackTrace();
+			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Using a well-known mySQL procedure to get the latest ID after INSERT call.
+	 * @author Raz Malka
+	 * @return Last Inserted Auto-Incremented ID
+	 */
+	public String getLastInsertID() {
+		Statement stmt;
+		try {
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT LAST_INSERT_ID();");
+			if (rs.next())
+				return rs.getString(1);
+		} catch (Exception ex) {}
+		return "";
 	}
 
 	/**
@@ -211,7 +226,6 @@ public class mysqlConnection {
 	 * @param msg
 	 * @return
 	 */
-
 	public MessageObject searchRequest(Object msg) {
 		MessageObject message = (MessageObject) msg;
 		String requestID = (String) message.getArgs().get(0);
@@ -260,7 +274,7 @@ public class mysqlConnection {
 		String userID = (String) msg.getArgs().get(0);
 		ResultSet userInfoResult, userRequestsResult;
 		// new MessageObject to send back to the use the answer
-		MessageObject newMessage = new MessageObject(RequestType.viewUserRequestTable, new ArrayList<>());
+		MessageObject newMessage = new MessageObject(msg.getTypeRequest(), new ArrayList<>());
 
 		// Query for get user information
 		String userInfoQuery = "SELECT * FROM Users WHERE UserID= \'" + userID + "\'";
@@ -289,7 +303,7 @@ public class mysqlConnection {
 						userRequestsResult.getString("InformationSystem"),
 						userRequestsResult.getString("CurrentSituation"),
 						userRequestsResult.getString("RequestedChange"),
-						userRequestsResult.getString("ReasonForRequest"), userRequestsResult.getString("Note"),
+						userRequestsResult.getString("RequestReason"), userRequestsResult.getString("Note"),
 						userRequestsResult.getString("AttachFiles"), userRequestsResult.getString("Date"),
 						userRequestsResult.getString("CurrentStage"), userRequestsResult.getString("RequestStatus"),
 						userRequestsResult.getString("InitiatorID"), userRequestsResult.getString("TesterID"),

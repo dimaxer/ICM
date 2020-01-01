@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXTextField;
 
 import LogicController.ConnectServerManualyController;
 import client.Client;
+import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;

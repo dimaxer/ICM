@@ -45,9 +45,6 @@ public class RequestDetailsCommitteeMemberFX implements BaseFx {
 	// Class variables *************************************************
 	private RequestDetailsCommitteeMemberController requestDetailsCommitteeMemberController;
 	
-	
-	
-	
 	//load the data to the GUI
 	public void loadRequest(MessageObject massage) {
 		Request request = (Request)(massage.getArgs().get(2));
@@ -79,8 +76,7 @@ public class RequestDetailsCommitteeMemberFX implements BaseFx {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		RequestDetailsCommitteeMemberController requestDetailsCommitteeMemberController = new RequestDetailsCommitteeMemberController();
-		
+		requestDetailsCommitteeMemberController = new RequestDetailsCommitteeMemberController();
 	}
 
 }

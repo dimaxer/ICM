@@ -7,7 +7,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 
 import Common.Request;
-import LogicController.RequestDetailsInitiatorController;
 import LogicController.RequestDetailsTesterController;
 import Utilities.MessageObject;
 import javafx.event.ActionEvent;
@@ -78,8 +77,7 @@ public class RequestDetailsTesterFX implements BaseFx{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		RequestDetailsTesterController requestDetailsTesterController = new RequestDetailsTesterController();
-		
+		requestDetailsTesterController = new RequestDetailsTesterController();
 	}
 	
 

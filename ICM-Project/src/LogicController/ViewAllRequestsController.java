@@ -68,4 +68,13 @@ public class ViewAllRequestsController extends BaseController {
 
 	}
 
+	public void refresh() {
+		// TODO Auto-generated method stub
+		System.out.println("P1");
+		ArrayList<Object> arrlist = new ArrayList<>();
+		arrlist.add(Client.getInstance().getUserID());
+		MessageObject searchRequest = new MessageObject(RequestType.refreshViewUserRequestTable, arrlist);
+		sendMessage(searchRequest);
+	}
+
 }

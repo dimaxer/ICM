@@ -37,7 +37,15 @@ public class MessageObject implements Serializable {
 		return typeRequest;
 	}
 	
+	public void setTypeRequest(RequestType requestType) {
+		this.typeRequest = requestType;
+	}
+	
 	public ArrayList<Object> getArgs() {
 		return args;
+	}
+	
+	public void setArgs(ArrayList<Object> args) {
+		this.args = args;
 	}
 }

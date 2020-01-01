@@ -78,8 +78,7 @@ public class RequestDetailsExecutionLeaderFX implements BaseFx {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		RequestDetailsExecutionLeaderController requestDetailsExecutionLeaderController = new RequestDetailsExecutionLeaderController();
-		
+		requestDetailsExecutionLeaderController = new RequestDetailsExecutionLeaderController();
 	}
 
 }

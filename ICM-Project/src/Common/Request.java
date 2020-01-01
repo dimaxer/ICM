@@ -75,7 +75,7 @@ public class Request implements Serializable {
 			this.informationSystem = result.getString("InformationSystem");
 			this.currentSituation = result.getString("CurrentSituation");
 			this.requestedChange = result.getString("RequestedChange");
-			this.reasonForRequest = result.getString("ReasonForRequest");
+			this.reasonForRequest = result.getString("RequestReason");
 			this.note = result.getString("Note");
 			this.attachFiles = result.getString("AttachFiles");
 			this.date = result.getString("Date");

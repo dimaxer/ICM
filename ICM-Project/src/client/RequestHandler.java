@@ -51,6 +51,12 @@ public class RequestHandler {
 			else
 				System.out.println("FX instance is NOT SearchRequestFX!");
 			break;
+		case refreshViewUserRequestTable:
+			if (currentFX instanceof ViewAllRequestsFX)
+				((ViewAllRequestsFX) currentFX).handleRefresh(message);
+			else
+				System.out.println("FX instance is NOT ViewAllRequestsFX! " + currentFX.getClass().toString());
+			break;
 		case viewUserRequestTable:
 			if (currentFX instanceof PanelFX)
 				((PanelFX) currentFX).handleViewRequestDetailsRequest(message);
