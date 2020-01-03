@@ -107,7 +107,7 @@ public class NewChangeRequestFX implements BaseFx {
 		args.add(null); // Attached File
 		args.add("New");
 		args.add("Active");
-		args.add(Client.getInstance().getUserID());
+		args.add(Client.getInstance().getCurrentUser().getId());
 	}
 
 	/**
@@ -138,14 +138,14 @@ public class NewChangeRequestFX implements BaseFx {
 	
 	@FXML
 	public void backWasPressed(ActionEvent event) {
-		newChangeRequestController.switchScene("AcademicUserPanel");
+		newChangeRequestController.switchScene("Panel");
 		
 	}
 
 	public void newCRHandler(MessageObject msg) {
 		MessageObject message = (MessageObject) msg;
 		if ((Boolean) message.getArgs().get(0))// [True|False]
-			newChangeRequestController.switchScene("AcademicUserPanel");
+			newChangeRequestController.switchScene("Panel");
 	}
 
 	@FXML

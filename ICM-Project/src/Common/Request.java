@@ -14,7 +14,7 @@ public class Request implements Serializable {
 	private String requestedChange;
 	private String reasonForRequest;
 	private String note;
-	private String attachFiles;
+	private Boolean attachFiles;
 	private String date;
 
 	// request info
@@ -23,20 +23,16 @@ public class Request implements Serializable {
 
 	// initiator info
 
-	private String initaitorID;
+	private String initiatorID;
 	// rolls in request info
 
 	private String testerID;
 	private String exequtionLeaderID;
-	private String committeeMember1ID;
-	private String committeeMember2ID;
-	private String committeeChairmenID;
 	private String evaluatorID;
 
 	public Request(String requestID, String informationSystem, String currentSituation, String requestedChange,
-			String reasonForRequest, String note, String attachFiles, String date, String currentStage,
-			String requestStatus, String initaitorID, String testerID, String exequtionLeaderID,
-			String committeeMember1ID, String committeeMember2ID, String committeeChairmenID, String evaluatorID) {
+			String reasonForRequest, String note, Boolean attachFiles, String date, String currentStage,
+			String requestStatus, String initiatorID, String testerID, String exequtionLeaderID, String evaluatorID) {
 		super();
 		this.requestID = requestID;
 		this.informationSystem = informationSystem;
@@ -48,12 +44,9 @@ public class Request implements Serializable {
 		this.date = date;
 		this.currentStage = currentStage;
 		this.requestStatus = requestStatus;
-		this.initaitorID = initaitorID;
+		this.initiatorID = initiatorID;
 		this.testerID = testerID;
 		this.exequtionLeaderID = exequtionLeaderID;
-		this.committeeMember1ID = committeeMember1ID;
-		this.committeeMember2ID = committeeMember2ID;
-		this.committeeChairmenID = committeeChairmenID;
 		this.evaluatorID = evaluatorID;
 	}
 
@@ -77,17 +70,14 @@ public class Request implements Serializable {
 			this.requestedChange = result.getString("RequestedChange");
 			this.reasonForRequest = result.getString("RequestReason");
 			this.note = result.getString("Note");
-			this.attachFiles = result.getString("AttachFiles");
+			this.attachFiles = result.getBoolean("AttachFiles");
 			this.date = result.getString("Date");
-			this.currentStage = result.getString("CurrentStage");
-			this.requestStatus = result.getString("RequestStatus");
-			this.initaitorID = result.getString("InitiatorID");
+			this.currentStage = result.getString("Stage");
+			this.requestStatus = result.getString("Status");
+			this.initiatorID = result.getString("InitiatorID");
 			this.testerID = result.getString("TesterID");
 			this.exequtionLeaderID = result.getString("ExecutionLeaderID");
-			this.committeeMember1ID = result.getString("CommitteeMember1ID");
-			this.committeeMember2ID = result.getString("CommitteeMember2ID");
-			this.committeeChairmenID = result.getString("CommitteeChairmenID");
-			this.evaluatorID = result.getString("CommitteeChairmenID");
+			this.evaluatorID = result.getString("EvaluatorID");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -141,11 +131,11 @@ public class Request implements Serializable {
 		this.note = note;
 	}
 
-	public String getAttachFiles() {
+	public Boolean getAttachFiles() {
 		return attachFiles;
 	}
 
-	public void setAttachFiles(String attachFiles) {
+	public void setAttachFiles(Boolean attachFiles) {
 		this.attachFiles = attachFiles;
 	}
 
@@ -174,11 +164,11 @@ public class Request implements Serializable {
 	}
 
 	public String getInitaitorID() {
-		return initaitorID;
+		return initiatorID;
 	}
 
-	public void setInitaitorID(String initaitorID) {
-		this.initaitorID = initaitorID;
+	public void setInitiatorID(String initiatorID) {
+		this.initiatorID = initiatorID;
 	}
 
 	public String getTesterID() {
@@ -196,29 +186,4 @@ public class Request implements Serializable {
 	public void setExequtionLeaderID(String exequtionLeaderID) {
 		this.exequtionLeaderID = exequtionLeaderID;
 	}
-
-	public String getCommitteeMember1ID() {
-		return committeeMember1ID;
-	}
-
-	public void setCommitteeMember1ID(String committeeMember1ID) {
-		this.committeeMember1ID = committeeMember1ID;
-	}
-
-	public String getCommitteeMember2ID() {
-		return committeeMember2ID;
-	}
-
-	public void setCommitteeMember2ID(String committeeMember2ID) {
-		this.committeeMember2ID = committeeMember2ID;
-	}
-
-	public String getCommitteeChairmenID() {
-		return committeeChairmenID;
-	}
-
-	public void setCommitteeChairmenID(String committeeChairmenID) {
-		this.committeeChairmenID = committeeChairmenID;
-	}
-
 }

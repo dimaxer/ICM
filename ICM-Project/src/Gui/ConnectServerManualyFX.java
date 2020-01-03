@@ -47,7 +47,7 @@ public class ConnectServerManualyFX implements BaseFx {
 			errorMessage.setText("Could not connect, please insert the IP again.");
 			ip.setText("");
 		} else {
-			connectManualyController.switchScene("LoginPage");
+			connectManualyController.switchScene("Login");
 		}
 	}
 
@@ -56,7 +56,7 @@ public class ConnectServerManualyFX implements BaseFx {
 		
 			try {
 				if (Client.getInstance().isConnected())
-					connectManualyController.switchScene("LoginPage");
+					connectManualyController.switchScene("Login");
 			}
 			catch (Exception ex) {
 				errorMessage.setText("Could not connect to the Default Server: " + ClientUI.DEFAULT_SERVER + ". " + '\n'

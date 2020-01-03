@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="613.0" prefWidth="922.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.PanelFX">
+   <children>
+      <AnchorPane prefHeight="86.0" prefWidth="922.0" style="-fx-background-color: #4682b4;">
+         <children>
+            <Text fill="GHOSTWHITE" layoutX="377.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ICM Panel">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Text>
+            <Text fx:id="Name" layoutX="100.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome, Name">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <JFXButton fx:id="logOut" buttonType="RAISED" layoutX="94.0" layoutY="24.0" onAction="#logOutWasPressed" prefHeight="32.0" prefWidth="105.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" text="Log out" />
+            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/ICM_LOGO.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+      <AnchorPane fx:id="isdPane" layoutX="97.0" layoutY="128.0" prefHeight="448.0" prefWidth="728.0">
+         <children>
+            <JFXButton fx:id="managePermissions" buttonType="RAISED" depthTest="ENABLE" layoutX="15.0" layoutY="149.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#managePermissionsWasPressed" prefHeight="100.0" prefWidth="171.0" ripplerFill="BLACK" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: gray; -fx-border-radius: 20;" text="Manage Permissions" textAlignment="CENTER" textFill="STEELBLUE" textOverrun="CLIP" wrapText="true">
+               <effect>
+                  <Bloom />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <graphic>
+                  <ImageView cache="true" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" translateX="75.0" translateY="-25.0">
+                     <image>
+                        <Image url="@Images/icons8_maintenance_64px.png" />
+                     </image>
+                     <viewport>
+                        <Rectangle2D />
+                     </viewport>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="-30.0" />
+               </padding>
+            </JFXButton>
+            <JFXButton fx:id="viewAllSystemData" buttonType="RAISED" depthTest="ENABLE" layoutX="276.0" layoutY="289.0" onAction="#viewAllSystemDataWasPressed" prefHeight="100.0" prefWidth="171.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: gray; -fx-border-radius: 20;" text="View All System Data" textFill="STEELBLUE" textOverrun="CLIP" wrapText="true">
+               <effect>
+                  <Bloom />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" translateX="75.0" translateY="-25.0">
+                     <image>
+                        <Image url="@Images/icons8_system_task_64px.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="-30.0" />
+               </padding>
+            </JFXButton>
+            <JFXButton fx:id="viewStatisticsReport" buttonType="RAISED" depthTest="ENABLE" layoutX="538.0" layoutY="149.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#viewStatisticsReportWasPressed" prefHeight="100.0" prefWidth="171.0" ripplerFill="BLACK" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: gray; -fx-border-radius: 20;" text="View Statistics Report" textAlignment="CENTER" textFill="STEELBLUE" textOverrun="CLIP" wrapText="true">
+               <effect>
+                  <Bloom />
+               </effect>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <graphic>
+                  <ImageView cache="true" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" translateX="75.0" translateY="-25.0">
+                     <image>
+                        <Image url="@Images/icons8_graph_50px.png" />
+                     </image>
+                     <viewport>
+                        <Rectangle2D />
+                     </viewport>
+                  </ImageView>
+               </graphic>
+               <padding>
+                  <Insets left="-30.0" />
+               </padding>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+      <JFXButton fx:id="viewRequestDetails" buttonType="RAISED" depthTest="ENABLE" layoutX="375.0" layoutY="139.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#viewRequestDetailsWasPressed" prefHeight="100.0" prefWidth="171.0" ripplerFill="BLACK" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: gray; -fx-border-radius: 20;" text="View Request Details" textAlignment="CENTER" textFill="STEELBLUE" textOverrun="CLIP" wrapText="true">
+         <effect>
+            <Bloom />
+         </effect>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <graphic>
+            <ImageView cache="true" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" translateX="75.0" translateY="-25.0">
+               <image>
+                  <Image url="@Images/view_change_request.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+         </graphic>
+         <padding>
+            <Insets left="-30.0" />
+         </padding>
+      </JFXButton>
+      <JFXButton fx:id="newChangeRequest" buttonType="RAISED" depthTest="ENABLE" layoutX="373.0" layoutY="277.0" onAction="#newChangeRequestWasPressed" prefHeight="100.0" prefWidth="171.0" style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-color: gray; -fx-border-radius: 20;" text="New Change Request" textFill="STEELBLUE" textOverrun="CLIP" wrapText="true">
+         <effect>
+            <Bloom />
+         </effect>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" translateX="75.0" translateY="-25.0">
+               <image>
+                  <Image url="@Images/new_change_request.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="-30.0" />
+         </padding>
+      </JFXButton>
+   </children>
+</AnchorPane>

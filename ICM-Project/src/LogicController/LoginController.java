@@ -9,7 +9,6 @@ import client.Client;
 public class LoginController extends BaseController {
 
 	public void loginWasPressed(String IDText, String passwordText) {
-		Client.getInstance().setUserID(IDText); // save the user id for future references
 		ArrayList<Object> args = new ArrayList<>();
 		args.add(IDText);
 		args.add(passwordText);

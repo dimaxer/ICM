@@ -3,36 +3,12 @@ package client;
 import Gui.LoginFX;
 import Gui.NewChangeRequestFX;
 import Gui.PanelFX;
-import Gui.RequestFormFX;
 import Gui.ViewAllRequestsFX;
 import Utilities.MessageObject;
 import Utilities.ScreenManager;
 
 public class RequestHandler {
-	private static RequestHandler singletonInstance = null;
-
-	// Constructors ****************************************************
-
-	/**
-	 * Constructs an instance of the RequestHandler singleton.
-	 */
-	private RequestHandler() {
-		singletonInstance = this;
-	}
-
 	// Instance methods ************************************************
-
-	/**
-	 * Get the Singleton's Instance
-	 * 
-	 * @return RequestHandler Singleton Instance
-	 */
-	public static RequestHandler getInstance() {
-		if (singletonInstance == null)
-			singletonInstance = new RequestHandler();
-		return singletonInstance;
-	}
-
 	public void handle(Object msg) {
 		MessageObject message = (MessageObject) msg;
 		Client.getInstance().printMessageRecieved(message);
@@ -57,17 +33,11 @@ public class RequestHandler {
 			else
 				System.out.println("FX instance is NOT ViewAllRequestsFX! " + currentFX.getClass().toString());
 			break;
-		case viewUserRequestTable:
+		case viewRequestTable:
 			if (currentFX instanceof PanelFX)
 				((PanelFX) currentFX).handleViewRequestDetailsRequest(message);
 			else
 				System.out.println("FX instance is NOT PanelFX!");
-			break;
-		case change_Status:
-			if (currentFX instanceof RequestFormFX)
-				((RequestFormFX) currentFX).handleChangeStatus(message);
-			else
-				System.out.println("FX instance is NOT RequestFormFX!");
 			break;
 		case NewChangeRequest:
 			if(currentFX instanceof NewChangeRequestFX)

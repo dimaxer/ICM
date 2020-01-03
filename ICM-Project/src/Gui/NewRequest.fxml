@@ -13,7 +13,7 @@
    <children>
       <AnchorPane prefHeight="86.0" prefWidth="922.0" style="-fx-background-color: #4682b4;">
          <children>
-            <JFXButton fx:id="Back" contentDisplay="GRAPHIC_ONLY" layoutX="836.0" layoutY="14.0" onAction="#backWasPressed" prefHeight="50.0" prefWidth="72.0">
+            <JFXButton fx:id="Back" contentDisplay="GRAPHIC_ONLY" layoutX="842.0" layoutY="14.0" onAction="#backWasPressed" prefHeight="50.0" prefWidth="72.0">
                <graphic>
                   <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#backWasPressed" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -38,17 +38,17 @@
             <Image url="@Images/required.png" />
          </image>
       </ImageView>
-      <JFXTextField fx:id="jfxinfSys" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="131.0" prefHeight="25.0" prefWidth="454.0" promptText="Information System Responsible" style="-fx-background-color: WHITE;" unFocusColor="BLACK" />
-      <JFXTextField fx:id="jfxrequestedChange" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="211.0" prefHeight="25.0" prefWidth="454.0" promptText="Requested Change (Title)" style="-fx-background-color: WHITE;" unFocusColor="BLACK" />
-      <JFXTextField fx:id="jfxsituation" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="294.0" prefHeight="25.0" prefWidth="454.0" promptText="Situation Description" style="-fx-background-color: WHITE;" unFocusColor="BLACK" />
-      <JFXTextField fx:id="jfxreasons" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="405.0" prefHeight="131.0" prefWidth="454.0" promptText="Change Reasons" style="-fx-background-color: WHITE;" unFocusColor="BLACK" />
-      <JFXTextField fx:id="jfxnotes" focusColor="#30a73a" labelFloat="true" layoutX="571.0" layoutY="131.0" prefHeight="105.0" prefWidth="223.0" promptText="Notes (Optional)" style="-fx-background-color: WHITE;" unFocusColor="BLACK" />
-      <Button fx:id="attach" defaultButton="true" layoutX="602.0" layoutY="294.0" mnemonicParsing="false" onAction="#attachWasPressed" prefHeight="25.0" prefWidth="161.0" text="Attach File" />
-      <Button fx:id="submit" defaultButton="true" layoutX="602.0" layoutY="435.0" mnemonicParsing="false" onAction="#submitWasPressed" prefHeight="70.0" prefWidth="161.0" text="&#9;Submit&#10; Change Request">
+      <JFXTextField fx:id="jfxinfSys" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="131.0" prefHeight="25.0" prefWidth="454.0" promptText="Information System Responsible" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
+      <JFXTextField fx:id="jfxrequestedChange" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="211.0" prefHeight="25.0" prefWidth="454.0" promptText="Requested Change (Title)" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
+      <JFXTextField fx:id="jfxsituation" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="294.0" prefHeight="25.0" prefWidth="454.0" promptText="Situation Description" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
+      <JFXTextField fx:id="jfxreasons" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="366.0" prefHeight="58.0" prefWidth="454.0" promptText="Change Reasons" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
+      <JFXTextField fx:id="jfxnotes" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="470.0" prefHeight="58.0" prefWidth="454.0" promptText="Notes (Optional)" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
+      <Button fx:id="attach" defaultButton="true" layoutX="602.0" layoutY="383.0" mnemonicParsing="false" onAction="#attachWasPressed" prefHeight="25.0" prefWidth="161.0" text="Attach File" />
+      <Button fx:id="submit" defaultButton="true" layoutX="602.0" layoutY="468.0" mnemonicParsing="false" onAction="#submitWasPressed" prefHeight="66.0" prefWidth="161.0" text="&#9;Submit&#10; Change Request">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Text fx:id="fileName" layoutX="601.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <Text fx:id="fileName" layoutX="620.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" />
    </children>
 </AnchorPane>

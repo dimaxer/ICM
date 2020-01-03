@@ -24,14 +24,17 @@ public class ClientUI extends Application {
 	 * The First scene to load can be changed if the creation of new client failed
 	 */
 	public String FirstScene;
+	
 	/**
 	 * The default port to connect on.
 	 */
 	final public static int DEFAULT_PORT = 5555;
+	
 	/**
 	 * The default server to connect to.
 	 */
 	final public static String DEFAULT_SERVER = "localhost";
+	
 	private static ClientUI singletonInstance = null;
 
 //Constructors ****************************************************
@@ -68,7 +71,7 @@ public class ClientUI extends Application {
 
 		try {
 			Client.initialize(DEFAULT_SERVER, DEFAULT_PORT);
-			FirstScene = "../Gui/LoginPage.fxml";
+			FirstScene = "../Gui/Login.fxml";
 		} catch (IOException exception) {
 			FirstScene = "../Gui/ConnectServerManualy.fxml";
 			System.out.println("Error: Can't setup connection!" + " Terminating client.");
@@ -131,5 +134,4 @@ public class ClientUI extends Application {
 
 		launch(args);
 	}
-
 }

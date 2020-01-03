@@ -5,25 +5,51 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
+import Common.User;
 import LogicController.BasePanelController;
 import Utilities.MessageObject;
 import Utilities.ScreenManager;
+import client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Text;
 
+/**
+ * @LastChanged Raz Malka
+ */
 public class PanelFX implements BaseFx {
 	// Class Buttons ***************************************************
 	@FXML
 	private JFXButton viewRequestDetails;
-
 	@FXML
 	private JFXButton logOut;
 	@FXML
 	private JFXButton newChangeRequest;
-
+	
+	// ISD START
 	@FXML
-	private Text firstName;
+	private JFXButton managePermissions;
+	@FXML
+	private JFXButton viewAllSystemData;
+	@FXML
+	private JFXButton viewStatisticsReport;
+	@FXML
+	private AnchorPane isdPane;
+	// ISD END
+	@FXML
+	private Text Name;
+
+	public void setName(String Name) {
+		this.Name.setText(Name);
+	}
+
 	// Class variables *************************************************
 	private BasePanelController panelController;
 	// Class methods ***************************************************
@@ -36,17 +62,12 @@ public class PanelFX implements BaseFx {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		firstName.setText("Welcome, " + getFirstNameFromSQL());
 		panelController = new BasePanelController();
-	}
-
-	/**
-	 * THIS FUNCTION WILL BE DELETED AND REPLACED WITH AN ACTUAL GET FUNCTION FROM
-	 * SQL CONTROLLER STATIC CLASS
-	 * @return
-	 */
-	private String getFirstNameFromSQL() {
-		return "David";
+		setName("Welcome, " + Client.getInstance().getCurrentUser().getName() + "!");
+		
+		if (Client.getInstance().getCurrentUser().getJobDescription().equals("ISD Chief"))
+			 isdPane.setVisible(true);
+		else isdPane.setVisible(false);
 	}
 
 	/**
@@ -56,9 +77,8 @@ public class PanelFX implements BaseFx {
 	@FXML
 	public void viewRequestDetailsWasPressed(ActionEvent event) {
 		if (panelController.sceneExists("ViewAllRequests"))
-			panelController.switchScene("ViewAllRequests");
-		else
-			panelController.viewRequestDetailsWasPressed();
+			 panelController.switchScene("ViewAllRequests");
+		else panelController.viewRequestDetailsWasPressed();
 	}
 
 	/**
@@ -79,7 +99,7 @@ public class PanelFX implements BaseFx {
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
 		ScreenManager.getInstance().clearScreenMap();
-		panelController.switchScene("LoginPage");
+		panelController.switchScene("Login");
 		LoginFX controller = (LoginFX) panelController.getCurrentFX();
 		controller.clearFields();
 	}
@@ -93,5 +113,26 @@ public class PanelFX implements BaseFx {
 		panelController.switchScene("NewRequest");
 		((NewChangeRequestFX) ScreenManager.getInstance().getCurrentFX()).clearFields();
 	}
+	
+	// ISD START
+	/**
+	 * Manage roles of Supervisor and Committee
+	 * @param event
+	 */
+	@FXML
+	public void managePermissionsWasPressed(ActionEvent event) {
+
+	}
+	
+	@FXML
+	public void viewAllSystemDataWasPressed(ActionEvent event) {
+		
+	}
+	
+	@FXML
+	public void viewStatisticsReportWasPressed(ActionEvent event) {
+		
+	}
+	// ISD END
 
 }

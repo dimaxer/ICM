@@ -1,6 +1,8 @@
 package Common;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 enum JobDescription {
@@ -14,7 +16,6 @@ public class User implements Serializable {
 	private String password;
 	private String name;
 	private String email;
-
 	private String jobDescription;
 
 	private ArrayList<Request> requestArray;
@@ -25,6 +26,15 @@ public class User implements Serializable {
 		this.name = name;
 		this.email = email;
 		this.jobDescription = jobDescription;
+		this.requestArray = new ArrayList<>();
+	}
+	
+	public User(ResultSet rs) throws SQLException {
+		this.id = rs.getString("UserID");
+		this.password = rs.getString("Password");
+		this.name = rs.getString("Name");
+		this.email = rs.getString("Email");
+		this.jobDescription = "Default";
 		this.requestArray = new ArrayList<>();
 	}
 

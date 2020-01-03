@@ -9,29 +9,9 @@ import jdbc.mysqlConnection;
 import ocsf.server.ConnectionToClient;
 
 public class RequestHandler {
-	private static RequestHandler singletonInstance = null;
+	private jdbc.RequestHandler mysqlRequestHandler = null;
 	
-	// Constructors ****************************************************
-
-	/**
-	 * Constructs an instance of the RequestHandler singleton.
-	 */
-	private RequestHandler() {
-		singletonInstance = this;
-	}
-
 	// Instance methods ************************************************
-
-	/**
-	 * Get the Singleton's Instance
-	 * @return RequestHandler Singleton Instance
-	 */
-	public static RequestHandler getInstance() {
-		if (singletonInstance == null)
-			singletonInstance = new RequestHandler();
-		return singletonInstance;
-	}
-	
 	/**
 	 * This function handles messages from clients
 	 * @param msg Message from Client
@@ -44,6 +24,8 @@ public class RequestHandler {
 			System.out.println("REACHED SERVER REQUEST HANDLER! " + message.getTypeRequest() + " " + message.getArgs());
 			DBServer.getInstance().printMessageRecieved(message, client);
 			
+			mysqlRequestHandler = mysqlConnection.getInstance().handle();
+			
 			MessageObject responseMessage = null;
 			switch (message.getTypeRequest()) {
 			case Login:
@@ -55,11 +37,9 @@ public class RequestHandler {
 			case change_Status:
 				responseMessage = handleChangeStatus(message, client);
 				break;
-			case viewUserRequestTable:
-				responseMessage = handleViewUserRequestTable(message, client);
-				break;
+			case viewRequestTable:
 			case refreshViewUserRequestTable:
-				responseMessage = handleRefreshViewUserRequestTable(message, client);
+				responseMessage = handleViewRequestTable(message, client);
 				break;
 			case NewChangeRequest:
 				responseMessage = handleNewChange(message,client);
@@ -77,23 +57,6 @@ public class RequestHandler {
 		else
 			System.out.println("Error - Message rechieved is not a MessageObject");
 	}
-	
-	/**
-	 * this method handles a refresh of View User Request Table
-	 * @param message
-	 * @param client
-	 * @return MessageObject that should be sent back to the client, indicating specific request response.
-	 */
-	private MessageObject handleRefreshViewUserRequestTable(MessageObject message, ConnectionToClient client) {
-		// TODO Auto-generated method stub
-		try {
-			return mysqlConnection.getInstance().viewUserRequestTable(message);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 	/**
 	 * this method handles a creation of new change request
@@ -102,12 +65,12 @@ public class RequestHandler {
 	 * @return MessageObject that should be sent back to the client, indicating specific request response.
 	 */
 	public MessageObject handleNewChange(MessageObject message, ConnectionToClient client) {
-		boolean res= mysqlConnection.getInstance().addCRToDB(message.getArgs());
+		boolean res= mysqlRequestHandler.addCRToDB(message.getArgs());
 		
 		ArrayList<Object> args = new ArrayList<Object>();
 		if (res && message.getArgs().get(6) != null) {
 			AttachedFile attachedFile = (AttachedFile) message.getArgs().get(6);
-			attachedFile.setFileName(mysqlConnection.getInstance().getLastInsertID());
+			attachedFile.setFileName(mysqlRequestHandler.getLastInsertID());
 			args.add(attachedFile);
 			
 			message.setTypeRequest(RequestType.AttachedFile);
@@ -132,7 +95,7 @@ public class RequestHandler {
 	  public void handleAttachedFile(MessageObject message, ConnectionToClient client) {
 		  if (message.getArgs().get(0) instanceof AttachedFile) {
 			  AttachedFile attachedFile = (AttachedFile)message.getArgs().get(0);
-			  attachedFile.copy("server\\RequestAttachments");
+			  attachedFile.copy();
 		  }
 	  }
 	
@@ -147,13 +110,8 @@ public class RequestHandler {
 	 */
 	public MessageObject handleLogin(MessageObject message, ConnectionToClient client) {
 		try {
-			Boolean res = mysqlConnection.getInstance().checkUserCredentials(message.getArgs().get(0).toString(),
+			return mysqlRequestHandler.checkUserCredentials(message.getArgs().get(0).toString(),
 					message.getArgs().get(1).toString());
-
-			ArrayList<Object> args = new ArrayList<Object>();
-			args.add(res);
-
-			return new MessageObject(RequestType.Login, args);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -170,7 +128,7 @@ public class RequestHandler {
 	 */
 	public MessageObject handleSearchRequest(MessageObject message, ConnectionToClient client) {
 		try {
-		return mysqlConnection.getInstance().searchRequest(message);
+		return mysqlRequestHandler.searchRequest(message);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
@@ -186,7 +144,7 @@ public class RequestHandler {
 	 */
 	public MessageObject handleChangeStatus(MessageObject message, ConnectionToClient client) {
 		try {
-			return mysqlConnection.getInstance().changeStatus((message));
+			return mysqlRequestHandler.changeStatus((message));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -194,9 +152,9 @@ public class RequestHandler {
 		}
 	}
 	
-	public MessageObject handleViewUserRequestTable(MessageObject message, ConnectionToClient client) {
+	public MessageObject handleViewRequestTable(MessageObject message, ConnectionToClient client) {
 		try {
-			return mysqlConnection.getInstance().viewUserRequestTable(message);
+			return mysqlRequestHandler.viewRequestTable(message);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

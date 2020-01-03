@@ -29,52 +29,77 @@ public class ViewAllRequestsController extends BaseController {
 		ObservableList<ViewAllRequestsRequest> requests = getObservableListRequest((User)message.getArgs().get(0));
 		tableView.setItems(requests);
 		return requests;
-
 	}
 	
 	//Filing the right information to the columns
 	private ObservableList<ViewAllRequestsRequest> getObservableListRequest(User user) {
 		ObservableList<ViewAllRequestsRequest> request = FXCollections.observableArrayList();
+		String uid = Client.getInstance().getCurrentUser().getId();
 		// Getting the right value for myRole field
+		switch (user.getJobDescription()) {
+		case "Supervisor":
+		case "ISD Chief":
+		case "Committee Member":
+		case "Committee Chairman":
+			fillAllRequestTable(user, request); break;
+		default: fillUserRequestTable(user, request, uid); break;
+		}
+		return request;
+	}
+
+	private void fillUserRequestTable(User user, ObservableList<ViewAllRequestsRequest> request, String uid) {
 		for (Request r : user.getRequestArray()) {
-			if (Client.getInstance().getUserID().equals(r.getInitaitorID())) {
-				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Initiator",
-						r.getInitaitorID()));
-			} else if (Client.getInstance().getUserID().equals(r.getTesterID())) {
+			if (uid.equals(r.getTesterID())) {
 				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Tester",
 						r.getInitaitorID()));
-			} else if (Client.getInstance().getUserID().equals(r.getCommitteeChairmenID())) {
-				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Committee Chairman",
+			} else if (uid.equals(r.getExequtionLeaderID())) {
+				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Execution Leader",
 						r.getInitaitorID()));
-			} else if (Client.getInstance().getUserID().equals(r.getCommitteeMember1ID())
-					|| Client.getInstance().getUserID().equals(r.getCommitteeMember2ID())) {
-				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Committee Member",
-						r.getInitaitorID()));
-			} else if (Client.getInstance().getUserID().equals(r.getExequtionLeaderID())) {
-				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Exeqution Leader",
-						r.getInitaitorID()));
-			}else if (Client.getInstance().getUserID().equals(r.getEvaluatorID())) {
+			}else if (uid.equals(r.getEvaluatorID())) {
 				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Evaluator",
 						r.getInitaitorID()));
-			}else if (user.getJobDescription().equals("Supervisor")) {
-				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Supervisor",
-						r.getInitaitorID()));
-			} else {
-				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "ISD Chif",
+			}else if (uid.equals(r.getInitaitorID())) {
+				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Initiator",
 						r.getInitaitorID()));
 			}
 		}
-		return request;
-
+	}
+	
+	private void fillAllRequestTable(User user, ObservableList<ViewAllRequestsRequest> request) {
+		for (Request r : user.getRequestArray()) {
+			request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), Client.getInstance().getCurrentUser().getJobDescription(),
+					r.getInitaitorID()));
+		}
 	}
 
+	/**
+	 * @author Raz Malka
+	 */
 	public void refresh() {
 		// TODO Auto-generated method stub
-		System.out.println("P1");
 		ArrayList<Object> arrlist = new ArrayList<>();
-		arrlist.add(Client.getInstance().getUserID());
+		arrlist.add(Client.getInstance().getCurrentUser());
 		MessageObject searchRequest = new MessageObject(RequestType.refreshViewUserRequestTable, arrlist);
 		sendMessage(searchRequest);
+	}
+
+	/**
+	 * @author Raz Malka
+	 */
+	public ObservableList<ViewAllRequestsRequest> loadPendingRequests(MessageObject message, TableView<ViewAllRequestsRequest> tableView) {
+			ObservableList<ViewAllRequestsRequest> requests = getPendingObservableListRequest((User)message.getArgs().get(0));
+			tableView.setItems(requests);
+			return requests;
+	}
+	
+	/**
+	 * @author Raz Malka
+	 */
+	private ObservableList<ViewAllRequestsRequest> getPendingObservableListRequest(User user) {
+		ObservableList<ViewAllRequestsRequest> request = FXCollections.observableArrayList();
+		for (Request r : user.getRequestArray())
+			request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "ISD Chief", r.getInitaitorID()));
+		return request;
 	}
 
 }

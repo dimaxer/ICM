@@ -11,8 +11,8 @@ public class BasePanelController extends BaseController {
 
 		// send the request id to the server
 		ArrayList<Object> arrlist = new ArrayList<>();
-		arrlist.add(Client.getInstance().getUserID());
-		MessageObject searchRequest = new MessageObject(RequestType.viewUserRequestTable, arrlist);
+		arrlist.add(Client.getInstance().getCurrentUser());
+		MessageObject searchRequest = new MessageObject(RequestType.viewRequestTable, arrlist);
 		sendMessage(searchRequest);
 	}
 }

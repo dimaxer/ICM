@@ -3,6 +3,7 @@ package client;
 import ocsf.client.*;
 import java.io.*;
 
+import Common.User;
 import Utilities.MessageObject;
 
 /**
@@ -12,13 +13,9 @@ import Utilities.MessageObject;
  */
 public class Client extends AbstractClient {
 	// Instance variables **********************************************
-
+	private User currentUser;
 	private static Client singletonInstance = null;
-	private String userID;
-	/**
-	 * Instance of screenManager witch saves all scenes and the stage with this
-	 * screenManager you can add new scenes and switch between them
-	 */
+	private RequestHandler requestHandler = null;
 
 	// Constructors ****************************************************
 
@@ -33,6 +30,7 @@ public class Client extends AbstractClient {
 	private Client(String host, int port) throws IOException {
 		super(host, port); // Call the superclass constructor
 		openConnection();
+		requestHandler = new RequestHandler();
 	}
 
 	/**
@@ -65,7 +63,7 @@ public class Client extends AbstractClient {
 	 * @param msg The message from the server.
 	 */
 	public void handleMessageFromServer(Object msg) {
-		RequestHandler.getInstance().handle(msg);
+		requestHandler.handle(msg);
 	}
 
 	/**
@@ -108,12 +106,12 @@ public class Client extends AbstractClient {
 
 	}
 
-	public void setUserID(String id) {
-		userID = id;
+	public User getCurrentUser() {
+		return currentUser;
 	}
 
-	public String getUserID() {
-		return userID;
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
 	}
 }
 //End of ChatClient class

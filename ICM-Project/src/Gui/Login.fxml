@@ -18,7 +18,7 @@
                <children>
                   <Button fx:id="login" defaultButton="true" layoutX="58.0" layoutY="150.0" mnemonicParsing="false" onAction="#loginWasPressed" prefWidth="112.0" text="Login" />
                   <JFXTextField fx:id="id" focusColor="#30a73a" labelFloat="true" layoutX="27.0" layoutY="37.0" prefHeight="25.0" prefWidth="173.0" promptText="I.D" style="-fx-background-color: WHITE;" unFocusColor="BLACK" />
-                  <JFXPasswordField fx:id="password" focusColor="#30a73a" layoutX="27.0" layoutY="95.0" prefHeight="25.0" prefWidth="173.0" promptText="Password" style="-fx-background-color: white;" unFocusColor="#1e1e1e" />
+                  <JFXPasswordField fx:id="password" focusColor="#30a73a" labelFloat="true" layoutX="27.0" layoutY="95.0" prefHeight="25.0" prefWidth="173.0" promptText="Password" style="-fx-background-color: white;" unFocusColor="#1e1e1e" />
                   <Text fx:id="wrongPassword" fill="#f50a0a" layoutX="14.0" layoutY="193.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="183.99999618530273">
                      <font>
                         <Font size="12.0" />

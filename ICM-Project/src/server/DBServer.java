@@ -17,6 +17,7 @@ public class DBServer extends AbstractServer {
 	 */
 	final private static int DEFAULT_PORT = 5555;
 	private static DBServer singletonInstance = null;
+	private RequestHandler requestHandler = null;
 
 	// Constructors ****************************************************
 
@@ -28,6 +29,7 @@ public class DBServer extends AbstractServer {
 	private DBServer(int port) {
 		super(port);
 		singletonInstance = this;
+		requestHandler = new RequestHandler();
 	}
 
 	// Instance methods ************************************************
@@ -49,7 +51,7 @@ public class DBServer extends AbstractServer {
 	 * @param client The connection from which the message originated.
 	 */
 	public void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		RequestHandler.getInstance().handle(msg, client);
+		requestHandler.handle(msg, client);
 	}
 
 	/**

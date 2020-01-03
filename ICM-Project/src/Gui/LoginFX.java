@@ -7,8 +7,10 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
+import Common.User;
 import LogicController.LoginController;
 import Utilities.MessageObject;
+import client.Client;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -102,13 +104,11 @@ public class LoginFX implements BaseFx {
 		MessageObject message = (MessageObject) msg;
 
 		if ((Boolean) message.getArgs().get(0)) { // check if the user exist or not [True|False]
-			// save user id here
-			loginController.switchScene("AcademicUserPanel");
-
+			Client.getInstance().setCurrentUser((User)message.getArgs().get(1));
+			loginController.switchScene("Panel");
 		} else {
 			wrongPassword.setText("Username/Password is Wrong");
 		}
-
 	}
 
 	/**

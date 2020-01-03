@@ -15,9 +15,9 @@
    <children>
       <TableView fx:id="tableView" layoutX="17.0" layoutY="196.0" prefHeight="411.0" prefWidth="890.0">
         <columns>
-          <TableColumn fx:id="requestIdColumn" prefWidth="242.99996948242188" text="RequestId" />
+          <TableColumn fx:id="requestIdColumn" prefWidth="242.99996948242188" text="RequestID" />
           <TableColumn fx:id="statusColumn" prefWidth="205.66668701171875" text="Status" />
-            <TableColumn fx:id="myRoleColumn" prefWidth="215.0" text="MyRole" />
+            <TableColumn fx:id="myRoleColumn" prefWidth="215.0" text="Role" />
             <TableColumn fx:id="initiatorColumn" prefWidth="225.0" text="Initiator" />
         </columns>
       </TableView>
