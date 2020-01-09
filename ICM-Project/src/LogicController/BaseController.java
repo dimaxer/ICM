@@ -181,8 +181,9 @@ public class BaseController {
 		}
 	}
 	
-	public void initInformationSystemDetails() {
+	public void initInformationSystemDetails(Boolean idCanBeNull) {
 		MessageObject msg = new MessageObject(RequestType.InformationSystem_Details, new ArrayList<>());
+		msg.getArgs().add(idCanBeNull);
 		sendMessage(msg);
 	}
 }

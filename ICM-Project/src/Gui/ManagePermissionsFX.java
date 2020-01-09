@@ -138,8 +138,8 @@ public class ManagePermissionsFX extends BaseFX {
 	}
 	
 	/** A method to initialize the Information Systems ComboBox for picking an Information System. */
-	public void initInformationSystemDetails() {
-		managePermissionsController.initInformationSystemDetails();
+	public void initInformationSystemDetails(Boolean idCanBeNull) {
+		managePermissionsController.initInformationSystemDetails(idCanBeNull);
 	}
 	
 	/** A method to handle the initialization of the Information Systems ComboBox for picking an Information System. */
@@ -165,7 +165,7 @@ public class ManagePermissionsFX extends BaseFX {
 	public void initUserDetails() {
 		if (userListView.getItems().size() > 0)
 			userListView.getItems().clear();
-		initInformationSystemDetails();
+		initInformationSystemDetails(true);
 		initPermanentRoles();
 		managePermissionsController.initUserDetails();
 	}
@@ -175,7 +175,7 @@ public class ManagePermissionsFX extends BaseFX {
 		userDetails = ((HashMap<String, String>)message.getArgs().get(0));
 		Platform.runLater(() -> {
 			initListView();
-			initInformationSystemDetails();
+			initInformationSystemDetails(true);
 			initPermanentRoles();
 		});
 	}
@@ -351,7 +351,7 @@ public class ManagePermissionsFX extends BaseFX {
 			permanentRolesPane.setVisible(true);
 			evaluatorsPane.setVisible(false);
 		} else {
-			initInformationSystemDetails();
+			initInformationSystemDetails(true);
 			permanentRolesPane.setVisible(false);
 			evaluatorsPane.setVisible(true);
 		}

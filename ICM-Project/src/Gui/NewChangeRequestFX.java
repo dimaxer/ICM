@@ -129,7 +129,7 @@ public class NewChangeRequestFX extends BaseFX {
 		else isdPane.setVisible(false);
 		
 		newChangeRequestController.initPanelHBoxes(isdPane, all_roles, supervisorPanel);
-		initInformationSystemDetails();
+		initInformationSystemDetails(false);
 	}
 
 	/**
@@ -160,8 +160,8 @@ public class NewChangeRequestFX extends BaseFX {
 	}
 	
 	/** A method to initialize the Information Systems ComboBox for picking an Information System. */
-	public void initInformationSystemDetails() {
-		newChangeRequestController.initInformationSystemDetails();
+	public void initInformationSystemDetails(Boolean idCanBeNull) {
+		newChangeRequestController.initInformationSystemDetails(idCanBeNull);
 	}
 	
 	/** A method to handle the initialization of the Information Systems ComboBox for picking an Information System. */

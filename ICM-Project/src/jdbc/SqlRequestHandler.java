@@ -475,7 +475,11 @@ public class SqlRequestHandler {
 		MessageObject response = new MessageObject(RequestType.InformationSystem_Details, new ArrayList<>());
 		ArrayList<String> infoSysNames = new ArrayList<>();
 		ArrayList<String> currentEvaluatorIDs = new ArrayList<>();
-		String query = "SELECT * FROM InformationSystem";
+		Boolean idCanBeNull = (Boolean) message.getArgs().get(0);
+		String query = "";
+		if (idCanBeNull)
+			 query = "SELECT * FROM InformationSystem";
+		else query = "SELECT * FROM InformationSystem WHERE evaluatorID IS NOT NULL";
 		PreparedStatement stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
 
 		try {
