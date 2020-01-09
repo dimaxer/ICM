@@ -37,6 +37,13 @@
                   </Text>
                </children>
             </AnchorPane>
+            <ComboBox fx:id="infoSysComboBox" layoutX="60.0" layoutY="134.0" onAction="#updateCurrentEvaluator" prefHeight="25.0" prefWidth="161.0" />
+            <Text layoutX="55.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information System Responsible" />
+            <Text fx:id="fillComboBoxAlert" fill="RED" layoutX="54.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select an Information System" visible="false">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Text>
             <JFXTextField fx:id="jfxrequestedChange" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="211.0" prefHeight="25.0" prefWidth="454.0" promptText="Requested Change (Title)" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
             <JFXTextField fx:id="jfxsituation" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="294.0" prefHeight="25.0" prefWidth="454.0" promptText="Situation Description" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
             <JFXTextField fx:id="jfxreasons" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="366.0" prefHeight="58.0" prefWidth="454.0" promptText="Change Reasons" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
@@ -55,13 +62,6 @@
                   <JFXButton fx:id="uploadFiles" layoutX="62.0" layoutY="256.0" onAction="#closeAttachFilesWasPressed" prefHeight="48.0" prefWidth="217.0" style="-fx-background-color: gray; -fx-background-radius: 70;" text="Close" />
                </children>
             </AnchorPane>
-            <ComboBox fx:id="infoSysComboBox" layoutX="60.0" layoutY="134.0" onAction="#updateCurrentEvaluator" prefHeight="25.0" prefWidth="161.0" />
-            <Text layoutX="55.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information System Responsible" />
-            <Text fx:id="fillComboBoxAlert" fill="RED" layoutX="54.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select an Information System" visible="false">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Text>
          </children>
       </AnchorPane>
       <VBox fx:id="all_roles" prefHeight="616.0" prefWidth="300.0" style="-fx-background-color: #333645;">
