@@ -39,6 +39,9 @@ public class ServerRequestHandler {
 
 			MessageObject responseMessage = null;
 			switch (message.getTypeRequest()) {
+			case LogOut:
+				handleLogOut(message, client);
+				break;
 			case Login:
 				responseMessage = handleLogin(message, client);
 				break;
@@ -92,7 +95,20 @@ public class ServerRequestHandler {
 			System.out.println("Error - Message rechieved is not a MessageObject");
 	}
 
-	
+	/**
+	 * when a user presses log out this method logges him out from the server
+	 * 
+	 * @param message
+	 * @param client
+	 */
+	private void handleLogOut(MessageObject message, ConnectionToClient client) {
+		String userID = (String) message.getArgs().get(0);
+
+		if (UserConnectivityManager.getInstance().logOutUser(userID)) {
+		} else
+			System.out.println("Error some one hacked the system");
+	}
+
 	private void handleUpdatePermanentRoles(MessageObject message, ConnectionToClient client) {
 		try {
 			mysqlRequestHandler.updatePermanentRoles(message);
@@ -101,7 +117,6 @@ public class ServerRequestHandler {
 			e.printStackTrace();
 		}
 	}
-
 
 	private void handleUpdateEvaluator(MessageObject message, ConnectionToClient client) {
 		try {
@@ -112,25 +127,22 @@ public class ServerRequestHandler {
 		}
 	}
 
-
 	/**
-	 * delete Approved Evaluator from Evaluator Appointment Table
-	 * update Request Evaluator in Requests table
-	 * Insert Stage Evaluator in  StageTable
-	 * @param message contains  requestID and
-	 * @return messege object contains  requestID and
+	 * delete Approved Evaluator from Evaluator Appointment Table update Request
+	 * Evaluator in Requests table Insert Stage Evaluator in StageTable
+	 * 
+	 * @param message contains requestID and
+	 * @return messege object contains requestID and
 	 */
 	public MessageObject handleApprovedEvaluator(MessageObject message) {
-		String requestID = (String)message.getArgs().get(0);
-		String evaluatrorID = (String)message.getArgs().get(1);
-		
-		
-		
-		mysqlRequestHandler.deleteApprovedEvaluator(requestID,evaluatrorID);
-		mysqlRequestHandler.updateRequestEvaluator(requestID,evaluatrorID);
+		String requestID = (String) message.getArgs().get(0);
+		String evaluatrorID = (String) message.getArgs().get(1);
+
+		mysqlRequestHandler.deleteApprovedEvaluator(requestID, evaluatrorID);
+		mysqlRequestHandler.updateRequestEvaluator(requestID, evaluatrorID);
 		mysqlRequestHandler.insertStageEvaluator(requestID);
 		return message;
-		
+
 	}
 
 	public MessageObject handleDownloadFile(MessageObject message) {
@@ -213,9 +225,8 @@ public class ServerRequestHandler {
 
 		args.add(res);
 		args.add(requestID);
-		
+
 		// mysqlRequestHandler.automatiAppointmentEvaloeytor(requestID);
-		
 
 		message.setTypeRequest(RequestType.NewChangeRequest);
 		message.setArgs(args);
@@ -273,7 +284,7 @@ public class ServerRequestHandler {
 	public MessageObject handleLogin(MessageObject message, ConnectionToClient client) {
 		try {
 			return mysqlRequestHandler.checkUserCredentials(message.getArgs().get(0).toString(),
-					message.getArgs().get(1).toString());
+					message.getArgs().get(1).toString(), client);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -355,8 +366,11 @@ public class ServerRequestHandler {
 			}
 		}
 	}
-	
-	/** This method handles the Details of Information Systems (informationSystemName, currentEvaluatorID) */
+
+	/**
+	 * This method handles the Details of Information Systems
+	 * (informationSystemName, currentEvaluatorID)
+	 */
 	private MessageObject handleInformationSystemDetails(MessageObject message, ConnectionToClient client) {
 		try {
 			return mysqlRequestHandler.getInformationSystemDetails(message);
@@ -366,7 +380,7 @@ public class ServerRequestHandler {
 			return null;
 		}
 	}
-	
+
 	/** This method handles the Details of All Users (Name, ID) */
 	private MessageObject handleAllUserDetails(MessageObject message, ConnectionToClient client) {
 		try {
@@ -377,8 +391,10 @@ public class ServerRequestHandler {
 			return null;
 		}
 	}
-	
-	/** This method handles the Details of Users with Permanent Roles (roleName, ID) */
+
+	/**
+	 * This method handles the Details of Users with Permanent Roles (roleName, ID)
+	 */
 	private MessageObject handlePermanentRolesDetails(MessageObject message, ConnectionToClient client) {
 		try {
 			return mysqlRequestHandler.getPermanentRolesDetails(message);
