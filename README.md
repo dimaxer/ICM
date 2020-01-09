@@ -7,6 +7,7 @@ phpAdmin: https://remotemysql.com/phpmyadmin/index.php?db=ZZUehgwcK6
 [@RAZMALKA (https://github.com/RazMalka)] - ICM on Steroids v1.2
 committed 03/01/20 - 08:30 AM, see details
 
+[![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)]
 ### DO NOT CONTINUE WORKING ON THE MAIN BEFORE TALKING TO MALKA OR DIMA ###
 RECENT UPDATE NOTES:\
 	Date of Changes:	01/01/20 - 03/01/20\
