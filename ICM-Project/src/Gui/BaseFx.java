@@ -1,7 +1,47 @@
 package Gui;
 
-import javafx.fxml.Initializable;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public interface BaseFx extends Initializable {
+import Common.User;
+import LogicController.BaseController;
+import Utilities.MessageObject;
+import Utilities.ScreenManager;
+import client.Client;
+import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
+import javafx.scene.paint.Color;
+
+/**
+ * This abstract class serves as a base FX controller for all the other FX controllers.
+ * @author Malka
+ * @author Noam
+ */
+public abstract class BaseFX implements Initializable {
+
+	private BaseController baseController = new BaseController();
 	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+	}
+	
+	public void handleViewRequestDetailsRequest(MessageObject message) {
+		baseController.handleViewRequestDetailsRequest(message);
+	}
+	
+	public void loginHandle(MessageObject message, Object currentFX) {
+			baseController.loginHandle(message);
+			((LoginFX) currentFX).loginHandle(message);
+	}
+	
+	/**
+	 * This method checks if the request id was found in the db or not by checking
+	 * the boolean and switches screens to the request form with the message object
+	 * so that it could be initialized with the request's information
+	 * 
+	 * @param message in args(0) : boolean request exist, args(1) : String user role in request, args(2) Request the request
+	 */
+	public void handleSearchRequest(MessageObject message, Object currentFX) {
+			baseController.handleSearchRequest(message, currentFX);
+	}
 }

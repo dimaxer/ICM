@@ -128,7 +128,6 @@ public class ScreenManager {
 	public void switchScene(String fxml_name) throws Exception {
 		if (singeltonNotInitialized())
 			return;
-		System.out.println("SWITCH SCENE CALLED!");
 
 		if (screenMap.containsKey(fxml_name)) {
 			try {

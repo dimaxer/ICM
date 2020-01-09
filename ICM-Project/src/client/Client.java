@@ -15,7 +15,7 @@ public class Client extends AbstractClient {
 	// Instance variables **********************************************
 	private User currentUser;
 	private static Client singletonInstance = null;
-	private RequestHandler requestHandler = null;
+	private ClientRequestHandler requestHandler = null;
 
 	// Constructors ****************************************************
 
@@ -30,7 +30,7 @@ public class Client extends AbstractClient {
 	private Client(String host, int port) throws IOException {
 		super(host, port); // Call the superclass constructor
 		openConnection();
-		requestHandler = new RequestHandler();
+		requestHandler = new ClientRequestHandler();
 	}
 
 	/**

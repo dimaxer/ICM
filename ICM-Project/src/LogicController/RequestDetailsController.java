@@ -55,7 +55,7 @@ public class RequestDetailsController extends BaseController
 		af.setFileName(fileName);
 		args.clear(); args.add(af);
 		
-		MessageObject msg = new MessageObject(RequestType.AttachedFile, args);
+		MessageObject msg = new MessageObject(RequestType.AttachFile, args);
 		sendMessage(msg);	
 	}
 }

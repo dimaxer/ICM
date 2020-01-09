@@ -19,33 +19,53 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-/**
- * @LastChanged Raz Malka
+/** This class serves as an FX controller to the main panel page.
+ * @LastChanged Malka
+ * @LastChanged Noam
  */
-public class PanelFX implements BaseFx {
+public class PanelFX extends BaseFX {
 	// Class Buttons ***************************************************
 	@FXML
 	private JFXButton viewRequestDetails;
 	@FXML
+	private JFXButton viewRequestDetailsSupervisor;
+	@FXML
 	private JFXButton logOut;
+	@FXML
+	private JFXButton logOutSupervisor;
 	@FXML
 	private JFXButton newChangeRequest;
 	
-	// ISD START
+	@FXML
+	private JFXButton newChangeRequestSupervisor;
+	
 	@FXML
 	private JFXButton managePermissions;
+	
 	@FXML
 	private JFXButton viewAllSystemData;
+	
 	@FXML
 	private JFXButton viewStatisticsReport;
+	
 	@FXML
 	private AnchorPane isdPane;
-	// ISD END
+
+	@FXML
+	private VBox supervisorPanel;
+	
+	@FXML
+	private VBox all_roles;
+	
+	@FXML
+	private JFXButton ManageApproves;
+
 	@FXML
 	private Text Name;
-
+	
 	public void setName(String Name) {
 		this.Name.setText(Name);
 	}
@@ -54,42 +74,18 @@ public class PanelFX implements BaseFx {
 	private BasePanelController panelController;
 	// Class methods ***************************************************
 
-	/**
-	 * a method that intializes text On Load
-	 * 
-	 */
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		panelController = new BasePanelController();
-		setName("Welcome, " + Client.getInstance().getCurrentUser().getName() + "!");
+		setName(  Client.getInstance().getCurrentUser().getName() + "!");
 		
-		if (Client.getInstance().getCurrentUser().getJobDescription().equals("ISD Chief"))
-			 isdPane.setVisible(true);
-		else isdPane.setVisible(false);
+		panelController.initPanelHBoxes(isdPane, all_roles, supervisorPanel);
 	}
 
-	/**
-	 * This event handler switches scene to View Request Details page
-	 * @param event
-	 */
 	@FXML
-	public void viewRequestDetailsWasPressed(ActionEvent event) {
-		if (panelController.sceneExists("ViewAllRequests"))
-			 panelController.switchScene("ViewAllRequests");
-		else panelController.viewRequestDetailsWasPressed();
-	}
-
-	/**
-	 * This method is called by server request,
-	 * switches scenes to View Request Details page and initializes the new page
-	 * @param event
-	 */
-	public void handleViewRequestDetailsRequest(MessageObject message) {
-		panelController.switchScene("ViewAllRequests");
-		((ViewAllRequestsFX) ScreenManager.getInstance().getCurrentFX()).clearFields();
-		((ViewAllRequestsFX) ScreenManager.getInstance().getCurrentFX()).loadRequests(message);
+	public void ViewAllRequestsWasPressed(ActionEvent event) {
+		panelController.ViewAllRequestsWasPressed(event);
 	}
 
 	/**
@@ -98,10 +94,7 @@ public class PanelFX implements BaseFx {
 	 */
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
-		ScreenManager.getInstance().clearScreenMap();
-		panelController.switchScene("Login");
-		LoginFX controller = (LoginFX) panelController.getCurrentFX();
-		controller.clearFields();
+		panelController.logOutWasPressed(event);
 	}
 	
 	/**
@@ -110,29 +103,33 @@ public class PanelFX implements BaseFx {
 	 */
 	@FXML
 	public void newChangeRequestWasPressed(ActionEvent event) {
-		panelController.switchScene("NewRequest");
-		((NewChangeRequestFX) ScreenManager.getInstance().getCurrentFX()).clearFields();
+		panelController.newChangeRequestWasPressed(event);
+	}
+	
+	@FXML
+	public void ManageApprovesWasPressed(ActionEvent event) {
+		panelController.switchScene("ManageApproves");
 	}
 	
 	// ISD START
 	/**
-	 * Manage roles of Supervisor and Committee
+	 * Manage permanent roles (supervisor, committee), and Information System's evaluators.
+	 * @author Raz Malka
 	 * @param event
 	 */
 	@FXML
 	public void managePermissionsWasPressed(ActionEvent event) {
-
+		panelController.managePermissionsWasPressed(event);
 	}
 	
 	@FXML
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
-		
+		panelController.viewAllSystemDataWasPressed(event);
 	}
 	
 	@FXML
 	public void viewStatisticsReportWasPressed(ActionEvent event) {
-		
+		panelController.viewStatisticsReportWasPressed(event);
 	}
 	// ISD END
-
 }

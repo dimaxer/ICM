@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="544.0" prefWidth="703.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ViewAttachedFilesFX">
+   <children>
+      <JFXListView fx:id="listView" layoutX="300.0" layoutY="14.0" prefHeight="462.0" prefWidth="364.0" />
+      <JFXButton fx:id="back" layoutX="85.0" layoutY="249.0" onAction="#backWasPressed" prefHeight="46.0" prefWidth="139.0" style="-fx-background-radius: 60; -fx-background-color: grey;" text="Back" />
+      <JFXButton fx:id="download" layoutX="60.0" layoutY="142.0" onAction="#downloadWasPressed" prefHeight="46.0" prefWidth="188.0" style="-fx-background-radius: 60; -fx-background-color: grey;" text="Download Selected Files" />
+   </children>
+</AnchorPane>

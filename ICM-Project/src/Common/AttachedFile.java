@@ -37,10 +37,10 @@ public class AttachedFile implements Serializable
 		  	// Files
 		    File outputFile = new File(path + fileName + extension);
 		    
-		    // Streams
+		   // Streams
 		    FileInputStream fis = new FileInputStream(getFile());
 		    FileOutputStream fos = new FileOutputStream(outputFile);
-
+ 
 		    // Write New File
 		    byte[] buffer = new byte[1024];
 		    int length;

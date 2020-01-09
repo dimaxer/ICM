@@ -14,7 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
-public class ConnectServerManualyFX implements BaseFx {
+public class ConnectServerManualyFX extends BaseFX {
 
 	private ConnectServerManualyController connectManualyController;
 	@FXML

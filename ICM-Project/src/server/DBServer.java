@@ -17,7 +17,7 @@ public class DBServer extends AbstractServer {
 	 */
 	final private static int DEFAULT_PORT = 5555;
 	private static DBServer singletonInstance = null;
-	private RequestHandler requestHandler = null;
+	private ServerRequestHandler requestHandler = null;
 
 	// Constructors ****************************************************
 
@@ -29,7 +29,7 @@ public class DBServer extends AbstractServer {
 	private DBServer(int port) {
 		super(port);
 		singletonInstance = this;
-		requestHandler = new RequestHandler();
+		requestHandler = new ServerRequestHandler();
 	}
 
 	// Instance methods ************************************************

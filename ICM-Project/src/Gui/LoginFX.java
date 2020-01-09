@@ -1,6 +1,10 @@
 package Gui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXPasswordField;
@@ -16,10 +20,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
-public class LoginFX implements BaseFx {
+public class LoginFX extends BaseFX {
 
 	// Class Buttons ***************************************************
 	@FXML
@@ -28,10 +33,6 @@ public class LoginFX implements BaseFx {
 	@FXML
 	private JFXTextField id;
 
-	@FXML
-	private ImageView eror1;
-	@FXML
-	private ImageView eror2;
 	@FXML
 	private Text wrongPassword;
 	@FXML
@@ -55,9 +56,11 @@ public class LoginFX implements BaseFx {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		login.setDefaultButton(true);
-		eror1.setVisible(false);
-		eror2.setVisible(false);
 		loginController = new LoginController();
+		
+		Date valDate = new Date(); // Current System Date
+	    SimpleDateFormat formatDate = new SimpleDateFormat("dd MMM yyyy"); // Date Format
+		date.setText(formatDate.format(valDate)); // Set Date Text
 	}
 
 	/**
@@ -74,22 +77,26 @@ public class LoginFX implements BaseFx {
 		// Getting the strings from the gui
 		IDText = id.getText();
 		passwordText = password.getText();
-
-		// checking if any fields are empty
-		// and alerting if they are
-		if (IDText.isEmpty() && passwordText.isEmpty()) {
-			password.validate();
-			id.validate();
-		} else if (!IDText.isEmpty() && passwordText.isEmpty())
-			password.validate();
-		else if (IDText.isEmpty() && !passwordText.isEmpty()) {
-			id.validate();
-
-			// if everything is ok send a MessageObject to
-			// the server
-		} else {
-			loginController.loginWasPressed(IDText, passwordText);
-		}
+		
+		  // checking if any fields are empty // and alerting if they are if
+		  if((IDText.isEmpty() && passwordText.isEmpty()))
+		  { 
+			  password.validate();
+			  id.validate(); 
+		  }
+		  else if (!IDText.isEmpty() && passwordText.isEmpty())
+		  {
+			  password.validate();
+		  }
+		  if (IDText.isEmpty() && !passwordText.isEmpty())
+		  {
+			  id.validate();
+			  
+		 // if everything is ok send a MessageObject to  the server
+		  } 
+		  else if (!IDText.isEmpty() && !passwordText.isEmpty())
+				loginController.loginWasPressed(IDText, passwordText);{
+	}
 	}
 
 	/**
@@ -101,14 +108,8 @@ public class LoginFX implements BaseFx {
 	 */
 
 	public void loginHandle(MessageObject msg) {
-		MessageObject message = (MessageObject) msg;
-
-		if ((Boolean) message.getArgs().get(0)) { // check if the user exist or not [True|False]
-			Client.getInstance().setCurrentUser((User)message.getArgs().get(1));
-			loginController.switchScene("Panel");
-		} else {
+		if (!(Boolean) msg.getArgs().get(0)) // check if the user exist or not [True|False]
 			wrongPassword.setText("Username/Password is Wrong");
-		}
 	}
 
 	/**
@@ -129,34 +130,48 @@ public class LoginFX implements BaseFx {
 		RequiredFieldValidator validatorId = new RequiredFieldValidator();
 
 		RequiredFieldValidator validatorPassword = new RequiredFieldValidator();
+
 		password.getValidators().add(validatorPassword);
 		validatorPassword.setMessage("No Password Given");
 		id.getValidators().add(validatorId);
 		validatorId.setMessage("No Input Given");
+
 		id.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				if (!newValue) {
 					id.validate();
-					eror1.setVisible(true);
-					wrongPassword.setText("");
 				}
 
 			}
-		});
 
-		validatorId.setIcon(eror1);
+		});
+		Image icon1;
+		try {
+			final String dir = System.getProperty("user.dir");
+			icon1 = new Image(new FileInputStream(dir+"\\src\\Gui\\Images\\icons8_cancel_22px_2.png"));
+			validatorId.setIcon(new ImageView(icon1));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		password.focusedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				if (!newValue) {
 					password.validate();
-					eror2.setVisible(true);
-					wrongPassword.setText("");
 				}
 
 			}
 		});
+		Image icon2;
+		try {
+			final String dir = System.getProperty("user.dir");
+			icon2 = new Image(new FileInputStream(dir+"\\src\\Gui\\Images\\icons8_cancel_22px_2.png"));
+			validatorPassword.setIcon(new ImageView(icon2));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		validatorPassword.setIcon(eror2);
 	}
 }

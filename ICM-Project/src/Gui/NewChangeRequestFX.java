@@ -1,69 +1,135 @@
 package Gui;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
 import Common.AttachedFile;
+import LogicController.BasePanelController;
 import LogicController.NewChangeRequestController;
 import Utilities.MessageObject;
+import Utilities.ScreenManager;
 import client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 
-public class NewChangeRequestFX implements BaseFx {
+public class NewChangeRequestFX extends BaseFX {
 
 	@FXML
-	private JFXTextField jfxinfSys;
+	private ComboBox<String> infoSysComboBox;
 	
+	/** ArrayList that contains the Names of Information Systems */
+	private ArrayList<String> infoSysNames = new ArrayList<>();
+	
+	/** ArrayList that contains the IDs of current Evaluators */
+	private ArrayList<String> currentEvaluatorIDs = new ArrayList<>();
+	
+	@FXML
+	private Text fillComboBoxAlert;
+	//private JFXTextField jfxinfSys;
+
 	@FXML
 	private JFXTextField jfxrequestedChange;
-	
+
 	@FXML
 	private JFXTextField jfxsituation;
-	
+
 	@FXML
 	private JFXTextField jfxreasons;
-	
+
 	@FXML
 	private JFXTextField jfxnotes;
-	
+
 	@FXML
-	private ImageView error;
-	
-	@FXML
-	private Button attach;
-	
+	private Button AddFiles;
+
 	@FXML
 	private Text fileName;
 	
 	@FXML
 	private Button submit;
 
-	private String date, infSys, requestedChange, situation, changeReasons, notes;
+	@FXML
+	private ListView listView;
+
+	@FXML
+	private JFXButton attachFiles;
+
+	@FXML
+	private JFXButton uploadFiles;
+
+	@FXML
+	private JFXButton back;
 	
+	@FXML
+	private AnchorPane browseFiles;
+
+	@FXML
+	private JFXButton viewRequestDetails;
+	
+	@FXML
+	private JFXButton newChangeRequest;
+	
+	// ISD START
+	@FXML
+	private JFXButton managePermissions;
+	@FXML
+	private JFXButton viewAllSystemData;
+	@FXML
+	private JFXButton viewStatisticsReport;
+	
+	@FXML
+	private AnchorPane isdPane;
+
+	@FXML
+	private VBox supervisorPanel;
+	
+	@FXML
+	private VBox all_roles;
+	
+	@FXML
+	private JFXButton ManageApproves;
+
+	private List<File> selectedFiles;
+
+	private String date, evaluatorID = "", requestedChange, situation, changeReasons, notes;
+
 	private AttachedFile attachedFile;
 
 	private NewChangeRequestController newChangeRequestController;
-	
 	private ArrayList<Object> args;
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		attach.setDefaultButton(true);
+		AddFiles.setDefaultButton(true);
 		submit.setDefaultButton(true);
 		newChangeRequestController = new NewChangeRequestController();
+		//panelController=new BasePanelController();
 		args = new ArrayList<Object>();
+		if (Client.getInstance().getCurrentUser().getJobDescription().equals("ISD Chief"))
+			 isdPane.setVisible(true);
+		else isdPane.setVisible(false);
+		
+		newChangeRequestController.initPanelHBoxes(isdPane, all_roles, supervisorPanel);
+		initInformationSystemDetails();
 	}
 
 	/**
@@ -73,61 +139,93 @@ public class NewChangeRequestFX implements BaseFx {
 	public void submitWasPressed(ActionEvent event) {
 		setValdiator();
 		initStringFieldValues();
-		
-		if (infSys.isEmpty() || situation.isEmpty() || requestedChange.isEmpty())
+
+		if (infoSysComboBox.getValue() == "" || evaluatorID == "" || situation.isEmpty() || requestedChange.isEmpty())
 			validateFields(); // method extracted
 		else {
 			addFieldsToArgs();
 			args.set(6, attachedFile);
 			newChangeRequestController.submitWasPressed(args);
+
 		}
 	}
 
 	private void initStringFieldValues() {
 		date = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now());
-		infSys = jfxinfSys.getText();
+		// infSys = jfxinfSys.getText();
 		situation = jfxsituation.getText();
 		requestedChange = jfxrequestedChange.getText();
 		changeReasons = jfxreasons.getText();
 		notes = jfxnotes.getText();
 	}
+	
+	/** A method to initialize the Information Systems ComboBox for picking an Information System. */
+	public void initInformationSystemDetails() {
+		newChangeRequestController.initInformationSystemDetails();
+	}
+	
+	/** A method to handle the initialization of the Information Systems ComboBox for picking an Information System. */
+	public void handleInformationSystemComboBox(MessageObject message) {
+		infoSysComboBox.getItems().clear();
+		infoSysNames = (ArrayList<String>)message.getArgs().get(0);
+		currentEvaluatorIDs = (ArrayList<String>)message.getArgs().get(1);
+		infoSysComboBox.getItems().addAll(infoSysNames);
+	}
+	
+	/** This method updates the Current Evaluator TextField whenever an item was chosen */
+	@FXML
+	public void updateCurrentEvaluator(ActionEvent event) {
+		if (infoSysComboBox.getValue() == "")
+			return;
+		String currentEvaluatorDetails = infoSysComboBox.getValue();
+		int currentEvaluatorDetailsIndex = infoSysNames.indexOf(currentEvaluatorDetails);
+		if (currentEvaluatorDetailsIndex != -1) {
+			currentEvaluatorDetails = currentEvaluatorIDs.get(currentEvaluatorDetailsIndex);
+			evaluatorID = currentEvaluatorDetails;
+		}
+	}
 
 	/**
 	 * This method adds the field values to args ArrayList
+	 * 
 	 * @param args
 	 * @return ArrayList that includes the field arguments
 	 */
 	private void addFieldsToArgs() {
 		args.add(date);
-		args.add(infSys);
+		args.add(infoSysComboBox.getValue());
 		args.add(requestedChange);
 		args.add(situation);
 		args.add(changeReasons);
 		args.add(notes);
 		args.add(null); // Attached File
-		args.add("New");
+		args.add("Initial");
 		args.add("Active");
 		args.add(Client.getInstance().getCurrentUser().getId());
+		args.add(evaluatorID);
 	}
 
 	/**
 	 * This method validates the fields
 	 */
 	private void validateFields() {
-		jfxinfSys.validate();
+		//jfxinfSys.validate();
+		if (infoSysComboBox.getValue() == "" || evaluatorID == "")
+			 fillComboBoxAlert.setVisible(true);
+		else fillComboBoxAlert.setVisible(false);
 		jfxsituation.validate();
 		jfxrequestedChange.validate();
 		jfxreasons.validate();
 		jfxnotes.validate();
 	}
-	
+
 	/**
 	 * This method sets field validators
 	 */
 	public void setValdiator() {
 		RequiredFieldValidator validator = new RequiredFieldValidator();
 
-		jfxinfSys.getValidators().add(validator);
+		//jfxinfSys.getValidators().add(validator);
 		jfxsituation.getValidators().add(validator);
 		jfxrequestedChange.getValidators().add(validator);
 		jfxreasons.getValidators().add(validator);
@@ -135,41 +233,121 @@ public class NewChangeRequestFX implements BaseFx {
 
 		validator.setMessage("*required");
 	}
-	
+
 	@FXML
 	public void backWasPressed(ActionEvent event) {
 		newChangeRequestController.switchScene("Panel");
-		
 	}
 
+	/**
+	 * if the request was created successfully this method uploads the files to the
+	 * server if there are any
+	 * 
+	 * @param msg
+	 */
 	public void newCRHandler(MessageObject msg) {
 		MessageObject message = (MessageObject) msg;
 		if ((Boolean) message.getArgs().get(0))// [True|False]
+		{
+			String requestID = (String) message.getArgs().get(1);
+			// upload all the files that were attached to the request
+			if (selectedFiles != null)
+				for (File file : selectedFiles)
+					newChangeRequestController.sendFileToServer(file, requestID);
+
 			newChangeRequestController.switchScene("Panel");
+		}
+
 	}
 
 	@FXML
-	public void attachWasPressed(ActionEvent event) {
-		JFileChooser jfc = new JFileChooser();
-		int returnVal = jfc.showOpenDialog(null);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			attachedFile = new AttachedFile(jfc.getSelectedFile().getAbsolutePath());
-			fileName.setText(jfc.getSelectedFile().getName());
+	public void addFilesWasPressed(ActionEvent event) {
+		browseFiles.setVisible(true);
+		if (listView.getItems() != null)
+			listView.getItems().clear();
+		if (selectedFiles != null)
+			selectedFiles = null;
+
+	}
+
+	/**
+	 * create a list of files that are chosen by the user
+	 * 
+	 * @param event
+	 */
+	@FXML
+	public void attachFilesWasPressed(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+		selectedFiles = fileChooser.showOpenMultipleDialog(null);
+		if (selectedFiles != null) {
+			for (int i = 0; i < selectedFiles.size(); i++)
+				listView.getItems().add(selectedFiles.get(i).getName());
+
+		} else {
+			System.out.println("no files were selected");
 		}
+
+	}
+
+	@FXML
+	public void closeAttachFilesWasPressed(ActionEvent event) {
+		browseFiles.setVisible(false);
 	}
 
 	/**
 	 * A method to clear all the fields in this form
+	 * 
 	 * @author Raz Malka
 	 */
 	public void clearFields() {
 		// TODO Auto-generated method stub
-		jfxinfSys.setText("");
+		//jfxinfSys.setText("");
 		jfxsituation.setText("");
 		jfxrequestedChange.setText("");
 		jfxreasons.setText("");
 		jfxnotes.setText("");
 		fileName.setText("");
-		attachedFile = null;
+		selectedFiles = null;
+		fillComboBoxAlert.setVisible(false);
 	}
+
+
+	//---------------------------------side panel methods--------------------
+	
+	@FXML
+	public void ManageApprovesWasPressed(ActionEvent event) {
+		newChangeRequestController.switchScene("ManageApproves");
+	}
+	
+	@FXML
+	public void ViewAllRequestsWasPressed(ActionEvent event) {
+		newChangeRequestController.ViewAllRequestsWasPressed(event);
+	}
+
+	@FXML
+	public void logOutWasPressed(ActionEvent event) {
+		newChangeRequestController.logOutWasPressed(event);
+	}
+	
+	// ISD START
+	/**
+	 * Manage permanent roles (supervisor, committee), and Information System's evaluators.
+	 * @author Raz Malka
+	 * @param event
+	 */
+	@FXML
+	public void managePermissionsWasPressed(ActionEvent event) {
+		newChangeRequestController.managePermissionsWasPressed(event);
+	}
+	
+	@FXML
+	public void viewAllSystemDataWasPressed(ActionEvent event) {
+		newChangeRequestController.viewAllSystemDataWasPressed(event);
+	}
+	
+	@FXML
+	public void viewStatisticsReportWasPressed(ActionEvent event) {
+		newChangeRequestController.viewStatisticsReportWasPressed(event);
+	}
+	// ISD END
 }

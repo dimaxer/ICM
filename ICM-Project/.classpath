@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="lib/jfoenix-8.0.8.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.13.jar"/>
 	<classpathentry kind="src" path="/OCSF"/>
+	<classpathentry kind="lib" path="lib/java.mail.api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

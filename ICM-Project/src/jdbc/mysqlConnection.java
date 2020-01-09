@@ -9,11 +9,11 @@ public class mysqlConnection {
 	// Instance variables **********************************************
 	private static mysqlConnection singletonInstance = null;
 	private Connection con = null;
-	private RequestHandler requestHandler = null;
+	private SqlRequestHandler requestHandler = null;
 
 	// Constructors ****************************************************
 
-	public RequestHandler handle() {
+	public SqlRequestHandler handle() {
 		return requestHandler;
 	}
 	
@@ -26,7 +26,7 @@ public class mysqlConnection {
 	 */
 	private mysqlConnection() {
 		singletonInstance = this;
-		requestHandler = new RequestHandler();
+		requestHandler = new SqlRequestHandler();
 	}
 
 	// Instance methods ************************************************
