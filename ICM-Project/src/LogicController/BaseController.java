@@ -96,20 +96,20 @@ public class BaseController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void loginHandle(MessageObject message) {
 		if ((Boolean) message.getArgs().get(0)) {
 			Client.getInstance().setCurrentUser((User) message.getArgs().get(1));
 			switchScene("Panel");
 		}
 	}
-	
+
 	public void handleViewRequestDetailsRequest(MessageObject message) {
 		switchScene("ViewAllRequests");
 		((ViewAllRequestsFX) getCurrentFX()).clearFields();
 		((ViewAllRequestsFX) getCurrentFX()).loadRequests(message);
 	}
-	
+
 	public void handleSearchRequest(MessageObject message, Object currentFX) {
 		String role = (String) message.getArgs().get(1);
 		if ((boolean) message.getArgs().get(0)) {
@@ -118,14 +118,18 @@ public class BaseController {
 		}
 		((ViewAllRequestsFX) currentFX).handleSearchRequestDetails(message);
 	}
-	
+
 	public void logOutWasPressed(ActionEvent event) {
+		ArrayList<Object> list = new ArrayList<Object>();
+		list.add(Client.getInstance().getCurrentUser().getId());
+		sendMessage(new MessageObject(RequestType.LogOut, list));
+
 		ScreenManager.getInstance().clearScreenMap();
 		switchScene("Login");
 		LoginFX controller = (LoginFX) getCurrentFX();
 		controller.clearFields();
 	}
-	
+
 	public void viewRequestDetailsWasPressed() {
 		// send the request id to the server
 		ArrayList<Object> arrlist = new ArrayList<>();
@@ -133,57 +137,54 @@ public class BaseController {
 		MessageObject searchRequest = new MessageObject(RequestType.viewRequestTable, arrlist);
 		sendMessage(searchRequest);
 	}
-	
+
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
 		if (sceneExists("ViewAllRequests"))
 			switchScene("ViewAllRequests");
-		else viewRequestDetailsWasPressed();
+		else
+			viewRequestDetailsWasPressed();
 	}
-	
+
 	public void newChangeRequestWasPressed(ActionEvent event) {
 		switchScene("NewRequest");
 		((NewChangeRequestFX) getCurrentFX()).clearFields();
 	}
-	
+
 	public void managePermissionsWasPressed(ActionEvent event) {
 		switchScene("ManagePermissions");
 		((ManagePermissionsFX) getCurrentFX()).clearFields();
 	}
-	
+
 	public void viewStatisticsReportWasPressed(ActionEvent event) {
 		switchScene("StatisticsReport");
 		((StatisticsReportFX) getCurrentFX()).clearFields();
 	}
-	
+
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
 		switchScene("ViewAllSystemData");
 		((ViewAllSystemDataFX) getCurrentFX()).clearFields();
 	}
-	
+
 	public void initPanelHBoxes(AnchorPane isd, VBox all_roles, VBox supervisor) {
-		if (Client.getInstance().getCurrentUser().getJobDescription().equals("Supervisor"))
-		{
+		if (Client.getInstance().getCurrentUser().getJobDescription().equals("Supervisor")) {
 			supervisor.setVisible(true);
 			all_roles.setDisable(false);
-		}
-		else if (Client.getInstance().getCurrentUser().getJobDescription().equals("ISD Chief"))
-		{
-			
-			 isd.setVisible(true);
-			 supervisor.setVisible(false);
-				all_roles.setVisible(true);
-		}
-		else 
-			{
+		} else if (Client.getInstance().getCurrentUser().getJobDescription().equals("ISD Chief")) {
+
+			isd.setVisible(true);
+			supervisor.setVisible(false);
+			all_roles.setVisible(true);
+		} else {
 			supervisor.setVisible(false);
 			all_roles.setVisible(true);
 			isd.setVisible(false);
 		}
 	}
-	
+
 	public void initInformationSystemDetails(Boolean idCanBeNull) {
 		MessageObject msg = new MessageObject(RequestType.InformationSystem_Details, new ArrayList<>());
 		msg.getArgs().add(idCanBeNull);
 		sendMessage(msg);
 	}
+
 }
