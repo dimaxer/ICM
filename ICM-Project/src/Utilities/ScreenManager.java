@@ -204,4 +204,8 @@ public class ScreenManager {
 
 		return screenMap;
 	}
+
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
 }
