@@ -110,11 +110,12 @@ public class ManagePermissionsFX extends BaseFX {
 	HashMap<String, String> userDetails = new HashMap<>();
 	/** HashMap that contains the IDs and Names of all users with permanent roles */
 	HashMap<String, String> permanentRolesDetails = new HashMap<>();
-	/** Thread that initializes the user list, comboboxes and TextFields in parrallel */
 	/** ArrayList that contains the Names of Information Systems */
 	ArrayList<String> infoSysNames = new ArrayList<>();
 	/** ArrayList that contains the IDs of current Evaluators */
 	ArrayList<String> currentEvaluatorIDs = new ArrayList<>();
+	/** CONSTANT DEFINING NULL */
+	private static final String undefined = "NOT DEFINED";
 
 	// Controller *********************************
 	private ManagePermissionsController managePermissionsController;
@@ -194,74 +195,46 @@ public class ManagePermissionsFX extends BaseFX {
 	}
 	
 	// Set methods ********************************
+	/** This method handles setting the value of some textField when <- was pressed */
+	public void textFieldSetBtnWasPressed(TextField textField) {
+		String selected = userListView.getSelectionModel().getSelectedItem();
+		if (selected != null) {
+			if (textField.getText().length() > 0 && !textField.getText().equalsIgnoreCase(undefined))
+				userListView.getItems().add(textField.getText());
+			userListView.getItems().remove(selected);
+			textField.setText(selected);
+		}
+	}
+	
 	/** This method handles setting the value of supervisorText when <- was pressed */
 	@FXML
 	public void supervisorSetBtnWasPressed(ActionEvent event) {
-		String selected = userListView.getSelectionModel().getSelectedItem();
-		if (selected != null) {
-			if (supervisorText.getText().length() > 0) {
-				String supervisorID = supervisorText.getText().substring(0, supervisorText.getText().indexOf(' '));
-				userListView.getItems().add(supervisorID + " - " + userDetails.get(supervisorID));
-			}
-			userListView.getItems().remove(selected);
-			supervisorText.setText(selected);
-		}
+		textFieldSetBtnWasPressed(supervisorText);
 	}
 	
 	/** This method handles setting the value of committeeChairmanText when <- was pressed */
 	@FXML
 	public void committeeChairmanBtnWasPressed(ActionEvent event) {
-		String selected = userListView.getSelectionModel().getSelectedItem();
-		if (selected != null) {
-			if (committeeChairmanText.getText().length() > 0) {
-				String committeeChairmanID = committeeChairmanText.getText().substring(0, committeeChairmanText.getText().indexOf(' '));
-				userListView.getItems().add(committeeChairmanID + " - " + userDetails.get(committeeChairmanID));
-			}
-			userListView.getItems().remove(selected);
-			committeeChairmanText.setText(selected);
-		}
+		textFieldSetBtnWasPressed(committeeChairmanText);
 	}
 	
 	/** This method handles setting the value of committeeMember1Text when <- was pressed */
 	@FXML
 	public void committeeMember1BtnWasPressed(ActionEvent event) {
-		String selected = userListView.getSelectionModel().getSelectedItem();
-		if (selected != null) {
-			if (committeeMember1Text.getText().length() > 0) {
-				String committeeMember1ID = committeeMember1Text.getText().substring(0, committeeMember1Text.getText().indexOf(' '));
-				userListView.getItems().add(committeeMember1ID + " - " + userDetails.get(committeeMember1ID));
-			}
-			userListView.getItems().remove(selected);
-			committeeMember1Text.setText(selected);
-		}
+		textFieldSetBtnWasPressed(committeeMember1Text);
 	}
 	
 	/** This method handles setting the value of committeeMember2Text when <- was pressed */
 	@FXML
 	public void committeeMember2BtnWasPressed(ActionEvent event) {
-		String selected = userListView.getSelectionModel().getSelectedItem();
-		if (selected != null) {
-			if (committeeMember2Text.getText().length() > 0) {
-				String committeeMember2ID = committeeMember2Text.getText().substring(0, committeeMember2Text.getText().indexOf(' '));
-				userListView.getItems().add(committeeMember2ID + " - " + userDetails.get(committeeMember2ID));
-			}
-			userListView.getItems().remove(selected);
-			committeeMember2Text.setText(selected);
-		}
+		textFieldSetBtnWasPressed(committeeMember2Text);
 	}
 	
 	/** This method handles setting the value of infoSysEvaluatorText when <- was pressed */
 	@FXML
 	public void infoSysEvaluatorSetBtnWasPressed(ActionEvent event) {
-		String selected = userListView.getSelectionModel().getSelectedItem();
-		if (selected != null && infoSysComboBox.getValue().length() > 0) {
-			if (infoSysEvaluatorText.getText().length() > 0) {
-				String infoSysEvaluatorID = infoSysEvaluatorText.getText().substring(0, infoSysEvaluatorText.getText().indexOf(' '));
-				userListView.getItems().add(infoSysEvaluatorID + " - " + userDetails.get(infoSysEvaluatorID));
-			}
-			userListView.getItems().remove(selected);
-			infoSysEvaluatorText.setText(selected);
-		}
+		if (infoSysComboBox.getValue().length() > 0)
+			textFieldSetBtnWasPressed(infoSysEvaluatorText);
 	}
 	
 	// Update methods *****************************
@@ -274,8 +247,12 @@ public class ManagePermissionsFX extends BaseFX {
 		int currentEvaluatorDetailsIndex = infoSysNames.indexOf(currentEvaluatorDetails);
 		if (currentEvaluatorDetailsIndex != -1) {
 			currentEvaluatorDetails = currentEvaluatorIDs.get(currentEvaluatorDetailsIndex);
-			currentEvaluatorDetails = currentEvaluatorDetails + " - " + userDetails.get(currentEvaluatorDetails);
-			infoSysEvaluatorText.setText(currentEvaluatorDetails);
+			if (!isValidTextField(currentEvaluatorDetails))
+				infoSysEvaluatorText.setText(undefined);
+			else {
+				currentEvaluatorDetails = currentEvaluatorDetails + " - " + userDetails.get(currentEvaluatorDetails);
+				infoSysEvaluatorText.setText(currentEvaluatorDetails);
+			}
 		}
 	}
 	
@@ -286,7 +263,10 @@ public class ManagePermissionsFX extends BaseFX {
 		Object[] keys = permanentRolesDetails.keySet().toArray();
 		Object[] values = permanentRolesDetails.values().toArray();
 		for (int i = 0; i < values.length; i++) {
-			item = keys[i].toString() + " - " + userDetails.get(keys[i]);
+			if (keys[i] == null)
+				item = undefined;
+			else
+				item = keys[i].toString() + " - " + userDetails.get(keys[i]);
 			switch (values[i].toString().toLowerCase()) {
 				case "supervisor": supervisorText.setText(item); break;
 				case "committee member":
@@ -301,11 +281,22 @@ public class ManagePermissionsFX extends BaseFX {
 		}
 	}
 	
+	public Boolean isValidTextField(TextField textField) {
+		String value = textField.getText();
+		return isValidTextField(value);
+	}
+	
+	public Boolean isValidTextField(String value) {
+		if (value == null) return false;
+		return !(value.equals(undefined) || value.equals(""));
+	}
+	
 	/** This method handles the permanent roles form when update was pressed */
 	@FXML
 	public void updatePermRolesWasPressed(ActionEvent event) {
-		if (supervisorText.getText().length() <= 0 || committeeChairmanText.getText().length() <= 0 ||
-			committeeMember1Text.getText().length() <= 0 || committeeMember2Text.getText().length() <= 0) {
+		
+		if (!isValidTextField(supervisorText) || !isValidTextField(committeeChairmanText) ||
+			!isValidTextField(committeeMember1Text) || !isValidTextField(committeeMember2Text)) {
 			statusLabel.setText("Please fill all permanent roles");
 			return;
 		}
@@ -322,8 +313,8 @@ public class ManagePermissionsFX extends BaseFX {
 	/** This method handles the information system evaluators form when update was pressed */
 	@FXML
 	public void updateEvaluatorBtnWasPressed(ActionEvent event) {
-		if (infoSysEvaluatorText.getText().length() <= 0 || infoSysComboBox.getValue() == "") {
-			statusLabel.setText("Please select an Information System");
+		if (!isValidTextField(infoSysEvaluatorText) || !isValidTextField(infoSysComboBox.getValue())) {
+			statusLabel.setText("Please select an Information System\nor set a valid evaluator");
 			return;
 		}
 		
