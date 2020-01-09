@@ -9,7 +9,7 @@ Cloud DB - username: ZZUehgwcK6 | password: hfwrGUeVv7
 ![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)
 
 ### DO NOT CONTINUE WORKING ON THE MAIN BEFORE TALKING TO MALKA OR DIMA ###
-RECENT UPDATE NOTES:\
+RECENT UPDATE NOTES:
 
 TODO:
 -  Need to always keep in mind to make the code readable and friendly for every one else - USE JAVADOCS!
