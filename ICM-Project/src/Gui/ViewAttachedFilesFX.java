@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
@@ -104,7 +105,7 @@ public class ViewAttachedFilesFX extends BaseFX {
 						viewAttachedFilesController.askTheServerToDownloadFiles(fileNames, requestID);
 					}
 				} else
-					return;// show message error no files were selected for download
+					JOptionPane.showMessageDialog(null, "Error no files were chosen");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
