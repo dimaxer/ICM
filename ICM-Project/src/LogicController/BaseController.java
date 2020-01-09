@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import Common.MyFile;
 import Common.User;
 import Gui.LoginFX;
@@ -66,10 +68,11 @@ public class BaseController {
 			Client.getInstance().sendToServer((Object) response);
 			System.out.println("Message sent: " + response.getTypeRequest().toString() + " | "
 					+ response.getArgs().toString() + " from Client");
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.out.println("An Error occurd while trying to send: " + response.getTypeRequest().toString() + " | "
 					+ response.getArgs().toString() + " to Client");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error connection to the server was lost");
+			ScreenManager.getInstance().getPrimaryStage().close();
 		}
 	}
 
