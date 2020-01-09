@@ -63,7 +63,8 @@ public class Client extends AbstractClient {
 	 * @param msg The message from the server.
 	 */
 	public void handleMessageFromServer(Object msg) {
-		requestHandler.handle(msg);
+		if (!msg.equals("check if alive"))
+			requestHandler.handle(msg);
 	}
 
 	/**
@@ -114,4 +115,3 @@ public class Client extends AbstractClient {
 		this.currentUser = currentUser;
 	}
 }
-//End of ChatClient class

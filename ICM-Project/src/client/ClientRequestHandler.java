@@ -18,32 +18,48 @@ public class ClientRequestHandler {
 		BaseFX baseFX = (BaseFX) ScreenManager.getInstance().getCurrentFX();
 
 		switch (message.getTypeRequest()) {
+		case ErrorThisUserIsAllreadyLoggedIn:
+			baseFX.loginErrorAllreadyLoggedIn(message, currentFX);
+			break;
 		case Login:
-			baseFX.loginHandle(message, currentFX); break;
+			baseFX.loginHandle(message, currentFX);
+			break;
 		case View_Req_Details:
-			baseFX.handleSearchRequest(message, currentFX); break;
+			baseFX.handleSearchRequest(message, currentFX);
+			break;
 		case refreshViewUserRequestTable:
-			((ViewAllRequestsFX) currentFX).handleRefresh(message); break;
+			((ViewAllRequestsFX) currentFX).handleRefresh(message);
+			break;
 		case viewRequestTable:
-			baseFX.handleViewRequestDetailsRequest(message); break;
+			baseFX.handleViewRequestDetailsRequest(message);
+			break;
 		case NewChangeRequest:
-			((NewChangeRequestFX) currentFX).newCRHandler(message); break;
+			((NewChangeRequestFX) currentFX).newCRHandler(message);
+			break;
 		case ViewAttachedFiles:
-			((ViewAttachedFilesFX) currentFX).handleShowAttachedFiles(message); break;
+			((ViewAttachedFilesFX) currentFX).handleShowAttachedFiles(message);
+			break;
 		case DownloadAttachedFiles:
-			((ViewAttachedFilesFX) currentFX).handleDownloadAttachedFiles(message); break;
+			((ViewAttachedFilesFX) currentFX).handleDownloadAttachedFiles(message);
+			break;
 		case ApprovedEvaluator:
-			((ApprovementFX) currentFX).handleDeleteEvaluatorFromTable(message); break;
+			((ApprovementFX) currentFX).handleDeleteEvaluatorFromTable(message);
+			break;
 		case InformationSystem_Details:
 			if (currentFX instanceof ManagePermissionsFX)
 				((ManagePermissionsFX) currentFX).handleInformationSystemComboBox(message);
 			else if (currentFX instanceof NewChangeRequestFX)
-				((NewChangeRequestFX) currentFX).handleInformationSystemComboBox(message); break;
+				((NewChangeRequestFX) currentFX).handleInformationSystemComboBox(message);
+			break;
 		case AllUserDetails:
-			((ManagePermissionsFX) currentFX).handleUserDetails(message); break;
+			((ManagePermissionsFX) currentFX).handleUserDetails(message);
+			break;
 		case PermanentRoles_Details:
-			((ManagePermissionsFX) currentFX).handlePermanentRoles(message); break;
-		default: break;
+			((ManagePermissionsFX) currentFX).handlePermanentRoles(message);
+			break;
+
+		default:
+			break;
 		}
 	}
 }
