@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import Common.MyFile;
 import Common.User;
 import Gui.LoginFX;
+import Gui.ManageApprovesFX;
 import Gui.ManagePermissionsFX;
 import Gui.NewChangeRequestFX;
 import Gui.RequestDetailsFX;
@@ -148,6 +149,13 @@ public class BaseController {
 			viewRequestDetailsWasPressed();
 	}
 
+	public void manageAprrovementWasPressed(ActionEvent event)
+	{
+		switchScene("ManageApproves");
+		((ManageApprovesFX) getCurrentFX()).clearFields();
+		((ManageApprovesFX) getCurrentFX()).loadDataToEvalutorTable();
+	}
+	
 	public void newChangeRequestWasPressed(ActionEvent event) {
 		switchScene("NewRequest");
 		((NewChangeRequestFX) getCurrentFX()).clearFields();

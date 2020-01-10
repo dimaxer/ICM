@@ -7,9 +7,11 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
 
+import Common.EvalutorAppoitmentTableSerializble;
 import Common.Request;
 import Common.User;
 import Utilities.MessageObject;
@@ -45,42 +47,25 @@ public class SqlRequestHandler {
 	 */
 	public Boolean addCRToDB(ArrayList<Object> args) {
 		PreparedStatement stmt;
-		PreparedStatement stmtAddStage;
 
 		try {
-			String query = "INSERT INTO Requests (Date, InformationSystem, RequestedChange, CurrentSituation, RequestReason, Note, AttachFiles, Stage, Status, InitiatorID, EvaluatorID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+			String query = "INSERT INTO Requests (Date, InformationSystem, RequestedChange, CurrentSituation, RequestReason, Note, AttachFiles, Stage, Status, InitiatorID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
-			for (int i = 0; i < 11; i++)
+			for (int i = 0; i < 10; i++)
 				if (i == 6)
 					stmt.setBoolean(i + 1, (args.get(i) != null));
 				else
 					stmt.setString(i + 1, args.get(i).toString());
 
 			stmt.executeUpdate();
+			automaticAppointmentEvaluator(getLastInsertID());
 			System.out.println("Query of Create New Request Executed Successfully!");
+
 		} catch (SQLException e) {
 			System.out.println("Query of Create New Request Failed to be Executed!");
 			e.printStackTrace();
 			return false;
 		}
-
-		// add the stage(evaluation) to the DB with the request ID;
-//		try {
-//			String updateStageTabkeInDB = "INSET INTO Stages(N.O, requestId, stage, startTime, endTime, late, active)VALUES (?, ?, ?, ?, ?, ?, ?);"; 
-//			stmtAddStage =mysqlConnection.getInstance().getConnection().prepareStatement(updateStageTabkeInDB);
-//			stmtAddStage.setString(1, "0");
-//			stmtAddStage.setString(2,getLastInsertID());
-//			stmtAddStage.setString(3,"Evaluation");
-//			stmtAddStage.setString(4,null);
-//			stmtAddStage.setString(5,null);
-//			stmtAddStage.setString(6,null);
-//			stmtAddStage.setString(7,null);
-//			
-//			stmtAddStage.executeUpdate();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 
 		return true;
 	}
@@ -372,10 +357,10 @@ public class SqlRequestHandler {
 	 * appoint evaluator by the system shoham
 	 * 
 	 * @param requestID
-	 * @deprecated
+	 * 
 	 * @return
 	 */
-	public void automatiAppointmentEvaloeytor(String requestID) {
+	public void automaticAppointmentEvaluator(String requestID) {
 		ResultSet allISDUsers;
 		ArrayList<String> allISDUsersArray = new ArrayList<String>();
 		PreparedStatement stmt;
@@ -397,11 +382,14 @@ public class SqlRequestHandler {
 
 			Random rand = new Random();
 			int randomUserID = rand.nextInt(allISDUsersArray.size() - 1);
-
-			String insertEvaluatorQuery = "INSERT INTO EvaluatorAppointment (RequestID, EvaluatorID) VALUES (?, ?);";
+			String EvaluatorID = allISDUsersArray.get(randomUserID);
+			ResultSet evaluatorNameRs = executeQuery(new String("SELECT Name FROM Users WHERE UserID=" + EvaluatorID));
+			evaluatorNameRs.next();
+			String insertEvaluatorQuery = "INSERT INTO EvaluatorAppointment (RequestID, EvaluatorID,EvaulatorName) VALUES (?, ?, ?);";
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(insertEvaluatorQuery);
 			stmt.setString(1, requestID);
-			stmt.setString(2, allISDUsersArray.get(randomUserID));
+			stmt.setString(2, EvaluatorID);
+			stmt.setString(3, evaluatorNameRs.getString("Name"));
 			stmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -418,7 +406,7 @@ public class SqlRequestHandler {
 	 * @param requestID
 	 * @param evaluatrorID
 	 */
-	public void deleteApprovedEvaluator(String requestID, String evaluatrorID) {
+	public void deleteApprovedEvaluator(String requestID) {
 		PreparedStatement stmt;
 
 		String deleteQuery = "DELETE FROM EvaluatorAppointment WHERE RequestID = ?";
@@ -440,13 +428,13 @@ public class SqlRequestHandler {
 	 * @param requestID
 	 * @param evaluatrorID
 	 */
-	public void updateRequestEvaluator(String requestID, String evaluatrorID) {
+	public void updateRequestEvaluator(String requestID, String evaluatorID) {
 
-		String updateEvaloeytor = "Update Requests SET EvaluatorID =? WHERE RequestID =?";
+		String updateEvaloeytor = "Update Requests SET EvaluatorID =?  WHERE RequestID =? ";
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(updateEvaloeytor);
-			stmt.setString(1, evaluatrorID);
+			stmt.setString(1, evaluatorID);
 			stmt.setString(2, requestID);
 			// Update EvaloeytorID in the DB
 			stmt.executeUpdate();
@@ -482,11 +470,12 @@ public class SqlRequestHandler {
 		// insert Evaluation Stage to StageTable
 		String insertEvaluationStage = "INSERT INTO StageTable (requestId, stage, startTime, endTime, late) VALUES (?, ?, ?, ?, ?)";
 		try {
+			java.sql.Date ourJavaDateObject = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 			PreparedStatement stmt = mysqlConnection.getInstance().getConnection()
-					.prepareStatement(updateStageInRequestsTable);
+					.prepareStatement(insertEvaluationStage);
 			stmt.setString(1, requestID);
 			stmt.setString(2, "Evaluation");
-			stmt.setString(3, DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDate.now()));
+			stmt.setString(3, ourJavaDateObject.toString());
 			stmt.setString(4, null);
 			stmt.setInt(5, 0);
 
@@ -645,5 +634,28 @@ public class SqlRequestHandler {
 			System.out.println("An Error occured while trying to execute this updatePermanentRoles query: ");
 			e.printStackTrace();
 		}
+	}
+
+	public MessageObject viewEvaluatorTable(MessageObject message) {
+		ResultSet rs = executeQuery(new String("Select RequestID,EvaluatorID,EvaulatorName from EvaluatorAppointment"));
+
+		try {
+			if (!(rs.next())) {
+				message.getArgs().add(false);
+				return message;
+			} else
+				message.getArgs().add(true);
+			do {
+				message.getArgs().add(new EvalutorAppoitmentTableSerializble(rs.getString("RequestID"),
+						rs.getString("EvaluatorID"), rs.getString("EvaulatorName")));
+
+			} while (rs.next());
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return message;
+
 	}
 }

@@ -202,7 +202,7 @@ public class NewChangeRequestFX extends BaseFX {
 		args.add("Initial");
 		args.add("Active");
 		args.add(Client.getInstance().getCurrentUser().getId());
-		args.add(evaluatorID);
+		
 	}
 
 	/**
@@ -316,7 +316,7 @@ public class NewChangeRequestFX extends BaseFX {
 	
 	@FXML
 	public void ManageApprovesWasPressed(ActionEvent event) {
-		newChangeRequestController.switchScene("ManageApproves");
+		newChangeRequestController.manageAprrovementWasPressed(event);
 	}
 	
 	@FXML

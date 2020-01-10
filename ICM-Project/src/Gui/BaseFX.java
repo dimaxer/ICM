@@ -29,8 +29,7 @@ public abstract class BaseFX implements Initializable {
 	private BaseController baseController = new BaseController();
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-	}
+	public abstract void initialize(URL arg0, ResourceBundle arg1);
 
 	public void handleViewRequestDetailsRequest(MessageObject message) {
 		baseController.handleViewRequestDetailsRequest(message);

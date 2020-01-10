@@ -1,39 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="602.0" prefWidth="857.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="613.0" prefWidth="1230.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ManageApprovesFX">
    <children>
-      <JFXTabPane layoutX="1.0" prefHeight="590.0" prefWidth="857.0" style="-fx-background-color: #D3D3D3; -fx-border-color: #D3D3D3v;">
+      <TabPane layoutX="299.0" layoutY="102.0" prefHeight="523.0" prefWidth="896.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab style="-fx-background-color: #D3D3D3;" text="Evaluator Appointment">
+            <Tab style="-fx-background-color: #D3D3D3;" text="Time Extension">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="553.0" prefWidth="857.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="526.0" prefWidth="890.0">
                      <children>
-                        <TableView layoutX="4.0" layoutY="113.0" prefHeight="451.0" prefWidth="642.0">
+                        <TableView layoutX="-2.0" layoutY="4.0" prefHeight="488.0" prefWidth="896.0">
                           <columns>
-                            <TableColumn prefWidth="181.0" text="RequestID" />
-                            <TableColumn prefWidth="229.0" text="EvaluatorID" />
-                              <TableColumn prefWidth="229.0" text="Evaulator Name" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-            <Tab style="-fx-background-color: #D3D3D3;" text="Execution Leader Appoitmant">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView layoutX="-2.0" layoutY="117.0" prefHeight="437.0" prefWidth="725.0">
-                          <columns>
-                            <TableColumn prefWidth="230.0" text="Request ID" />
-                            <TableColumn prefWidth="252.0" text="Execution leader ID" />
-                              <TableColumn prefWidth="241.0" text="Exceution leader Name" />
+                            <TableColumn prefWidth="119.0" text="Request ID" />
+                            <TableColumn prefWidth="170.0" text="User ID" />
+                              <TableColumn prefWidth="214.0" text="Job description" />
+                              <TableColumn prefWidth="214.0" text="Start Date" />
+                              <TableColumn prefWidth="214.0" text="End Date" />
                           </columns>
                         </TableView>
                      </children>
@@ -44,7 +40,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="1.0" layoutY="117.0" prefHeight="442.0" prefWidth="1076.0">
+                        <TableView layoutX="1.0" layoutY="5.0" prefHeight="483.0" prefWidth="896.0">
                           <columns>
                             <TableColumn prefWidth="75.0" text="Request ID" />
                             <TableColumn prefWidth="197.0" text="User ID" />
@@ -57,17 +53,30 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab style="-fx-background-color: #D3D3D3;" text="Time Extension">
+            <Tab style="-fx-background-color: #D3D3D3;" text="Execution Leader Appoitmant">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="553.0" prefWidth="997.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="-2.0" layoutY="77.0" prefHeight="482.0" prefWidth="858.0">
+                        <TableView layoutX="-2.0" layoutY="4.0" prefHeight="486.0" prefWidth="896.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Request ID" />
-                            <TableColumn prefWidth="214.0" text="User ID" />
-                              <TableColumn prefWidth="214.0" text="Job description" />
-                              <TableColumn prefWidth="214.0" text="Start Date" />
-                              <TableColumn prefWidth="214.0" text="End Date" />
+                            <TableColumn prefWidth="230.0" text="Request ID" />
+                            <TableColumn prefWidth="252.0" text="Execution leader ID" />
+                              <TableColumn prefWidth="241.0" text="Exceution leader Name" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab style="-fx-background-color: #D3D3D3;" text="Evaluator Appointment">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="553.0" prefWidth="857.0">
+                     <children>
+                        <TableView fx:id="EvaluatorTable" layoutX="4.0" layoutY="2.0" onMouseClicked="#setDoubleClickMmouseWasPressed" prefHeight="488.0" prefWidth="890.0">
+                          <columns>
+                            <TableColumn fx:id="RequestID" prefWidth="181.0" text="RequestID" />
+                            <TableColumn fx:id="EvaluatorID" prefWidth="229.0" text="EvaluatorID" />
+                              <TableColumn fx:id="EvaluatorName" prefWidth="229.0" text="Evaulator Name" />
                           </columns>
                         </TableView>
                      </children>
@@ -75,6 +84,100 @@
               </content>
             </Tab>
          </tabs>
-      </JFXTabPane>
+      </TabPane>
+      <VBox fx:id="supervisorPanel" prefHeight="625.0" prefWidth="300.0" style="-fx-background-color: #333645;">
+         <children>
+            <Label prefHeight="80.0" prefWidth="305.0" style="-fx-background-color: #4682b4;" text="   ICM Panel" textFill="WHITE">
+               <font>
+                  <Font name="Candara Light Italic" size="40.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="51.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/ICM_LOGO.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <HBox prefHeight="62.0" prefWidth="300.0">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/view_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="viewRequestDetails" onAction="#ViewAllRequestsWasPressed" prefHeight="42.0" prefWidth="259.0" styleClass="btns" text="View Request Details" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="300.0">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/new_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="newChangeRequest" onAction="#newChangeRequestWasPressed" prefHeight="42.0" prefWidth="259.0" styleClass="btns" text="New Change Request" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="300.0" style="-fx-background-color: #F0F8FF;">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/new_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton prefHeight="42.0" prefWidth="259.0" styleClass="btns" text="Manage Approvements" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <JFXButton fx:id="logOutSupervisor" buttonType="RAISED" onAction="#logOutWasPressed" prefHeight="32.0" prefWidth="206.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" text="Log out">
+               <VBox.margin>
+                  <Insets left="50.0" top="90.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Palatino Linotype Bold" size="18.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </VBox>
+      <AnchorPane layoutX="305.0" layoutY="6.0" prefHeight="72.0" prefWidth="896.0">
+         <children>
+            <JFXButton fx:id="Back" contentDisplay="GRAPHIC_ONLY" layoutX="842.0" layoutY="14.0" onAction="#logOutWasPressed" prefHeight="50.0" prefWidth="72.0" />
+            <Text fill="#7c8184" layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Approvments">
+               <font>
+                  <Font name="System Italic" size="30.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

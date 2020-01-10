@@ -11,6 +11,7 @@ import Common.MyFile;
 import Utilities.MessageObject;
 import Utilities.RequestType;
 import client.Client;
+import javafx.event.ActionEvent;
 
 public class NewChangeRequestController extends BaseController {
 	/**
@@ -55,4 +56,5 @@ public class NewChangeRequestController extends BaseController {
 			e.printStackTrace();
 		}
 	}
+
 }

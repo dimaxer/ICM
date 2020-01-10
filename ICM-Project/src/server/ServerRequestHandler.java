@@ -85,6 +85,9 @@ public class ServerRequestHandler {
 			case UpdatePermanentRoles:
 				handleUpdatePermanentRoles(message, client);
 				break;
+			case ViewEvaluatorTable:
+				responseMessage = handleEvaluatorTable(message, client);
+				break;
 			default:
 				break;
 			}
@@ -118,6 +121,10 @@ public class ServerRequestHandler {
 		}
 	}
 
+	private MessageObject handleEvaluatorTable(MessageObject message, ConnectionToClient client) {
+		return mysqlRequestHandler.viewEvaluatorTable(message);
+	}
+	
 	private void handleUpdateEvaluator(MessageObject message, ConnectionToClient client) {
 		try {
 			mysqlRequestHandler.updateEvaluator(message);
@@ -138,7 +145,7 @@ public class ServerRequestHandler {
 		String requestID = (String) message.getArgs().get(0);
 		String evaluatrorID = (String) message.getArgs().get(1);
 
-		mysqlRequestHandler.deleteApprovedEvaluator(requestID, evaluatrorID);
+		mysqlRequestHandler.deleteApprovedEvaluator(requestID);
 		mysqlRequestHandler.updateRequestEvaluator(requestID, evaluatrorID);
 		mysqlRequestHandler.insertStageEvaluator(requestID);
 		return message;
@@ -226,7 +233,7 @@ public class ServerRequestHandler {
 		args.add(res);
 		args.add(requestID);
 
-		// mysqlRequestHandler.automatiAppointmentEvaloeytor(requestID);
+		
 
 		message.setTypeRequest(RequestType.NewChangeRequest);
 		message.setArgs(args);

@@ -108,7 +108,7 @@ public class PanelFX extends BaseFX {
 	
 	@FXML
 	public void ManageApprovesWasPressed(ActionEvent event) {
-		panelController.switchScene("ManageApproves");
+		panelController.manageAprrovementWasPressed(event);
 	}
 	
 	// ISD START

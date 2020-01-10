@@ -204,9 +204,10 @@ public class ViewAllRequestsFX  extends BaseFX  {
 	}
 	
 	@FXML
-	public void ManageApprovesWasPressed(ActionEvent event) {
-		viewAllRequestsController.switchScene("ManageApproves");
-	}
+		public void ManageApprovesWasPressed(ActionEvent event) {
+		viewAllRequestsController.manageAprrovementWasPressed(event);
+		}
+	
 
 	/**
 	 * a method to clear the requesID
