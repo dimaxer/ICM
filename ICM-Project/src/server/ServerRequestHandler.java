@@ -88,6 +88,9 @@ public class ServerRequestHandler {
 			case ViewEvaluatorTable:
 				responseMessage = handleEvaluatorTable(message, client);
 				break;
+			case ViewIseTable:
+				responseMessage = handleISETable(message, client);
+				break;
 			default:
 				break;
 			}
@@ -96,6 +99,16 @@ public class ServerRequestHandler {
 				DBServer.getInstance().sendMessage(responseMessage, client);
 		} else
 			System.out.println("Error - Message rechieved is not a MessageObject");
+	}
+
+	/**
+	 * bring from the database Table of all ISE workers for Supervisor to pick new Evaluator when he reject the automatic Appoitment
+	 * 
+	 * @param message
+	 * @param client
+	 */
+	private MessageObject handleISETable(MessageObject message, ConnectionToClient client) {
+		return mysqlRequestHandler.viewIseTable(message);
 	}
 
 	/**

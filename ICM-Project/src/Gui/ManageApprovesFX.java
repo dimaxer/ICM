@@ -12,8 +12,8 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
-import Common.EvaluatorAppoitmentTable;
-import Common.EvalutorAppoitmentTableSerializble;
+import Common.EvaluatorAppoitmentTable.EvaluatorAppoitmentTable;
+import Common.EvaluatorAppoitmentTable.EvalutorAppoitmentTableSerializble;
 import LogicController.ManageApprovmentsController;
 import Utilities.MessageObject;
 import javafx.collections.FXCollections;
@@ -110,6 +110,7 @@ public void OpemApproveEvalutorScene()
 }
 
 public void loadEvaluatorTable(MessageObject msg) {
+	
 ArrayList<Object> EvaluatorListTemp=msg.getArgs();
 EvalutorAppoitmentTableSerializble temp;
 if(!(boolean) EvaluatorListTemp.get(0))
@@ -118,7 +119,6 @@ for(int i=1;i<EvaluatorListTemp.size();i++)
 {
 	temp=(EvalutorAppoitmentTableSerializble) EvaluatorListTemp.get(i);
 	EvaluatorList.add(new EvaluatorAppoitmentTable(temp.getRequestID(),temp.getEvalutorid(),temp.getEvalutorName()));
-	
 }
 
 	EvaluatorTable.setItems(EvaluatorList);

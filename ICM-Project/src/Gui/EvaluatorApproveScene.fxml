@@ -106,11 +106,11 @@
                </font></JFXTextField>
             <JFXTextField fx:id="EvaluatorName" layoutX="152.0" layoutY="217.0" prefHeight="45.0" prefWidth="241.0">
                <font>
-                  <Font size="15.0" />
+                  <Font size="18.0" />
                </font></JFXTextField>
             <JFXTextField fx:id="Evaluatorid" layoutX="585.0" layoutY="217.0" prefHeight="45.0" prefWidth="241.0">
                <font>
-                  <Font size="15.0" />
+                  <Font size="18.0" />
                </font></JFXTextField>
             <Label layoutX="14.0" layoutY="100.0" prefHeight="35.0" prefWidth="118.0" text="Request ID">
                <font>
@@ -150,7 +150,7 @@
                   <Font size="22.0" />
                </font>
             </JFXButton>
-            <JFXButton layoutX="482.0" layoutY="369.0" prefHeight="48.0" prefWidth="241.0" ripplerFill="#801b0c" style="-fx-background-color: #D3D3D3; -fx-background-radius: 40;" text="Replace Evaluator">
+            <JFXButton fx:id="replaceEvaluator" layoutX="482.0" layoutY="369.0" onAction="#replaceEvalutorWasPressed" prefHeight="48.0" prefWidth="241.0" ripplerFill="#801b0c" style="-fx-background-color: #D3D3D3; -fx-background-radius: 40;" text="Replace Evaluator">
                <font>
                   <Font size="22.0" />
                </font>

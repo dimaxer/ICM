@@ -1,4 +1,4 @@
-package Common;
+package Common.EvaluatorAppoitmentTable;
 
 import java.io.Serializable;
 

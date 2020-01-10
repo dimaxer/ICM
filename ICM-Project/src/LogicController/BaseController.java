@@ -15,6 +15,7 @@ import Gui.LoginFX;
 import Gui.ManageApprovesFX;
 import Gui.ManagePermissionsFX;
 import Gui.NewChangeRequestFX;
+import Gui.ReplaceEvaluatorSceneFX;
 import Gui.RequestDetailsFX;
 import Gui.StatisticsReportFX;
 import Gui.ViewAllRequestsFX;
@@ -77,6 +78,26 @@ public class BaseController {
 		}
 	}
 
+	/**
+	 * send to the server the evaluator 
+	 * that was approved by the supervisor
+	 * delete Evaluator from AppointEvaluatorTable and connect him to the proper request in the database 
+	 * @param evaluatorName
+	 * @param requestID
+	 * @param evaluatorID
+	 */
+	public void approvedEvaluator(String requestID, String evaluatorID,String evaluatorName) {
+		
+		ArrayList<Object> list = new ArrayList<Object>();
+		
+		list.add(requestID);
+		list.add(evaluatorID);
+		list.add(evaluatorName);
+		MessageObject evaluatorMessage =new MessageObject(RequestType.ApprovedEvaluator, list);
+		sendMessage(evaluatorMessage);
+	}
+	
+	
 	public void dwonloadFile(String savePath, MyFile file) {
 
 		// add check to see if the user is active or not
@@ -149,6 +170,14 @@ public class BaseController {
 			viewRequestDetailsWasPressed();
 	}
 
+	
+	public void replaceEvalutorWasPressed(ActionEvent event,String ReqestID) {
+		switchScene("ReplaceEvaluatorScene");
+		((ReplaceEvaluatorSceneFX) getCurrentFX()).setRequstId(ReqestID);
+		((ReplaceEvaluatorSceneFX) getCurrentFX()).clearFields();
+		((ReplaceEvaluatorSceneFX) getCurrentFX()).loadDataToEvalutorTable();
+	}
+	
 	public void manageAprrovementWasPressed(ActionEvent event)
 	{
 		switchScene("ManageApproves");

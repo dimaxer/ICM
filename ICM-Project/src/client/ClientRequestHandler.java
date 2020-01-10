@@ -6,6 +6,7 @@ import Gui.LoginFX;
 import Gui.ManageApprovesFX;
 import Gui.ManagePermissionsFX;
 import Gui.NewChangeRequestFX;
+import Gui.ReplaceEvaluatorSceneFX;
 import Gui.RequestDetailsFX;
 import Gui.ViewAllRequestsFX;
 import Gui.ViewAttachedFilesFX;
@@ -49,7 +50,10 @@ public class ClientRequestHandler {
 			((ViewAttachedFilesFX) currentFX).handleDownloadAttachedFiles(message);
 			break;
 		case ApprovedEvaluator:
+			if (currentFX instanceof EvaluatorApproveSceneFX)
 			((EvaluatorApproveSceneFX) currentFX).loadEvaluatorTable();
+			else if(currentFX instanceof ReplaceEvaluatorSceneFX)
+				((ReplaceEvaluatorSceneFX) currentFX).loadEvaluatorTable();
 			break;
 		case InformationSystem_Details:
 			if (currentFX instanceof ManagePermissionsFX)
@@ -65,6 +69,9 @@ public class ClientRequestHandler {
 			break;
 		case ViewEvaluatorTable:
 			((ManageApprovesFX) currentFX).loadEvaluatorTable(message);
+			break;
+		case ViewIseTable:
+			((ReplaceEvaluatorSceneFX )currentFX).loadISETable(message);
 			break;
 		default:
 			break;

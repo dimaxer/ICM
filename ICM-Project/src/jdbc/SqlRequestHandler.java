@@ -11,9 +11,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
 
-import Common.EvalutorAppoitmentTableSerializble;
 import Common.Request;
 import Common.User;
+import Common.EvaluatorAppoitmentTable.EvalutorAppoitmentTableSerializble;
 import Utilities.MessageObject;
 import Utilities.RequestType;
 import ocsf.server.ConnectionToClient;
@@ -58,7 +58,10 @@ public class SqlRequestHandler {
 					stmt.setString(i + 1, args.get(i).toString());
 
 			stmt.executeUpdate();
-			automaticAppointmentEvaluator(getLastInsertID());
+			
+			insertNewEvaluatorToEvaluatorTable(args.get(10).toString());       /// insert New Evaluator to "Evaluator Appointment Table"
+			
+			// automaticAppointmentEvaluator(getLastInsertID());
 			System.out.println("Query of Create New Request Executed Successfully!");
 
 		} catch (SQLException e) {
@@ -357,7 +360,7 @@ public class SqlRequestHandler {
 	 * appoint evaluator by the system shoham
 	 * 
 	 * @param requestID
-	 * 
+	 * @deprecated
 	 * @return
 	 */
 	public void automaticAppointmentEvaluator(String requestID) {
@@ -398,7 +401,35 @@ public class SqlRequestHandler {
 		}
 
 	}
-
+	
+	
+	/**
+	 * insert the current Evaluator to Evaluator Appointment Table
+	 * 
+	 * @param EvaluatorID
+	 * @return
+	 */
+public void insertNewEvaluatorToEvaluatorTable(String EvaluatorID)
+{
+	
+	ResultSet EvaluatorRs=executeQuery(new String("SELECT Name FROM Users WHERE UserID=" + EvaluatorID));
+	try {
+	EvaluatorRs.next();
+	String EvaluatorName=EvaluatorRs.getString("Name");
+	String requestID=getLastInsertID();
+	PreparedStatement stmt;
+	String insertEvaluatorQuery = "INSERT INTO EvaluatorAppointment (RequestID, EvaluatorID,EvaulatorName) VALUES (?, ?, ?);";
+	
+		stmt = mysqlConnection.getInstance().getConnection().prepareStatement(insertEvaluatorQuery);
+	
+	stmt.setString(1, requestID);
+	stmt.setString(2, EvaluatorID);
+	stmt.setString(3, EvaluatorName);
+	stmt.executeUpdate();
+	}catch (SQLException e) {
+		e.printStackTrace();
+	}
+}
 	/**
 	 * delete evaluator from EvaluatorAppointment because he was approved by the
 	 * Supervisor
@@ -650,9 +681,38 @@ public class SqlRequestHandler {
 						rs.getString("EvaluatorID"), rs.getString("EvaulatorName")));
 
 			} while (rs.next());
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return message;
+
+	}
+
+	/**
+	 * This methods gets the table of all ISE workers
+	 * 
+	 * @author Noam keren
+	 * @throws SQLException
+	 */
+	public MessageObject viewIseTable(MessageObject message) {
+		String Quary1="SELECT userID from PermanentEmployee )";
+		String Quary2="SELECT evaluatorID FROM InformationSystem  )";
+		ResultSet rs = executeQuery(new String("SELECT UserID,Name FROM Users WHERE userType = \"ISE\" AND UserID NOT IN (  ")+Quary1+"AND UserID NOT IN ( "+Quary2);
+		
+		try {
+			if (!(rs.next())) {
+				message.getArgs().add(false);
+				return message;
+			} else
+				message.getArgs().add(true);
+			do {
+				message.getArgs()
+						.add(new EvalutorAppoitmentTableSerializble(rs.getString("UserID"), rs.getString("Name")));
+
+			} while (rs.next());
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return message;

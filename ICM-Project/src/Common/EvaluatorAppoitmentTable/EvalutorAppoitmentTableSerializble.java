@@ -1,4 +1,4 @@
-package Common;
+package Common.EvaluatorAppoitmentTable;
 
 import java.io.Serializable;
 
@@ -13,6 +13,12 @@ private String  EvalutorName;
 public EvalutorAppoitmentTableSerializble (String requestID, String evalutorid, String evalutorName) {
 	super();
 	RequestID = requestID;
+	Evalutorid = evalutorid;
+	EvalutorName = evalutorName;
+}
+
+public EvalutorAppoitmentTableSerializble(String evalutorid,String evalutorName)
+{
 	Evalutorid = evalutorid;
 	EvalutorName = evalutorName;
 }

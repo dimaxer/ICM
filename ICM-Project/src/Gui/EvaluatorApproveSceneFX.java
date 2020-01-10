@@ -20,6 +20,9 @@ public class EvaluatorApproveSceneFX extends BaseFX {
 	@FXML
 	private JFXButton Approve;
 
+	@FXML 
+	private JFXButton replaceEvaluator;
+	
 	@FXML
 	private JFXButton viewRequestDetails;
 
@@ -74,6 +77,13 @@ public class EvaluatorApproveSceneFX extends BaseFX {
 		manageApprovment.loadDataToEvalutorTable();
 	}
 
+	
+	@FXML
+	public void replaceEvalutorWasPressed(ActionEvent event)
+	{
+		evaluatorApproveSceneController.replaceEvalutorWasPressed(event,RequestID.getText());
+	}
+	
 	@FXML
 	public void ApproveWasPressed(ActionEvent event) {
 		evaluatorApproveSceneController.approvedEvaluator(RequestID.getText(), Evaluatorid.getText(),

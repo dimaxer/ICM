@@ -35,16 +35,16 @@ public class NewChangeRequestFX extends BaseFX {
 
 	@FXML
 	private ComboBox<String> infoSysComboBox;
-	
+
 	/** ArrayList that contains the Names of Information Systems */
 	private ArrayList<String> infoSysNames = new ArrayList<>();
-	
+
 	/** ArrayList that contains the IDs of current Evaluators */
 	private ArrayList<String> currentEvaluatorIDs = new ArrayList<>();
-	
+
 	@FXML
 	private Text fillComboBoxAlert;
-	//private JFXTextField jfxinfSys;
+	// private JFXTextField jfxinfSys;
 
 	@FXML
 	private JFXTextField jfxrequestedChange;
@@ -63,7 +63,7 @@ public class NewChangeRequestFX extends BaseFX {
 
 	@FXML
 	private Text fileName;
-	
+
 	@FXML
 	private Button submit;
 
@@ -78,16 +78,16 @@ public class NewChangeRequestFX extends BaseFX {
 
 	@FXML
 	private JFXButton back;
-	
+
 	@FXML
 	private AnchorPane browseFiles;
 
 	@FXML
 	private JFXButton viewRequestDetails;
-	
+
 	@FXML
 	private JFXButton newChangeRequest;
-	
+
 	// ISD START
 	@FXML
 	private JFXButton managePermissions;
@@ -95,16 +95,16 @@ public class NewChangeRequestFX extends BaseFX {
 	private JFXButton viewAllSystemData;
 	@FXML
 	private JFXButton viewStatisticsReport;
-	
+
 	@FXML
 	private AnchorPane isdPane;
 
 	@FXML
 	private VBox supervisorPanel;
-	
+
 	@FXML
 	private VBox all_roles;
-	
+
 	@FXML
 	private JFXButton ManageApproves;
 
@@ -122,12 +122,13 @@ public class NewChangeRequestFX extends BaseFX {
 		AddFiles.setDefaultButton(true);
 		submit.setDefaultButton(true);
 		newChangeRequestController = new NewChangeRequestController();
-		//panelController=new BasePanelController();
+		// panelController=new BasePanelController();
 		args = new ArrayList<Object>();
 		if (Client.getInstance().getCurrentUser().getJobDescription().equals("ISD Chief"))
-			 isdPane.setVisible(true);
-		else isdPane.setVisible(false);
-		
+			isdPane.setVisible(true);
+		else
+			isdPane.setVisible(false);
+
 		newChangeRequestController.initPanelHBoxes(isdPane, all_roles, supervisorPanel);
 		initInformationSystemDetails(false);
 	}
@@ -143,6 +144,7 @@ public class NewChangeRequestFX extends BaseFX {
 		if (infoSysComboBox.getValue() == "" || evaluatorID == "" || situation.isEmpty() || requestedChange.isEmpty())
 			validateFields(); // method extracted
 		else {
+			args.clear();
 			addFieldsToArgs();
 			args.set(6, attachedFile);
 			newChangeRequestController.submitWasPressed(args);
@@ -158,30 +160,43 @@ public class NewChangeRequestFX extends BaseFX {
 		changeReasons = jfxreasons.getText();
 		notes = jfxnotes.getText();
 	}
-	
-	/** A method to initialize the Information Systems ComboBox for picking an Information System. */
+
+	/**
+	 * A method to initialize the Information Systems ComboBox for picking an
+	 * Information System.
+	 */
 	public void initInformationSystemDetails(Boolean idCanBeNull) {
 		newChangeRequestController.initInformationSystemDetails(idCanBeNull);
 	}
-	
-	/** A method to handle the initialization of the Information Systems ComboBox for picking an Information System. */
+
+	/**
+	 * A method to handle the initialization of the Information Systems ComboBox for
+	 * picking an Information System.
+	 */
 	public void handleInformationSystemComboBox(MessageObject message) {
 		infoSysComboBox.getItems().clear();
-		infoSysNames = (ArrayList<String>)message.getArgs().get(0);
-		currentEvaluatorIDs = (ArrayList<String>)message.getArgs().get(1);
+		infoSysNames = (ArrayList<String>) message.getArgs().get(0);
+		currentEvaluatorIDs = (ArrayList<String>) message.getArgs().get(1);
 		infoSysComboBox.getItems().addAll(infoSysNames);
 	}
-	
-	/** This method updates the Current Evaluator TextField whenever an item was chosen */
+
+	/**
+	 * This method updates the Current Evaluator TextField whenever an item was
+	 * chosen
+	 */
 	@FXML
 	public void updateCurrentEvaluator(ActionEvent event) {
 		if (infoSysComboBox.getValue() == "")
 			return;
 		String currentEvaluatorDetails = infoSysComboBox.getValue();
+		
 		int currentEvaluatorDetailsIndex = infoSysNames.indexOf(currentEvaluatorDetails);
+		
 		if (currentEvaluatorDetailsIndex != -1) {
 			currentEvaluatorDetails = currentEvaluatorIDs.get(currentEvaluatorDetailsIndex);
 			evaluatorID = currentEvaluatorDetails;
+		
+			
 		}
 	}
 
@@ -202,17 +217,19 @@ public class NewChangeRequestFX extends BaseFX {
 		args.add("Initial");
 		args.add("Active");
 		args.add(Client.getInstance().getCurrentUser().getId());
-		
+		args.add(evaluatorID);
+
 	}
 
 	/**
 	 * This method validates the fields
 	 */
 	private void validateFields() {
-		//jfxinfSys.validate();
+		// jfxinfSys.validate();
 		if (infoSysComboBox.getValue() == "" || evaluatorID == "")
-			 fillComboBoxAlert.setVisible(true);
-		else fillComboBoxAlert.setVisible(false);
+			fillComboBoxAlert.setVisible(true);
+		else
+			fillComboBoxAlert.setVisible(false);
 		jfxsituation.validate();
 		jfxrequestedChange.validate();
 		jfxreasons.validate();
@@ -225,7 +242,7 @@ public class NewChangeRequestFX extends BaseFX {
 	public void setValdiator() {
 		RequiredFieldValidator validator = new RequiredFieldValidator();
 
-		//jfxinfSys.getValidators().add(validator);
+		// jfxinfSys.getValidators().add(validator);
 		jfxsituation.getValidators().add(validator);
 		jfxrequestedChange.getValidators().add(validator);
 		jfxreasons.getValidators().add(validator);
@@ -301,7 +318,7 @@ public class NewChangeRequestFX extends BaseFX {
 	 */
 	public void clearFields() {
 		// TODO Auto-generated method stub
-		//jfxinfSys.setText("");
+		// jfxinfSys.setText("");
 		jfxsituation.setText("");
 		jfxrequestedChange.setText("");
 		jfxreasons.setText("");
@@ -311,14 +328,13 @@ public class NewChangeRequestFX extends BaseFX {
 		fillComboBoxAlert.setVisible(false);
 	}
 
+	// ---------------------------------side panel methods--------------------
 
-	//---------------------------------side panel methods--------------------
-	
 	@FXML
 	public void ManageApprovesWasPressed(ActionEvent event) {
 		newChangeRequestController.manageAprrovementWasPressed(event);
 	}
-	
+
 	@FXML
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
 		newChangeRequestController.ViewAllRequestsWasPressed(event);
@@ -328,10 +344,12 @@ public class NewChangeRequestFX extends BaseFX {
 	public void logOutWasPressed(ActionEvent event) {
 		newChangeRequestController.logOutWasPressed(event);
 	}
-	
+
 	// ISD START
 	/**
-	 * Manage permanent roles (supervisor, committee), and Information System's evaluators.
+	 * Manage permanent roles (supervisor, committee), and Information System's
+	 * evaluators.
+	 * 
 	 * @author Raz Malka
 	 * @param event
 	 */
@@ -339,12 +357,12 @@ public class NewChangeRequestFX extends BaseFX {
 	public void managePermissionsWasPressed(ActionEvent event) {
 		newChangeRequestController.managePermissionsWasPressed(event);
 	}
-	
+
 	@FXML
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
 		newChangeRequestController.viewAllSystemDataWasPressed(event);
 	}
-	
+
 	@FXML
 	public void viewStatisticsReportWasPressed(ActionEvent event) {
 		newChangeRequestController.viewStatisticsReportWasPressed(event);
