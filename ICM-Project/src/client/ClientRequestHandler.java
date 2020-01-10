@@ -1,6 +1,5 @@
 package client;
 
-import Gui.ApprovementFX;
 import Gui.BaseFX;
 import Gui.EvaluatorApproveSceneFX;
 import Gui.LoginFX;
@@ -21,8 +20,8 @@ public class ClientRequestHandler {
 		Client.getInstance().printMessageRecieved(message);
 		Object currentFX = ScreenManager.getInstance().getCurrentFX();
 		BaseFX baseFX = (BaseFX) ScreenManager.getInstance().getCurrentFX();
-		//if(message.getTypeRequest()!=RequestType.viewRequestTable)
-			//checkInstance(message.getTypeRequest(),currentFX);
+		// if(message.getTypeRequest()!=RequestType.viewRequestTable)
+		// checkInstance(message.getTypeRequest(),currentFX);
 		switch (message.getTypeRequest()) {
 		case ErrorThisUserIsAllreadyLoggedIn:
 			baseFX.loginErrorAllreadyLoggedIn(message, currentFX);
@@ -44,7 +43,7 @@ public class ClientRequestHandler {
 			break;
 		case ViewAttachedFiles:
 			((ViewAttachedFilesFX) currentFX).handleShowAttachedFiles(message);
-			checkInstance(message.getTypeRequest(),ScreenManager.getInstance().getCurrentFX());
+
 			break;
 		case DownloadAttachedFiles:
 			((ViewAttachedFilesFX) currentFX).handleDownloadAttachedFiles(message);
@@ -72,60 +71,33 @@ public class ClientRequestHandler {
 		}
 	}
 	/**
-	public void checkInstance(RequestType type, Object currentFX) {
-		switch (type) {
-		case Login:
-			if (!(currentFX instanceof LoginFX))
-				System.out.println("ERROR CURRENT_FX NOT INSTANCE OF LoginFX");
-			break;
-		case View_Req_Details:
-			if (!(currentFX instanceof RequestDetailsFX))
-				System.out.println("ERROR CURRENT_FX NOT INSTANCE OF RequestDetailsFX");
-			break;
-		case refreshViewUserRequestTable:
-			if (!(currentFX instanceof ViewAllRequestsFX))
-				System.out.println("ERROR CURRENT_FX NOT INSTANCE OF ViewAllRequestsFX");	
-			break;
-		case viewRequestTable:
-			if (!(currentFX instanceof ViewAllRequestsFX))
-				System.out.println("ERROR CURRENT_FX NOT INSTANCE OF ViewAllRequestsFX");
-			break;
-		case NewChangeRequest:
-			if (!(currentFX instanceof NewChangeRequestFX))
-				System.out.println("ERROR CURRENT_FX NOT INSTANCE OF NewChangeRequestFX");
-			break;
-		case ViewAttachedFiles:
-			if (!(currentFX instanceof ViewAttachedFilesFX))
-				System.out.println("ERROR CURRENT_FX NOT INSTANCE OF ViewAttachedFilesFX");
-		case DownloadAttachedFiles:
-			if (!(currentFX instanceof ViewAttachedFilesFX))
-				System.out.println("ERROR CURRENT_FX NOT INSTANCE OF ViewAttachedFilesFX");
-			break;
-		case ApprovedEvaluator:
-			if (!(currentFX instanceof LoginFX))
-				System.out.println("ERROR CURRENT_FX NOT INSTANCE OF EvaluatorApproveSceneFX");
-			break;
-		case InformationSystem_Details:
-			if (!(currentFX instanceof ManagePermissionsFX))
-				if (!(currentFX instanceof NewChangeRequestFX))
-					System.out.println("ERROR While trying to switch scene from main panelS");
-			break;
-		case AllUserDetails:
-			if (!(currentFX instanceof ManagePermissionsFX))
-				System.out.println("ERROR CURRENT_FX NOT INSTANCE OF ManagePermissionsFX");
-			break;
-		case PermanentRoles_Details:
-			if (!(currentFX instanceof ManagePermissionsFX))
-				System.out.println("ERROR CURRENT_FX NOT INSTANCE OF ManagePermissionsFX");
-			break;
-		case ViewEvaluatorTable:
-			if (!(currentFX instanceof ManageApprovesFX))
-				System.out.println("ERROR CURRENT_FX NOT INSTANCE OF ManageApprovesFX");
-			break;
-		default:
-			break;
-		}
-	}
-	*/
-	
+	 * public void checkInstance(RequestType type, Object currentFX) { switch (type)
+	 * { case Login: if (!(currentFX instanceof LoginFX)) System.out.println("ERROR
+	 * CURRENT_FX NOT INSTANCE OF LoginFX"); break; case View_Req_Details: if
+	 * (!(currentFX instanceof RequestDetailsFX)) System.out.println("ERROR
+	 * CURRENT_FX NOT INSTANCE OF RequestDetailsFX"); break; case
+	 * refreshViewUserRequestTable: if (!(currentFX instanceof ViewAllRequestsFX))
+	 * System.out.println("ERROR CURRENT_FX NOT INSTANCE OF ViewAllRequestsFX");
+	 * break; case viewRequestTable: if (!(currentFX instanceof ViewAllRequestsFX))
+	 * System.out.println("ERROR CURRENT_FX NOT INSTANCE OF ViewAllRequestsFX");
+	 * break; case NewChangeRequest: if (!(currentFX instanceof NewChangeRequestFX))
+	 * System.out.println("ERROR CURRENT_FX NOT INSTANCE OF NewChangeRequestFX");
+	 * break; case ViewAttachedFiles: if (!(currentFX instanceof
+	 * ViewAttachedFilesFX)) System.out.println("ERROR CURRENT_FX NOT INSTANCE OF
+	 * ViewAttachedFilesFX"); case DownloadAttachedFiles: if (!(currentFX instanceof
+	 * ViewAttachedFilesFX)) System.out.println("ERROR CURRENT_FX NOT INSTANCE OF
+	 * ViewAttachedFilesFX"); break; case ApprovedEvaluator: if (!(currentFX
+	 * instanceof LoginFX)) System.out.println("ERROR CURRENT_FX NOT INSTANCE OF
+	 * EvaluatorApproveSceneFX"); break; case InformationSystem_Details: if
+	 * (!(currentFX instanceof ManagePermissionsFX)) if (!(currentFX instanceof
+	 * NewChangeRequestFX)) System.out.println("ERROR While trying to switch scene
+	 * from main panelS"); break; case AllUserDetails: if (!(currentFX instanceof
+	 * ManagePermissionsFX)) System.out.println("ERROR CURRENT_FX NOT INSTANCE OF
+	 * ManagePermissionsFX"); break; case PermanentRoles_Details: if (!(currentFX
+	 * instanceof ManagePermissionsFX)) System.out.println("ERROR CURRENT_FX NOT
+	 * INSTANCE OF ManagePermissionsFX"); break; case ViewEvaluatorTable: if
+	 * (!(currentFX instanceof ManageApprovesFX)) System.out.println("ERROR
+	 * CURRENT_FX NOT INSTANCE OF ManageApprovesFX"); break; default: break; } }
+	 */
+
 }
