@@ -24,24 +24,24 @@ public class ClientUI extends Application {
 	 * The First scene to load can be changed if the creation of new client failed
 	 */
 	public String FirstScene;
-	
+
 	/**
 	 * The default port to connect on.
 	 */
 	final public static int DEFAULT_PORT = 5555;
-	
+
 	/**
 	 * The default server to connect to.
 	 */
 	final public static String DEFAULT_SERVER = "localhost";
-	
+
 	private static ClientUI singletonInstance = null;
 
 //Constructors ****************************************************
 
 	/**
-	 * Constructs an instance of the ClientUI singleton.
-	 * Must stay public as required by those whom extend Application
+	 * Constructs an instance of the ClientUI singleton. Must stay public as
+	 * required by those whom extend Application
 	 */
 	public ClientUI() {
 		if (singletonInstance == null)
@@ -52,6 +52,7 @@ public class ClientUI extends Application {
 
 	/**
 	 * Get the Singleton's Instance
+	 * 
 	 * @return ClientUI Singleton Instance
 	 */
 	public static ClientUI getInstance() {
@@ -71,11 +72,12 @@ public class ClientUI extends Application {
 
 		try {
 			Client.initialize(DEFAULT_SERVER, DEFAULT_PORT);
-			FirstScene = "../Gui/Login.fxml";
+
+			FirstScene = "/Gui/Login.fxml";
 		} catch (IOException exception) {
-			FirstScene = "../Gui/ConnectServerManualy.fxml";
+			FirstScene = "/Gui/ConnectServerManualy.fxml";
 			System.out.println("Error: Can't setup connection!" + " Terminating client.");
-			// System.exit(1); /// not need
+
 		}
 
 		Parent root;
@@ -103,6 +105,7 @@ public class ClientUI extends Application {
 				System.exit(0);
 			}
 		});
+
 		primaryStage.show();
 
 		ScreenManager.initialize(scene, primaryStage, FirstScene.substring(0, FirstScene.length() - 5));
