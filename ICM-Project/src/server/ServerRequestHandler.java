@@ -188,12 +188,13 @@ public class ServerRequestHandler {
 	public MessageObject handleDownloadFile(MessageObject message) {
 		String[] fileNames = (String[]) message.getArgs().get(0);
 		String requestID = (String) message.getArgs().get(1);
+		String dir = System.getProperty("user.dir");
 		File file;
 
 		MyFile[] downloadFileList = new MyFile[fileNames.length];
 		int i = 0;
 		for (String fileName : fileNames) {
-			file = new File("C:\\RequestsAttachedFiles\\" + requestID + "\\" + fileName);
+			file = new File(dir + "\\RequestsAttachedFiles\\" + requestID + "\\" + fileName);
 			downloadFileList[i] = downloadFile(file);
 			i++;
 		}
@@ -203,6 +204,7 @@ public class ServerRequestHandler {
 		return message;
 
 	}
+
 
 	public MyFile downloadFile(File file) {
 		MyFile downloadedFile = new MyFile(file.getName());
@@ -235,7 +237,8 @@ public class ServerRequestHandler {
 	 */
 	public MessageObject handleViewAttachedFiles(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
-		File file = new File("C:\\RequestsAttachedFiles\\" + requestID);
+		 String dir = System.getProperty("user.dir");
+		File file = new File(dir + "\\RequestsAttachedFiles\\" + requestID);
 
 		String[] stringFileArray = null;
 		if (file.exists())
@@ -247,6 +250,7 @@ public class ServerRequestHandler {
 		return message;
 
 	}
+
 
 	/**
 	 * this method handles a creation of new change request
@@ -276,18 +280,17 @@ public class ServerRequestHandler {
 	 *
 	 * @param msg    The message received from the client.
 	 * @param client The connection from which the message originated.
-	 * @author Raz Malka
 	 */
 	public void handleAttachFile(MessageObject message, ConnectionToClient client) {
 		if (message.getArgs().get(0) instanceof MyFile) {
 			MyFile attachedFile = (MyFile) message.getArgs().get(0);
-
+			String dir = System.getProperty("user.dir");
 			// add check to see if the user is active or not
 			String requestID = (String) message.getArgs().get(1);
 
 			createFolder(requestID);
 
-			File newFile = new File("C:\\RequestsAttachedFiles\\" + requestID + "\\" + attachedFile.getFileName());
+			File newFile = new File(dir + "\\RequestsAttachedFiles\\" + requestID + "\\" + attachedFile.getFileName());
 			try {
 
 				byte[] myByteArray = attachedFile.getMybytearray();
@@ -301,12 +304,15 @@ public class ServerRequestHandler {
 			} catch (FileNotFoundException e) {
 
 				e.printStackTrace();
+
 			} catch (IOException e) {
 
 				e.printStackTrace();
+
 			}
 
 		}
+
 	}
 
 	/**
@@ -377,33 +383,28 @@ public class ServerRequestHandler {
 	}
 
 	public void createFolder(String path) {
-		File file = new File("C:\\RequestsAttachedFiles");
+
+		String dir = System.getProperty("user.dir");
+		File file = new File(dir + "\\RequestsAttachedFiles");
 		if (!file.exists()) {
 			if (file.mkdir()) {
-				System.out.println("Directory is created: C:\\RequestsAttachedFiles");
+				System.out.println("Directory is created: " + dir + " \\RequestsAttachedFiles");
+			} else {
+				System.out.println("Failed to create directory!: " + path);
+			}
+		}
+		file = new File(dir + "\\RequestsAttachedFiles\\" + path);
+		if (!file.exists()) {
+			if (file.mkdir()) {
+				System.out.println("Directory is created: " + dir + " \\RequestsAttachedFiles\\" + path);
 			} else {
 				System.out.println("Failed to create directory!: " + path);
 			}
 		}
 
-		file = new File("C:\\RequestsAttachedFiles\\" + path);
-		if (!file.exists()) {
-			if (file.mkdir()) {
-				System.out.println("Directory is created: C:\\RequestsAttachedFiles\\" + path);
-			} else {
-				System.out.println("Failed to create directory!: " + path);
-			}
-		}
-
-		file = new File("C:\\RequestsAttachedFiles\\" + path + "\\EvaluatorsReport");
-		if (!file.exists()) {
-			if (file.mkdir()) {
-				System.out.println("Directory is created: C:\\RequestsAttachedFiles\\" + path + "\\EvaluatorsReport");
-			} else {
-				System.out.println("Failed to create directory!: " + path);
-			}
-		}
 	}
+
+
 
 	/**
 	 * This method handles the Details of Information Systems
