@@ -2,6 +2,7 @@ package client;
 
 import Gui.BaseFX;
 import Gui.EvaluatorApproveSceneFX;
+import Gui.EvaluatorReportSubmitionFX;
 import Gui.LoginFX;
 import Gui.ManageApprovesFX;
 import Gui.ManagePermissionsFX;
@@ -51,8 +52,8 @@ public class ClientRequestHandler {
 			break;
 		case ApprovedEvaluator:
 			if (currentFX instanceof EvaluatorApproveSceneFX)
-			((EvaluatorApproveSceneFX) currentFX).loadEvaluatorTable();
-			else if(currentFX instanceof ReplaceEvaluatorSceneFX)
+				((EvaluatorApproveSceneFX) currentFX).loadEvaluatorTable();
+			else if (currentFX instanceof ReplaceEvaluatorSceneFX)
 				((ReplaceEvaluatorSceneFX) currentFX).loadEvaluatorTable();
 			break;
 		case InformationSystem_Details:
@@ -71,8 +72,10 @@ public class ClientRequestHandler {
 			((ManageApprovesFX) currentFX).loadEvaluatorTable(message);
 			break;
 		case ViewIseTable:
-			((ReplaceEvaluatorSceneFX )currentFX).loadISETable(message);
+			((ReplaceEvaluatorSceneFX) currentFX).loadISETable(message);
 			break;
+		case UploadEvaluatorReport:
+			((EvaluatorReportSubmitionFX) currentFX).reportWasSent(message);
 		default:
 			break;
 		}

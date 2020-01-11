@@ -88,6 +88,9 @@ public class ServerRequestHandler {
 			case ViewEvaluatorTable:
 				responseMessage = handleEvaluatorTable(message, client);
 				break;
+			case UploadEvaluatorReport:
+				responseMessage = handleUploadEvaluatorReport(message, client);
+				break;
 			case ViewIseTable:
 				responseMessage = handleISETable(message, client);
 				break;
@@ -102,13 +105,30 @@ public class ServerRequestHandler {
 	}
 
 	/**
-	 * bring from the database Table of all ISE workers for Supervisor to pick new Evaluator when he reject the automatic Appoitment
+	 * bring from the database Table of all ISE workers for Supervisor to pick new
+	 * Evaluator when he reject the automatic Appoitment
 	 * 
-	 * @param message
-	 * @param client
 	 */
 	private MessageObject handleISETable(MessageObject message, ConnectionToClient client) {
 		return mysqlRequestHandler.viewIseTable(message);
+	}
+
+	/**
+	 * this method uploads the evaluator report to the relevant table in the db
+	 * 
+	 * @param message
+	 * @param client
+	 * @return
+	 */
+	private MessageObject handleUploadEvaluatorReport(MessageObject message, ConnectionToClient client) {
+
+		boolean result = mysqlRequestHandler.uploadEvaluatorReport((String) message.getArgs().get(3),
+				(String) message.getArgs().get(0), (String) message.getArgs().get(1), (String) message.getArgs().get(2),
+				(String) message.getArgs().get(4));
+		message.getArgs().clear();
+		message.getArgs().add(result);
+		return message;
+
 	}
 
 	/**
@@ -137,7 +157,7 @@ public class ServerRequestHandler {
 	private MessageObject handleEvaluatorTable(MessageObject message, ConnectionToClient client) {
 		return mysqlRequestHandler.viewEvaluatorTable(message);
 	}
-	
+
 	private void handleUpdateEvaluator(MessageObject message, ConnectionToClient client) {
 		try {
 			mysqlRequestHandler.updateEvaluator(message);
@@ -245,8 +265,6 @@ public class ServerRequestHandler {
 
 		args.add(res);
 		args.add(requestID);
-
-		
 
 		message.setTypeRequest(RequestType.NewChangeRequest);
 		message.setArgs(args);

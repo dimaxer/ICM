@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
 
+import Common.EvalutorAppoitmentTableSerializble;
 import Common.Request;
 import Common.User;
 import Common.EvaluatorAppoitmentTable.EvalutorAppoitmentTableSerializble;
@@ -58,10 +59,9 @@ public class SqlRequestHandler {
 					stmt.setString(i + 1, args.get(i).toString());
 
 			stmt.executeUpdate();
-			
-			insertNewEvaluatorToEvaluatorTable(args.get(10).toString());       /// insert New Evaluator to "Evaluator Appointment Table"
-			
-			// automaticAppointmentEvaluator(getLastInsertID());
+
+			insertNewEvaluatorToEvaluatorTable(args.get(10).toString()); /// insert New Evaluator to "Evaluator
+																			/// Appointment Table"
 			System.out.println("Query of Create New Request Executed Successfully!");
 
 		} catch (SQLException e) {
@@ -221,13 +221,13 @@ public class SqlRequestHandler {
 			break;
 		case "ISD Chief":
 			result = viewAllRequestTable(msg.getTypeRequest(), currentUser);
-			break; // Should be changed
+			break;
 		case "Committee Member":
-			result = viewAllRequestTable(msg.getTypeRequest(), currentUser);
-			break; // Should be changed
+			result = viewChairManRequestTable(msg.getTypeRequest(), currentUser);
+			break;
 		case "Committee Chairman":
-			result = viewAllRequestTable(msg.getTypeRequest(), currentUser);
-			break; // Should be changed
+			result = viewChairManRequestTable(msg.getTypeRequest(), currentUser);
+			break;
 		default:
 			result = viewUserRequestTable(msg.getTypeRequest(), currentUser);
 			break;
@@ -235,43 +235,52 @@ public class SqlRequestHandler {
 		return result;
 	}
 
+	/**
+	 * returns all requests
+	 * 
+	 * @param requestType
+	 * @param currentUser
+	 * @return
+	 */
 	private MessageObject viewAllRequestTable(RequestType requestType, User currentUser) {
-		ResultSet requestsResult;
+
 		// new MessageObject to send back to the use the answer
 		MessageObject newMessage = new MessageObject(requestType, new ArrayList<>());
 
 		String requestsQuery = "SELECT * FROM Requests";
 
-		try {
-			requestsResult = executeQuery(requestsQuery);
-
-			if (!requestsResult.next()) {
-				newMessage.getArgs().add(currentUser);
-				return newMessage;
-			}
-
-			do
-				currentUser.getRequestArray().add(new Request(requestsResult));
-			while (requestsResult.next());
-			newMessage.getArgs().add(currentUser);
-			return newMessage;
-		} catch (SQLException e) {
-			System.out.println("An Error occured while trying to execute this viewUserRequestTable query: ");
-			e.printStackTrace();
-		}
-		return null;
+		return getRequestData(currentUser, newMessage, requestsQuery);
 	}
 
-	private MessageObject viewUserRequestTable(RequestType requestType, User currentUser) {
-		String userID = currentUser.getId();
-		ResultSet userRequestsResult;
+	/**
+	 * returns only requests that are in the decision stage so that the committee
+	 * members could start working
+	 * 
+	 * @param requestType
+	 * @param currentUser
+	 * @return
+	 */
+	private MessageObject viewChairManRequestTable(RequestType requestType, User currentUser) {
+
 		// new MessageObject to send back to the use the answer
 		MessageObject newMessage = new MessageObject(requestType, new ArrayList<>());
 
 		// Query for getting all the request where the user is relevent to them
-		String userRequestsQuery = "SELECT * " + "FROM Requests " + "WHERE \'" + userID
-				+ "\' IN (InitiatorID, TesterID, ExecutionLeaderID, EvaluatorID)";
+		String userRequestsQuery = "SELECT * FROM Requests WHERE Stage='Decision'";
 
+		return getRequestData(currentUser, newMessage, userRequestsQuery);
+	}
+
+	/**
+	 * gets request data by using a specific query returns MessageObject
+	 * 
+	 * @param currentUser
+	 * @param newMessage
+	 * @param userRequestsQuery
+	 * @return
+	 */
+	private MessageObject getRequestData(User currentUser, MessageObject newMessage, String userRequestsQuery) {
+		ResultSet userRequestsResult;
 		try {
 			userRequestsResult = executeQuery(userRequestsQuery);
 
@@ -290,6 +299,19 @@ public class SqlRequestHandler {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private MessageObject viewUserRequestTable(RequestType requestType, User currentUser) {
+		String userID = currentUser.getId();
+
+		// new MessageObject to send back to the use the answer
+		MessageObject newMessage = new MessageObject(requestType, new ArrayList<>());
+
+		// Query for getting all the request where the user is relevent to them
+		String userRequestsQuery = "SELECT * " + "FROM Requests " + "WHERE \'" + userID
+				+ "\' IN (InitiatorID, TesterID, ExecutionLeaderID, EvaluatorID)";
+
+		return getRequestData(currentUser, newMessage, userRequestsQuery);
 	}
 
 	/**
@@ -359,8 +381,9 @@ public class SqlRequestHandler {
 	/**
 	 * appoint evaluator by the system shoham
 	 * 
-	 * @param requestID
 	 * @deprecated
+	 * @param requestID
+	 * 
 	 * @return
 	 */
 	public void automaticAppointmentEvaluator(String requestID) {
@@ -401,35 +424,34 @@ public class SqlRequestHandler {
 		}
 
 	}
-	
-	
+
 	/**
 	 * insert the current Evaluator to Evaluator Appointment Table
 	 * 
 	 * @param EvaluatorID
 	 * @return
 	 */
-public void insertNewEvaluatorToEvaluatorTable(String EvaluatorID)
-{
-	
-	ResultSet EvaluatorRs=executeQuery(new String("SELECT Name FROM Users WHERE UserID=" + EvaluatorID));
-	try {
-	EvaluatorRs.next();
-	String EvaluatorName=EvaluatorRs.getString("Name");
-	String requestID=getLastInsertID();
-	PreparedStatement stmt;
-	String insertEvaluatorQuery = "INSERT INTO EvaluatorAppointment (RequestID, EvaluatorID,EvaulatorName) VALUES (?, ?, ?);";
-	
-		stmt = mysqlConnection.getInstance().getConnection().prepareStatement(insertEvaluatorQuery);
-	
-	stmt.setString(1, requestID);
-	stmt.setString(2, EvaluatorID);
-	stmt.setString(3, EvaluatorName);
-	stmt.executeUpdate();
-	}catch (SQLException e) {
-		e.printStackTrace();
+	public void insertNewEvaluatorToEvaluatorTable(String EvaluatorID) {
+
+		ResultSet EvaluatorRs = executeQuery(new String("SELECT Name FROM Users WHERE UserID=" + EvaluatorID));
+		try {
+			EvaluatorRs.next();
+			String EvaluatorName = EvaluatorRs.getString("Name");
+			String requestID = getLastInsertID();
+			PreparedStatement stmt;
+			String insertEvaluatorQuery = "INSERT INTO EvaluatorAppointment (RequestID, EvaluatorID,EvaulatorName) VALUES (?, ?, ?);";
+
+			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(insertEvaluatorQuery);
+
+			stmt.setString(1, requestID);
+			stmt.setString(2, EvaluatorID);
+			stmt.setString(3, EvaluatorName);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
-}
+
 	/**
 	 * delete evaluator from EvaluatorAppointment because he was approved by the
 	 * Supervisor
@@ -564,7 +586,7 @@ public void insertNewEvaluatorToEvaluatorTable(String EvaluatorID)
 		ResultSet rs;
 		MessageObject response = new MessageObject(RequestType.AllUserDetails, new ArrayList<>());
 		HashMap<String, String> userData = new HashMap<>();
-		String query = "SELECT UserID, Name FROM Users WHERE userType = 'Worker'";
+		String query = "SELECT UserID, Name FROM Users WHERE userType = 'ISE'";
 		PreparedStatement stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
 
 		try {
@@ -681,6 +703,7 @@ public void insertNewEvaluatorToEvaluatorTable(String EvaluatorID)
 						rs.getString("EvaluatorID"), rs.getString("EvaulatorName")));
 
 			} while (rs.next());
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -689,17 +712,12 @@ public void insertNewEvaluatorToEvaluatorTable(String EvaluatorID)
 
 	}
 
-	/**
-	 * This methods gets the table of all ISE workers
-	 * 
-	 * @author Noam keren
-	 * @throws SQLException
-	 */
 	public MessageObject viewIseTable(MessageObject message) {
-		String Quary1="SELECT userID from PermanentEmployee )";
-		String Quary2="SELECT evaluatorID FROM InformationSystem  )";
-		ResultSet rs = executeQuery(new String("SELECT UserID,Name FROM Users WHERE userType = \"ISE\" AND UserID NOT IN (  ")+Quary1+"AND UserID NOT IN ( "+Quary2);
-		
+		String Quary1 = "SELECT userID from PermanentEmployee )";
+		String Quary2 = "SELECT evaluatorID FROM InformationSystem  )";
+		ResultSet rs = executeQuery(
+				new String("SELECT UserID,Name FROM Users WHERE userType = \"ISE\" AND UserID NOT IN (  ") + Quary1
+						+ "AND UserID NOT IN ( " + Quary2);
 		try {
 			if (!(rs.next())) {
 				message.getArgs().add(false);
@@ -709,13 +727,75 @@ public void insertNewEvaluatorToEvaluatorTable(String EvaluatorID)
 			do {
 				message.getArgs()
 						.add(new EvalutorAppoitmentTableSerializble(rs.getString("UserID"), rs.getString("Name")));
-
 			} while (rs.next());
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return message;
+	}
+
+	/**
+	 * this method uploads the evaluator report to the db
+	 * 
+	 * @param requestID
+	 * @param description
+	 * @param constraints
+	 * @param result
+	 * @param evaluatorID
+	 * @return
+	 */
+	public boolean uploadEvaluatorReport(String requestID, String description, String constraints, String result,
+			String evaluatorID) {
+		String insertEvaluationReport = "INSERT INTO EvaluationReport (RequestId, EvaluatorID, Description, Constraints, Result) VALUES (?, ?, ?, ?, ?)";
+		PreparedStatement stmt;
+		try {
+			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(insertEvaluationReport);
+
+			stmt.setString(1, requestID);
+			stmt.setString(2, evaluatorID);
+			stmt.setString(3, description);
+			stmt.setString(4, constraints);
+			stmt.setString(5, result);
+
+			stmt.executeUpdate();
+			return changeStageToInspectonAndDecision(requestID, evaluatorID);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+
+		}
+
+	}
+
+	/**
+	 * this method changes the stage of the request to inspection And Decision by
+	 * removing from the request the evaluator id and adding committee members to
+	 * the request
+	 * 
+	 * @param requestID
+	 * @param EvaluatorID
+	 * @return
+	 */
+	public boolean changeStageToInspectonAndDecision(String requestID, String EvaluatorID) {
+
+		String query = "UPDATE Requests SET EvaluatorID = ?,Stage= 'Decision' WHERE EvaluatorID = ? AND RequestID = ? ";
+
+		try {
+			PreparedStatement stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
+
+			stmt.setNull(1, java.sql.Types.VARCHAR);
+			stmt.setString(2, EvaluatorID);
+			stmt.setString(3, requestID);
+
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
 
 	}
 }

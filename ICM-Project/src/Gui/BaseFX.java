@@ -6,20 +6,15 @@ import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
-import com.jfoenix.controls.JFXButton;
-
 import Common.User;
 import LogicController.BaseController;
 import Utilities.MessageObject;
 import Utilities.ScreenManager;
 import client.Client;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 /**
@@ -29,14 +24,10 @@ import javafx.scene.paint.Color;
  * @author Malka
  * @author Noam
  */
-
-
-
-
 public abstract class BaseFX implements Initializable {
 
 	private BaseController baseController = new BaseController();
-	
+
 	@Override
 	public abstract void initialize(URL arg0, ResourceBundle arg1);
 

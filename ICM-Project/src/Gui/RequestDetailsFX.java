@@ -38,25 +38,25 @@ import javafx.stage.FileChooser;
  */
 public class RequestDetailsFX extends BaseFX {
 
-	//   ____                                         _     _              
-	//  |  _ \   _ __    ___    _ __     ___   _ __  | |_  (_)   ___   ___ 
-	//  | |_) | | '__|  / _ \  | '_ \   / _ \ | '__| | __| | |  / _ \ / __|
-	//  |  __/  | |    | (_) | | |_) | |  __/ | |    | |_  | | |  __/ \__ \
-	//  |_|     |_|     \___/  | .__/   \___| |_|     \__| |_|  \___| |___/
-	//                         |_|                                         
+	// ____ _ _
+	// | _ \ _ __ ___ _ __ ___ _ __ | |_ (_) ___ ___
+	// | |_) | | '__| / _ \ | '_ \ / _ \ | '__| | __| | | / _ \ / __|
+	// | __/ | | | (_) | | |_) | | __/ | | | |_ | | | __/ \__ \
+	// |_| |_| \___/ | .__/ \___| |_| \__| |_| \___| |___/
+	// |_|
 	// Class Properties ************************************************
 	private RequestDetailsController requestDetailsController;
-	
+
 	// Side Bar Properties *********************************************
 	@FXML
 	private AnchorPane isdPane;
 
 	@FXML
 	private VBox supervisorPanel;
-	
+
 	@FXML
 	private VBox all_roles;
-	
+
 	@FXML
 	private JFXButton ManageApproves;
 
@@ -87,10 +87,6 @@ public class RequestDetailsFX extends BaseFX {
 	private TextArea notes;
 
 	private String requestID;
-	
-	private Request request;
-	
-	private String role;
 
 	// Role AnchorPane Properties **************************************
 	@FXML
@@ -112,8 +108,6 @@ public class RequestDetailsFX extends BaseFX {
 	 * 
 	 * @FXML private Hyperlink evaluatorReport;
 	 */
-	private AttachedFile attachedFile;
-	private AttachedFile evaluatorReportFile;
 
 	// Evaluator Properties ********************************************
 	@FXML
@@ -184,12 +178,12 @@ public class RequestDetailsFX extends BaseFX {
 	@FXML
 	private ComboBox<String> pickTesterCBox;
 
-	//   __  __          _     _                   _       
-	//  |  \/  |   ___  | |_  | |__     ___     __| |  ___ 
-	//  | |\/| |  / _ \ | __| | '_ \   / _ \   / _` | / __|
-	//  | |  | | |  __/ | |_  | | | | | (_) | | (_| | \__ \
-	//  |_|  |_|  \___|  \__| |_| |_|  \___/   \__,_| |___/
-	                                                     
+	// __ __ _ _ _
+	// | \/ | ___ | |_ | |__ ___ __| | ___
+	// | |\/| | / _ \ | __| | '_ \ / _ \ / _` | / __|
+	// | | | | | __/ | |_ | | | | | (_) | | (_| | \__ \
+	// |_| |_| \___| \__| |_| |_| \___/ \__,_| |___/
+
 	// Non Role-Specific Methods ***************************************
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -271,8 +265,7 @@ public class RequestDetailsFX extends BaseFX {
 	 */
 	public void loadRequest(MessageObject message, String role) {
 		Request request = (Request) (message.getArgs().get(2));
-		this.request=request;
-		this.role=role;
+
 		clearFields();
 		loadNonRoleSpecificFields(request);
 
@@ -310,8 +303,7 @@ public class RequestDetailsFX extends BaseFX {
 		clearComboBoxes();
 		clearLabels();
 		clearContainers();
-		request=null;
-		role=null;
+
 	}
 
 	/**
@@ -412,30 +404,17 @@ public class RequestDetailsFX extends BaseFX {
 	}
 
 	/**
-	 * This method handles the case that 'attach file' button was pressed by the
-	 * Evaluator
+	 * This method handles the case that 'Submit Evaluator Report' button was
+	 * pressed by the Evaluator
 	 * 
 	 * @param event
 	 * @role Evaluator
 	 */
 	@FXML
-	public void attachWasPressed(ActionEvent event) {
-		FileChooser jfc = new FileChooser();
-		File returnVal = jfc.showOpenDialog(null);
-		if (returnVal != null) {
-			attachedFile = new AttachedFile(returnVal);
-			String fileExtension = attachedFile.getExtension().toLowerCase();
+	public void submitEvaluationReportWasPressed(ActionEvent event) {
+		requestDetailsController.switchScene("EvaluatorReportSubmition");
+		((EvaluatorReportSubmitionFX) requestDetailsController.getCurrentFX()).setRequestID(requestID);
 
-			if (fileExtension.equals(".pdf") || fileExtension.equals(".doc") || fileExtension.equals(".docx")) {
-				ArrayList<Object> args = new ArrayList<Object>();
-				args.add(attachedFile);
-				args.add(reqIDForEvalReport);
-
-				requestDetailsController.attachWasPressed(args);
-				fileName.setText("File was Uploaded: " + attachedFile.getFile().getName());
-			} else
-				fileName.setText("Invalid File Extension: " + fileExtension);
-		}
 	}
 
 	// Tester Methods **************************************************
@@ -564,39 +543,43 @@ public class RequestDetailsFX extends BaseFX {
 	private void roleComboBoxChanged(ActionEvent event) {
 
 	}
-	
+
 	// Side Panel Methods *************************************************
 	/**
 	 * This event handler switches scenes to Create New Request page
+	 * 
 	 * @param event
 	 */
 	@FXML
 	public void newChangeRequestWasPressed(ActionEvent event) {
 		requestDetailsController.newChangeRequestWasPressed(event);
 	}
-	
+
 	/**
 	 * This event handler switches scenes to Login scene
+	 * 
 	 * @param event
 	 */
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
 		requestDetailsController.logOutWasPressed(event);
 	}
-	
+
 	@FXML
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
 		requestDetailsController.ViewAllRequestsWasPressed(event);
 	}
-	
+
 	@FXML
 	public void ManageApprovesWasPressed(ActionEvent event) {
 		requestDetailsController.switchScene("ManageApproves");
 	}
-	
+
 	// ISD START
 	/**
-	 * Manage permanent roles (supervisor, committee), and Information System's evaluators.
+	 * Manage permanent roles (supervisor, committee), and Information System's
+	 * evaluators.
+	 * 
 	 * @author Raz Malka
 	 * @param event
 	 */
@@ -604,12 +587,12 @@ public class RequestDetailsFX extends BaseFX {
 	public void managePermissionsWasPressed(ActionEvent event) {
 		requestDetailsController.managePermissionsWasPressed(event);
 	}
-	
+
 	@FXML
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
 		requestDetailsController.viewAllSystemDataWasPressed(event);
 	}
-	
+
 	@FXML
 	public void viewStatisticsReportWasPressed(ActionEvent event) {
 		requestDetailsController.viewStatisticsReportWasPressed(event);
