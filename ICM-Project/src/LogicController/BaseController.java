@@ -15,6 +15,7 @@ import Gui.LoginFX;
 import Gui.ManageApprovesFX;
 import Gui.ManagePermissionsFX;
 import Gui.NewChangeRequestFX;
+import Gui.ReplaceEvaluatorSceneFX;
 import Gui.RequestDetailsFX;
 import Gui.StatisticsReportFX;
 import Gui.ViewAllRequestsFX;
@@ -28,7 +29,6 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import Gui.ReplaceEvaluatorSceneFX;
 
 public class BaseController {
 	public void switchScene(String fxml_name) {
@@ -98,12 +98,6 @@ public class BaseController {
 		sendMessage(evaluatorMessage);
 	}
 
-	/**
-	 * function to download file
-	 * 
-	 * @param savePath
-	 * @param file
-	 */
 	public void dwonloadFile(String savePath, MyFile file) {
 
 		// add check to see if the user is active or not
@@ -120,10 +114,10 @@ public class BaseController {
 			fos.flush();
 			bos.close();
 		} catch (FileNotFoundException e) {
-
+			JOptionPane.showMessageDialog(null, "Error occured while trying to download files");
 			e.printStackTrace();
 		} catch (IOException e) {
-
+			JOptionPane.showMessageDialog(null, "Error occured while trying to download files");
 			e.printStackTrace();
 		}
 	}
@@ -169,18 +163,18 @@ public class BaseController {
 		sendMessage(searchRequest);
 	}
 
-	public void replaceEvalutorWasPressed(ActionEvent event, String ReqestID) {
-		switchScene("ReplaceEvaluatorScene");
-		((ReplaceEvaluatorSceneFX) getCurrentFX()).setRequstId(ReqestID);
-		((ReplaceEvaluatorSceneFX) getCurrentFX()).clearFields();
-		((ReplaceEvaluatorSceneFX) getCurrentFX()).loadDataToEvalutorTable();
-	}
-
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
 		if (sceneExists("ViewAllRequests"))
 			switchScene("ViewAllRequests");
 		else
 			viewRequestDetailsWasPressed();
+	}
+
+	public void replaceEvalutorWasPressed(ActionEvent event, String ReqestID) {
+		switchScene("ReplaceEvaluatorScene");
+		((ReplaceEvaluatorSceneFX) getCurrentFX()).setRequstId(ReqestID);
+		((ReplaceEvaluatorSceneFX) getCurrentFX()).clearFields();
+		((ReplaceEvaluatorSceneFX) getCurrentFX()).loadDataToEvalutorTable();
 	}
 
 	public void manageAprrovementWasPressed(ActionEvent event) {

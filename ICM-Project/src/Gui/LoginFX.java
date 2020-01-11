@@ -57,9 +57,9 @@ public class LoginFX extends BaseFX {
 	public void initialize(URL location, ResourceBundle resources) {
 		login.setDefaultButton(true);
 		loginController = new LoginController();
-		
+
 		Date valDate = new Date(); // Current System Date
-	    SimpleDateFormat formatDate = new SimpleDateFormat("dd MMM yyyy"); // Date Format
+		SimpleDateFormat formatDate = new SimpleDateFormat("dd MMM yyyy"); // Date Format
 		date.setText(formatDate.format(valDate)); // Set Date Text
 	}
 
@@ -77,26 +77,22 @@ public class LoginFX extends BaseFX {
 		// Getting the strings from the gui
 		IDText = id.getText();
 		passwordText = password.getText();
-		
-		  // checking if any fields are empty // and alerting if they are if
-		  if((IDText.isEmpty() && passwordText.isEmpty()))
-		  { 
-			  password.validate();
-			  id.validate(); 
-		  }
-		  else if (!IDText.isEmpty() && passwordText.isEmpty())
-		  {
-			  password.validate();
-		  }
-		  if (IDText.isEmpty() && !passwordText.isEmpty())
-		  {
-			  id.validate();
-			  
-		 // if everything is ok send a MessageObject to  the server
-		  } 
-		  else if (!IDText.isEmpty() && !passwordText.isEmpty())
-				loginController.loginWasPressed(IDText, passwordText);{
-	}
+
+		// checking if any fields are empty // and alerting if they are if
+		if ((IDText.isEmpty() && passwordText.isEmpty())) {
+			password.validate();
+			id.validate();
+		} else if (!IDText.isEmpty() && passwordText.isEmpty()) {
+			password.validate();
+		}
+		if (IDText.isEmpty() && !passwordText.isEmpty()) {
+			id.validate();
+
+			// if everything is ok send a MessageObject to the server
+		} else if (!IDText.isEmpty() && !passwordText.isEmpty())
+			loginController.loginWasPressed(IDText, passwordText);
+		{
+		}
 	}
 
 	/**
@@ -147,8 +143,8 @@ public class LoginFX extends BaseFX {
 		});
 		Image icon1;
 		try {
-			final String dir = System.getProperty("user.dir");
-			icon1 = new Image(new FileInputStream(dir+"\\src\\Gui\\Images\\icons8_cancel_22px_2.png"));
+			String dir = System.getProperty("user.dir");
+			icon1 = new Image(new FileInputStream(dir + "\\src\\Gui\\Images\\icons8_cancel_22px_2.png"));
 			validatorId.setIcon(new ImageView(icon1));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -165,8 +161,8 @@ public class LoginFX extends BaseFX {
 		});
 		Image icon2;
 		try {
-			final String dir = System.getProperty("user.dir");
-			icon2 = new Image(new FileInputStream(dir+"\\src\\Gui\\Images\\icons8_cancel_22px_2.png"));
+			String dir = System.getProperty("user.dir");
+			icon2 = new Image(new FileInputStream(dir + "\\src\\Gui\\Images\\icons8_cancel_22px_2.png"));
 			validatorPassword.setIcon(new ImageView(icon2));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

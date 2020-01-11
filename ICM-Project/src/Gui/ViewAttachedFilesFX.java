@@ -119,6 +119,7 @@ public class ViewAttachedFilesFX extends BaseFX {
 	 */
 	public void handleDownloadAttachedFiles(MessageObject message) {
 		viewAttachedFilesController.handleDownloadAttachedFiles(message);
+		JOptionPane.showMessageDialog(null, "Files were downloaded successfully");
 	}
 
 	@FXML
