@@ -50,7 +50,7 @@
                                           </Text>
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane fx:id="evaluatorPane" layoutX="9.0" layoutY="111.0" prefHeight="358.0" prefWidth="285.0">
+                                    <AnchorPane fx:id="evaluatorPane" layoutX="9.0" layoutY="111.0" prefHeight="358.0" prefWidth="285.0" visible="false">
                                        <children>
                                           <Text layoutX="5.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Evaluation Report">
                                              <font>
@@ -170,7 +170,7 @@
                                           </Text>
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane fx:id="committeePane" layoutX="9.0" layoutY="111.0" prefHeight="358.0" prefWidth="285.0" visible="false">
+                                    <AnchorPane fx:id="committeePane" layoutX="9.0" layoutY="111.0" prefHeight="358.0" prefWidth="285.0">
                                        <children>
                                           <Text layoutX="5.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Committee Report">
                                              <font>
@@ -221,13 +221,14 @@
                                           </Text>
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane fx:id="evaluatorReportPane" layoutX="28.0" layoutY="135.0" prefHeight="40.0" prefWidth="188.0" visible="false">
+                                    <AnchorPane fx:id="evaluatorReportPane" layoutX="28.0" layoutY="135.0" prefHeight="40.0" prefWidth="188.0">
                                        <children>
                                           <Text layoutX="5.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Evaluator Report">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
                                           </Text>
+                                          <JFXButton fx:id="viewEvaluatorReport" layoutX="122.0" layoutY="5.0" onAction="#viewEvaluatorReportWasPressed" style="-fx-background-color: white; -fx-background-radius: 30; -fx-border-color: gray; -fx-border-radius: 30;" text="View Evaluator Report" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane fx:id="supervisorPane" layoutX="19.0" layoutY="121.0" prefHeight="358.0" prefWidth="285.0" visible="false">

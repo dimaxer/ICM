@@ -76,6 +76,13 @@ public class ClientRequestHandler {
 			break;
 		case UploadEvaluatorReport:
 			((EvaluatorReportSubmitionFX) currentFX).reportWasSent(message);
+			break;
+		case GetEvaluatorReport:
+			((EvaluatorReportSubmitionFX) currentFX).fillReportFilds(message);
+			break;
+		case moveRequestToExecutionStage:
+			break;
+
 		default:
 			break;
 		}

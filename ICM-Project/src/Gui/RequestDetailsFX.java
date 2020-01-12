@@ -139,6 +139,7 @@ public class RequestDetailsFX extends BaseFX {
 	private JFXButton timeAssessmentBtn;
 	@FXML
 	private JFXTextField extensionDays;
+	
 
 	// Committee Properties ********************************************
 	@FXML
@@ -149,6 +150,8 @@ public class RequestDetailsFX extends BaseFX {
 	private JFXButton approveRequestBtn;
 	@FXML
 	private JFXButton submitMoreDetailsBtn;
+	@FXML
+	private JFXButton viewEvaluatorReport;
 	@FXML
 	private TextArea moreDetails;
 	@FXML
@@ -496,17 +499,40 @@ public class RequestDetailsFX extends BaseFX {
 	@FXML
 	private void rejectRequestWasPressed(ActionEvent event) {
 		executionLeaderReportLabel.setText("Reject Request was Pressed!");
+		
 	}
 
+	/**
+	 * switch scene to view all request and remove the access of the commity to the request
+	 * @param event
+	 */
 	@FXML
 	private void approveRequestWasPressed(ActionEvent event) {
+		requestDetailsController.moveRequestToExecutionStage(requestID);
+		requestDetailsController.switchScene("ViewAllRequests");
+		
 		executionLeaderReportLabel.setText("Approve Request was Pressed!");
+		
 	}
 
 	@FXML
 	private void submitMoreDetailsWasPressed(ActionEvent event) {
 		executionLeaderReportLabel.setText("Request More Details was Pressed!");
 	}
+	
+	/**
+	 * switch scene to EvaluatorReportSubmition where we can only view the report
+	 * @param event
+	 */
+	@FXML
+	private void viewEvaluatorReportWasPressed(ActionEvent event) {
+		requestDetailsController.switchScene("EvaluatorReportSubmition");
+		((EvaluatorReportSubmitionFX) requestDetailsController.getCurrentFX()).setRequestID(requestID);
+		((EvaluatorReportSubmitionFX) requestDetailsController.getCurrentFX()).adjustScreenToViewEvaluatorReport();
+		
+	}
+	
+	
 
 	// Supervisor Methods *************************************************
 	private void loadSupervisorFields(Request request) {
@@ -573,6 +599,7 @@ public class RequestDetailsFX extends BaseFX {
 	@FXML
 	public void ManageApprovesWasPressed(ActionEvent event) {
 		requestDetailsController.switchScene("ManageApproves");
+		
 	}
 
 	// ISD START

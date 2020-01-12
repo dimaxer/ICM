@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
 
+import Common.EvaluatorReport;
 import Common.Request;
 import Common.User;
 import Common.EvaluatorAppoitmentTable.EvalutorAppoitmentTableSerializble;
@@ -796,5 +797,69 @@ public class SqlRequestHandler {
 
 		return true;
 
+	}
+	/**
+	 * getting from the DB all the information of the report
+	 * @param message ArrayList that contain the requestID of the report
+	 * @return 
+	 */
+	public EvaluatorReport getEvaluatorReport(MessageObject message) {
+		String requestID = (String) message.getArgs().get(0);
+		String reportQuery = "SELECT * FROM EvaluationReport WHERE RequestID =?";
+		
+		PreparedStatement stmt;
+		try {
+			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(reportQuery);
+			stmt.setString(1, requestID);
+			EvaluatorReport evaluatorReport = new EvaluatorReport(stmt.executeQuery());
+			
+			return evaluatorReport;
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	/**
+	 * update the Stage of the request in the DB and insert new Execution Stage in StageTable
+	 * @param message ArrayList that contain the requestID of the report
+	 */
+	public void updateStageToExecution(MessageObject message) {
+		
+		String requestID = (String) message.getArgs().get(0);
+		String updateStageInRequests ="UPDATE Requests SET Stage= 'Execution' WHERE RequestID = ? ";;
+		String insertExecutionStageToStageTable = "INSERT INTO StageTable (requestId, stage, startTime, endTime, late) VALUES (?,?,?,?,?)";
+		PreparedStatement stmt;
+		try {
+			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(updateStageInRequests);
+			stmt.setString(1, requestID);
+			stmt.executeUpdate();
+			
+			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(insertExecutionStageToStageTable);
+			
+			//get the current date
+			java.sql.Date ourJavaDateObject = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+			
+			stmt.setString(1, requestID);
+			stmt.setString(2,"Execution");
+			stmt.setString(3, ourJavaDateObject.toString());
+			stmt.setString(4, null);
+			stmt.setInt(5, 0);
+			stmt.executeUpdate();
+			
+			
+			return;
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return;
+		
+		
 	}
 }

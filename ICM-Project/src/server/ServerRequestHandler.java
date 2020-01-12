@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Common.AttachedFile;
+import Common.EvaluatorReport;
 import Common.MyFile;
 import Common.User;
 import Utilities.MessageObject;
@@ -94,6 +95,11 @@ public class ServerRequestHandler {
 			case ViewIseTable:
 				responseMessage = handleISETable(message, client);
 				break;
+			case GetEvaluatorReport:
+				responseMessage = handleGetEvaluatorReport(message,client);
+				break;
+			case moveRequestToExecutionStage:
+				responseMessage = handleMoveRequestToExecutionStage(message,client);
 			default:
 				break;
 			}
@@ -102,6 +108,32 @@ public class ServerRequestHandler {
 				DBServer.getInstance().sendMessage(responseMessage, client);
 		} else
 			System.out.println("Error - Message rechieved is not a MessageObject");
+	}
+	/**
+	 * 
+	 * @param message ArrayList that contain the requestID of the report
+	 * @param client
+	 * @return
+	 */
+	private MessageObject handleMoveRequestToExecutionStage(MessageObject message, ConnectionToClient client) {
+		mysqlRequestHandler.updateStageToExecution(message);
+		message.getArgs().clear();
+		return message;
+	}
+	/**
+	 * 
+	 * @param message ArrayList that contain the requestID of the report
+	 * @param client
+	 * @return
+	 */
+	private MessageObject handleGetEvaluatorReport(MessageObject message, ConnectionToClient client) {
+		
+		
+		EvaluatorReport report = mysqlRequestHandler.getEvaluatorReport(message);
+		message.getArgs().clear();
+		message.getArgs().add(report);
+		
+		return message;
 	}
 
 	/**

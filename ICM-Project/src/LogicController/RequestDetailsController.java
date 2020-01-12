@@ -58,4 +58,14 @@ public class RequestDetailsController extends BaseController
 		MessageObject msg = new MessageObject(RequestType.AttachFile, args);
 		sendMessage(msg);	
 	}
+	/**
+	 * send messege to the Server to move the request to Execution Stage
+	 * @param requestID 
+	 */
+	public void moveRequestToExecutionStage(String requestID) {
+		ArrayList<Object> args = new ArrayList<Object>();
+		args.add(requestID);
+		MessageObject msg = new MessageObject(RequestType.moveRequestToExecutionStage, args);
+		sendMessage(msg);
+	}
 }

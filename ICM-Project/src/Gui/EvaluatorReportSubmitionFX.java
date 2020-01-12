@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 
+import Common.EvaluatorReport;
 import LogicController.EvaluationReportController;
 import Utilities.MessageObject;
 import javafx.event.ActionEvent;
@@ -143,6 +144,33 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 	@FXML
 	public void newChangeRequestWasPressed(ActionEvent event) {
 		evaluationReportController.newChangeRequestWasPressed(event);
+	}
+
+	/**
+	 * The Method adjust the report screen to view Report only
+	 * Get the information of the report from the DB
+	 */
+	public void adjustScreenToViewEvaluatorReport() {
+		this.submit.setVisible(false);
+		this.submit.setDisable(true);
+		this.clear.setVisible(false);
+		this.clear.setDisable(true);
+		evaluationReportController.loadReportDetails(this.requestID);
+		
+	}
+	/**
+	 * 
+	 * @param message contain EvaluatorReport of the request
+	 */
+	public void fillReportFilds(MessageObject message) {
+
+		EvaluatorReport report = (EvaluatorReport) message.getArgs().get(0);
+		description.setText(report.getDescription());
+		constraints.setText(report.getConstraints());
+		result.setText(report.getResult());
+		description.setEditable(false);
+		constraints.setEditable(false);
+		result.setEditable(false);
 	}
 
 }

@@ -18,4 +18,16 @@ public class EvaluationReportController extends BaseController {
 
 		sendMessage(new MessageObject(RequestType.UploadEvaluatorReport, list));
 	}
+
+	/**
+	 * load the report from the DB
+	 * @param requestID
+	 */
+	public void loadReportDetails(String requestID) {
+		ArrayList<Object> args = new ArrayList<Object>();
+		args.add(requestID);
+		sendMessage(new MessageObject(RequestType.GetEvaluatorReport,args));
+		
+		
+	}
 }
