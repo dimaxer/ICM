@@ -17,3 +17,4 @@ TODO:
 - Adjust it to code as well via setDate instead of setString.
 - Statistics & View All System Data
 - Fix bug where on StatusTable, all endTimes of statuses except 'Closed' remain null
+- Change ad hock appointmant to tester stage
