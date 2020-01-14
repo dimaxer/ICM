@@ -74,7 +74,7 @@
             </HBox>
          </children>
       </VBox>
-      <JFXTextField fx:id="description" alignment="TOP_LEFT" layoutX="369.0" layoutY="137.0" prefHeight="97.0" prefWidth="821.0" style="-fx-background-color: #DCDCDC;" />
+      <JFXTextField fx:id="description" alignment="TOP_LEFT" layoutX="369.0" layoutY="137.0" prefHeight="97.0" prefWidth="519.0" style="-fx-background-color: #DCDCDC;" />
       <AnchorPane layoutX="300.0" layoutY="6.0" prefHeight="86.0" prefWidth="938.0">
          <children>
             <JFXButton fx:id="back" contentDisplay="GRAPHIC_ONLY" layoutX="842.0" layoutY="14.0" onAction="#backWasPressed" prefHeight="50.0" prefWidth="72.0">
@@ -93,12 +93,18 @@
             </Text>
          </children>
       </AnchorPane>
-      <JFXTextField fx:id="constraints" alignment="TOP_LEFT" layoutX="369.0" layoutY="285.0" prefHeight="97.0" prefWidth="821.0" style="-fx-background-color: #DCDCDC;" />
-      <JFXTextField fx:id="result" alignment="TOP_LEFT" layoutX="369.0" layoutY="441.0" prefHeight="97.0" prefWidth="821.0" style="-fx-background-color: #DCDCDC;" />
+      <JFXTextField fx:id="constraints" alignment="TOP_LEFT" layoutX="369.0" layoutY="285.0" prefHeight="97.0" prefWidth="519.0" style="-fx-background-color: #DCDCDC;" />
+      <JFXTextField fx:id="result" alignment="TOP_LEFT" layoutX="369.0" layoutY="441.0" prefHeight="97.0" prefWidth="519.0" style="-fx-background-color: #DCDCDC;" />
       <JFXButton fx:id="submit" layoutX="378.0" layoutY="567.0" onAction="#submitWasPressed" prefHeight="32.0" prefWidth="119.0" style="-fx-background-radius: 60; -fx-background-color: grey;" text="Submit" />
       <JFXButton fx:id="clear" layoutX="560.0" layoutY="567.0" onAction="#clearFieldsWasPressed" prefHeight="32.0" prefWidth="119.0" style="-fx-background-radius: 60; -fx-background-color: grey;" text="Clear Fields" />
-      <Label layoutX="369.0" layoutY="105.0" prefHeight="32.0" prefWidth="277.0" text="Location and description of the required change" />
-      <Label layoutX="369.0" layoutY="253.0" prefHeight="32.0" prefWidth="277.0" text="Constraints,risks and evaluation of the ramaining execution" />
-      <Label layoutX="369.0" layoutY="409.0" prefHeight="32.0" prefWidth="277.0" text="Result of the change" />
+      <Label layoutX="369.0" layoutY="105.0" prefHeight="32.0" prefWidth="277.0" text="Location and Description of the Required Change:" />
+      <Label layoutX="369.0" layoutY="253.0" prefHeight="32.0" prefWidth="336.0" text="Constraints, Risks and Evaluation of the Remaining Execution:" />
+      <Label layoutX="369.0" layoutY="409.0" prefHeight="32.0" prefWidth="277.0" text="Result of the Change:" />
+      <AnchorPane fx:id="additionalInfoPane" layoutX="912.0" layoutY="105.0">
+         <children>
+            <JFXTextField fx:id="additionalInfo" alignment="TOP_LEFT" editable="false" layoutY="32.0" prefHeight="245.0" prefWidth="286.0" style="-fx-background-color: #DCDCDC;" />
+            <Label prefHeight="32.0" prefWidth="277.0" text="Additional Info Required:" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

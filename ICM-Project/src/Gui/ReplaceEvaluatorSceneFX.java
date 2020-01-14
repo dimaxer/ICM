@@ -6,10 +6,8 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
-
-import Common.EvaluatorAppoitmentTable.EvalutorAppoitmentTableSerializble;
-import Common.ISEAppoitmentTable.ISEAppoitmentTable;
-
+import Common.EvalutorAppoitmentTableSerializable;
+import Common.ISEAppoitmentTable;
 import LogicController.ReplaceEvaluatorSceneController;
 import Utilities.MessageObject;
 import javafx.collections.FXCollections;
@@ -130,7 +128,7 @@ public void loadEvaluatorTable() {
 	replaceEvaluatorSceneController.switchScene("ManageApproves");
 	ManageApprovesFX manageApprovment;
 	manageApprovment = (ManageApprovesFX) replaceEvaluatorSceneController.getCurrentFX();
-	manageApprovment.loadDataToEvalutorTable();
+	manageApprovment.refreshTables();
 }
 
 public void loadDataToEvalutorTable()
@@ -165,12 +163,12 @@ public void logOutWasPressed(ActionEvent event) {
 
 public void loadISETable(MessageObject message) {
 		ArrayList<Object> ISEListTemp=message.getArgs();
-		EvalutorAppoitmentTableSerializble temp;
+		EvalutorAppoitmentTableSerializable temp;
 		if(!(boolean) ISEListTemp.get(0))
 			return;
 		for(int i=1;i<ISEListTemp.size();i++)
 		{
-			temp=(EvalutorAppoitmentTableSerializble) ISEListTemp.get(i);
+			temp=(EvalutorAppoitmentTableSerializable) ISEListTemp.get(i);
 			ISEList.add(new ISEAppoitmentTable(temp.getEvalutorid(),temp.getEvalutorName()));
 		}
 

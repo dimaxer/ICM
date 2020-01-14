@@ -1,8 +1,8 @@
-package Common.EvaluatorAppoitmentTable;
+package Common;
 
 import java.io.Serializable;
 
-public class EvalutorAppoitmentTableSerializble implements Serializable {
+public class EvalutorAppoitmentTableSerializable implements Serializable {
 
 
 
@@ -10,14 +10,14 @@ private String RequestID;
 private String  Evalutorid;
 private String  EvalutorName;
 
-public EvalutorAppoitmentTableSerializble (String requestID, String evalutorid, String evalutorName) {
+public EvalutorAppoitmentTableSerializable (String requestID, String evalutorid, String evalutorName) {
 	super();
 	RequestID = requestID;
 	Evalutorid = evalutorid;
 	EvalutorName = evalutorName;
 }
 
-public EvalutorAppoitmentTableSerializble(String evalutorid,String evalutorName)
+public EvalutorAppoitmentTableSerializable(String evalutorid,String evalutorName)
 {
 	Evalutorid = evalutorid;
 	EvalutorName = evalutorName;

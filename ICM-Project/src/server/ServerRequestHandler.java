@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import Common.AttachedFile;
 import Common.EvaluatorReport;
 import Common.MyFile;
 import Common.User;
+import Gui.ManageApprovesFX;
 import Utilities.MessageObject;
 import Utilities.RequestType;
 import jdbc.mysqlConnection;
@@ -53,8 +55,12 @@ public class ServerRequestHandler {
 				responseMessage = handleChangeStatus(message, client);
 				break;
 			case viewRequestTable:
+				responseMessage = handleViewRequestTable(message, client);
+				responseMessage.setTypeRequest(RequestType.viewRequestTable);
+				break;
 			case refreshViewUserRequestTable:
 				responseMessage = handleViewRequestTable(message, client);
+				responseMessage.setTypeRequest(RequestType.refreshViewUserRequestTable);
 				break;
 			case NewChangeRequest:
 				responseMessage = handleNewChange(message, client);
@@ -86,9 +92,6 @@ public class ServerRequestHandler {
 			case UpdatePermanentRoles:
 				handleUpdatePermanentRoles(message, client);
 				break;
-			case ViewEvaluatorTable:
-				responseMessage = handleEvaluatorTable(message, client);
-				break;
 			case UploadEvaluatorReport:
 				responseMessage = handleUploadEvaluatorReport(message, client);
 				break;
@@ -98,8 +101,75 @@ public class ServerRequestHandler {
 			case GetEvaluatorReport:
 				responseMessage = handleGetEvaluatorReport(message,client);
 				break;
-			case moveRequestToExecutionStage:
-				responseMessage = handleMoveRequestToExecutionStage(message,client);
+			case swapStage:
+				responseMessage = handleSwapStage(message,client);
+				break;
+			case swapStatus:
+				responseMessage = handleSwapStatus(message,client);
+				break;
+			case AdditionalInfo:
+				handleAdditionalInfo(message,client);
+				break;
+			case ShowAdditionalInfo:
+				responseMessage = handleShowAdditionalInfo(message,client);
+				break;
+			case TestRejectionInfo:
+				responseMessage = handleGetTestRejectionInfo(message,client);
+				break;
+			case updateTesterRejectionDetails:
+				responseMessage = handleUpdateTestRejectionInfo(message,client);
+				break;
+			case GetEvaluatorTable:
+				responseMessage = handleGetEvaluatorTable(message,client);
+				break;
+			case GetTimeAssessmentTable:
+				responseMessage = handleTimeAssessmentTable(message,client);
+				break;
+			case GetTimeExtensionTable:
+				responseMessage = handleTimeExtensionTable(message,client);
+				break;
+			case GetExecutionLeaderTable:
+				responseMessage = handleExecutionLeaderTable(message,client);
+				break;
+			case AcceptTimeAssessment:
+				handleAcceptTimeAssessment(message,client);
+				break;
+			case RejectTimeAssessment:
+				handleRejectTimeAssessment(message,client);
+				break;
+			case AcceptTimeExtension:
+				handleAcceptTimeExtension(message,client);
+				break;
+			case RejectTimeExtension:
+				handleRejectTimeExtension(message,client);
+				break;
+			case NewTimeAssessment:
+				responseMessage = handleNewTimeAssessment(message,client);
+				break;
+			case NewTimeExtension:
+				responseMessage = handleNewTimeExtension(message,client);
+				break;
+			case GetDeadline:
+				responseMessage = handleGetStageDeadline(message,client);
+				break;
+			case GetCommittee:
+				responseMessage = handleGetCommittee(message,client);
+				break;
+			case SetTester:
+				responseMessage = handleSetTester(message,client);
+				break;
+			case WaitsExecutionLeaderAppointment:
+				responseMessage = handleWaitsExecutionLeaderAppointment(message,client);
+				break;
+			case SetWaitsExecutionLeaderAppointment:
+				responseMessage = handleSetWaitsExecutionLeaderAppointment(message,client);
+				break;
+			case GetExecutionLeaderOptions:
+				responseMessage = handleGetExecutionLeaderOptions(message,client);
+				break;
+			case SetExecutionLeader:
+				responseMessage = handleSetExecutionLeader(message,client);
+				break;
 			default:
 				break;
 			}
@@ -109,17 +179,127 @@ public class ServerRequestHandler {
 		} else
 			System.out.println("Error - Message rechieved is not a MessageObject");
 	}
-	/**
-	 * 
-	 * @param message ArrayList that contain the requestID of the report
-	 * @param client
-	 * @return
-	 */
-	private MessageObject handleMoveRequestToExecutionStage(MessageObject message, ConnectionToClient client) {
-		mysqlRequestHandler.updateStageToExecution(message);
+
+	private MessageObject handleSetExecutionLeader(MessageObject message, ConnectionToClient client) {
+		return mysqlRequestHandler.setExecutionLeader(message);
+	}
+
+	private MessageObject handleGetExecutionLeaderOptions(MessageObject message, ConnectionToClient client) {
+		return mysqlRequestHandler.getExecutionLeaderOptions(message);
+	}
+
+	private MessageObject handleWaitsExecutionLeaderAppointment(MessageObject message, ConnectionToClient client) {
+		return mysqlRequestHandler.getWaitsExecutionLeaderAppointment(message);
+	}
+	
+	private MessageObject handleSetWaitsExecutionLeaderAppointment(MessageObject message, ConnectionToClient client) {
+		return mysqlRequestHandler.setWaitsExecutionLeaderAppointment(message);
+	}
+
+	private MessageObject handleSetTester(MessageObject message, ConnectionToClient client) {
+		return mysqlRequestHandler.setTester(message);
+	}
+
+	private MessageObject handleGetCommittee(MessageObject message, ConnectionToClient client) {
+		return mysqlRequestHandler.getCommittee(message);
+	}
+
+	private MessageObject handleGetStageDeadline(MessageObject message, ConnectionToClient client) {
+		return mysqlRequestHandler.getStageDeadline(message);
+	}
+
+	private void handleRejectTimeExtension(MessageObject message, ConnectionToClient client) {
+		// TODO Auto-generated method stub
+		mysqlRequestHandler.timeExtensionRejected(message);
+	}
+
+	private void handleAcceptTimeExtension(MessageObject message, ConnectionToClient client) {
+		// TODO Auto-generated method stub
+		mysqlRequestHandler.timeExtensionAccepted(message);
+	}
+
+	private MessageObject handleNewTimeExtension(MessageObject message, ConnectionToClient client) {
+		// TODO Auto-generated method stub
+		try {
+			return mysqlRequestHandler.NewTimeExtension(message);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private MessageObject handleNewTimeAssessment(MessageObject message, ConnectionToClient client) {
+		// TODO Auto-generated method stub
+		try {
+			return mysqlRequestHandler.NewTimeAssessment(message);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private void handleRejectTimeAssessment(MessageObject message, ConnectionToClient client) {
+		mysqlRequestHandler.timeAssessmentRejected(message);
+	}
+
+	private void handleAcceptTimeAssessment(MessageObject message, ConnectionToClient client) {
+		mysqlRequestHandler.timeAssessmentAccepted(message);
+	}
+
+	private MessageObject handleGetEvaluatorTable(MessageObject message, ConnectionToClient client) {
+		try {
+			return mysqlRequestHandler.getEvaluatorTable(message);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private MessageObject handleExecutionLeaderTable(MessageObject message, ConnectionToClient client) {
+		try {
+			return mysqlRequestHandler.getExecutionLeaderTable(message);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private MessageObject handleTimeExtensionTable(MessageObject message, ConnectionToClient client) {
+		try {
+			return mysqlRequestHandler.getTimeExtensionTable(message);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private MessageObject handleTimeAssessmentTable(MessageObject message, ConnectionToClient client) {
+		try {
+			return mysqlRequestHandler.getTimeAssessmentTable(message);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private MessageObject handleSwapStage(MessageObject message, ConnectionToClient client) {
+		mysqlRequestHandler.swapStage(message);
 		message.getArgs().clear();
 		return message;
 	}
+	
+	private MessageObject handleSwapStatus(MessageObject message, ConnectionToClient client) {
+		mysqlRequestHandler.swapStatus(message);
+		message.getArgs().clear();
+		return message;
+	}
+	
 	/**
 	 * 
 	 * @param message ArrayList that contain the requestID of the report
@@ -210,11 +390,7 @@ public class ServerRequestHandler {
 		String requestID = (String) message.getArgs().get(0);
 		String evaluatrorID = (String) message.getArgs().get(1);
 
-		mysqlRequestHandler.deleteApprovedEvaluator(requestID);
-		mysqlRequestHandler.updateRequestEvaluator(requestID, evaluatrorID);
-		mysqlRequestHandler.insertStageEvaluator(requestID);
-		return message;
-
+		return mysqlRequestHandler.updateRequestEvaluator(requestID, evaluatrorID);
 	}
 
 	public MessageObject handleDownloadFile(MessageObject message) {
@@ -469,6 +645,41 @@ public class ServerRequestHandler {
 	private MessageObject handlePermanentRolesDetails(MessageObject message, ConnectionToClient client) {
 		try {
 			return mysqlRequestHandler.getPermanentRolesDetails(message);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/** This method handles asking for Additional Info by Committee */
+	private void handleAdditionalInfo(MessageObject message, ConnectionToClient client) {
+			mysqlRequestHandler.askForAdditionalInfo(message);
+	}
+	
+	private MessageObject handleShowAdditionalInfo(MessageObject message, ConnectionToClient client) {
+		try {
+			return mysqlRequestHandler.getAdditionalInfo(message);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private MessageObject handleGetTestRejectionInfo(MessageObject message, ConnectionToClient client) {
+		try {
+			return mysqlRequestHandler.getTestRejectionInfo(message);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	private MessageObject handleUpdateTestRejectionInfo(MessageObject message, ConnectionToClient client) {
+		try {
+			return mysqlRequestHandler.updateTestRejectionInfo(message);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

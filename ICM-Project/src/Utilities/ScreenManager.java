@@ -162,7 +162,7 @@ public class ScreenManager {
 	/**
 	 * Returns whether a specific scene exists.
 	 * 
-	 * @author Raz Malka
+
 	 * @param fxml_name
 	 * @return Boolean, indicating if the scene exists.
 	 */
@@ -173,7 +173,7 @@ public class ScreenManager {
 	/**
 	 * Empties the Screen Map HashMap, should be called only upon log-out.
 	 * 
-	 * @author Raz Malka
+
 	 */
 	public void clearScreenMap() {
 		screenMap.clear();
@@ -183,7 +183,7 @@ public class ScreenManager {
 	 * This function centers the current stage and normalizes the position,
 	 * resizability and borders among all scenes.
 	 * 
-	 * @author Raz Malka
+
 	 */
 	public void normalizeAppearance() {
 		primaryStage.centerOnScreen();

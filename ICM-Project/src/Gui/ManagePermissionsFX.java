@@ -258,6 +258,10 @@ public class ManagePermissionsFX extends BaseFX {
 	
 	/** This method updates the Permanent Roles current holders. */
 	public void updatePermRolesText() {
+		supervisorText.setText(undefined);
+		committeeMember1Text.setText(undefined);
+		committeeMember2Text.setText(undefined);
+		committeeChairmanText.setText(undefined);
 		String item = ""; // String value to set as text
 		Boolean foundCommitteeMember = false; // Because there are two committee members
 		Object[] keys = permanentRolesDetails.keySet().toArray();

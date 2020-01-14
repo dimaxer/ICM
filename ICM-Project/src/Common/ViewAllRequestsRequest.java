@@ -5,12 +5,13 @@ import javafx.beans.property.SimpleStringProperty;
 //class for saving data to put in table in ViewAllReqest FXML
 public class ViewAllRequestsRequest {
 
-	private SimpleStringProperty requestId,status,myRole,initiator;
+	private SimpleStringProperty requestId,status,stage,myRole,initiator;
 
 	public ViewAllRequestsRequest(String requestId, String status,
-			String myRole, String initiator) {
+			String stage, String myRole, String initiator) {
 		this.requestId = new SimpleStringProperty(requestId);
 		this.status = new SimpleStringProperty(status);
+		this.stage = new SimpleStringProperty(stage);
 		this.myRole = new SimpleStringProperty(myRole);
 		this.initiator = new SimpleStringProperty(initiator);
 	}
@@ -30,6 +31,14 @@ public class ViewAllRequestsRequest {
 	public void setStatus(SimpleStringProperty status) {
 		this.status = status;
 	}
+	
+	public String getStage() {
+		return stage.get();
+	}
+
+	public void setStage(SimpleStringProperty stage) {
+		this.stage = stage;
+	}
 
 	public String getMyRole() {
 		return myRole.get();
@@ -47,6 +56,11 @@ public class ViewAllRequestsRequest {
 		this.initiator = initiator;
 	}
 	
-	
+	@Override
+	public boolean equals(Object request_obj) {
+		if (!(request_obj instanceof ViewAllRequestsRequest)) return false;
+		ViewAllRequestsRequest request = (ViewAllRequestsRequest) request_obj;
+		return requestId.get().equals(request.requestId.get());
+	}
 	
 }

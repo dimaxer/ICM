@@ -12,8 +12,10 @@ import com.jfoenix.validation.RequiredFieldValidator;
 import Common.EvaluatorReport;
 import LogicController.EvaluationReportController;
 import Utilities.MessageObject;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.layout.AnchorPane;
 
 public class EvaluatorReportSubmitionFX extends BaseFX {
 
@@ -37,6 +39,12 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 	private JFXTextField result;
 
 	@FXML
+	private AnchorPane additionalInfoPane;
+	
+	@FXML
+	private JFXTextField additionalInfo;
+	
+	@FXML
 	private JFXButton newChangeRequest;
 	// class variables****************************
 
@@ -51,9 +59,12 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		setValdiator();
 		evaluationReportController = new EvaluationReportController();
-
 	}
 
+	public void initShowAdditionalInfo() {
+		evaluationReportController.initShowAdditionalInfo(requestID);
+	}
+	
 	@FXML
 	public void backWasPressed(ActionEvent event) {
 		evaluationReportController.switchScene("RequestDetails");
@@ -78,9 +89,12 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 
 	@FXML
 	public void clearFieldsWasPressed(ActionEvent event) {
+		additionalInfoPane.setVisible(false);
 		description.clear();
 		constraints.clear();
 		result.clear();
+		if (event == null)
+			additionalInfo.clear();
 	}
 
 	/**
@@ -164,6 +178,7 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 	 */
 	public void fillReportFilds(MessageObject message) {
 
+		Platform.runLater(() -> {
 		EvaluatorReport report = (EvaluatorReport) message.getArgs().get(0);
 		description.setText(report.getDescription());
 		constraints.setText(report.getConstraints());
@@ -171,6 +186,25 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 		description.setEditable(false);
 		constraints.setEditable(false);
 		result.setEditable(false);
+		});
 	}
 
+	public void handleShowAdditionalInfo(MessageObject message) {
+		String info = message.getArgs().get(0).toString();
+		if (info == "") {
+			additionalInfoPane.setVisible(false);
+			return;
+		}
+		Platform.runLater(() -> {
+			if (message.getArgs().size() == 4) {
+				additionalInfo.setText(info);
+				additionalInfoPane.setVisible(true);
+				
+				// Load Previously Written Info
+				description.setText(message.getArgs().get(1).toString());
+				constraints.setText(message.getArgs().get(2).toString());
+				result.setText(message.getArgs().get(3).toString());
+			}
+		});
+	}
 }

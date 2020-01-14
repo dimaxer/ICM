@@ -218,7 +218,6 @@ public class NewChangeRequestFX extends BaseFX {
 		args.add("Active");
 		args.add(Client.getInstance().getCurrentUser().getId());
 		args.add(evaluatorID);
-
 	}
 
 	/**
@@ -314,7 +313,7 @@ public class NewChangeRequestFX extends BaseFX {
 	/**
 	 * A method to clear all the fields in this form
 	 * 
-	 * @author Raz Malka
+
 	 */
 	public void clearFields() {
 		// TODO Auto-generated method stub
@@ -350,7 +349,7 @@ public class NewChangeRequestFX extends BaseFX {
 	 * Manage permanent roles (supervisor, committee), and Information System's
 	 * evaluators.
 	 * 
-	 * @author Raz Malka
+
 	 * @param event
 	 */
 	@FXML

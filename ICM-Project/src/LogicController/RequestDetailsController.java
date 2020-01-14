@@ -3,15 +3,21 @@ package LogicController;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.jfoenix.controls.JFXButton;
+
 import Common.AttachedFile;
 import Common.Request;
+import Gui.EvaluatorReportSubmitionFX;
+import Gui.ViewAllRequestsFX;
+import Gui.ViewAttachedFilesFX;
 import Utilities.MessageObject;
 import Utilities.RequestType;
+import javafx.scene.Node;
 
 /**
  * This Logic Controller class represents a generic Request Details,
  * which is hard-coded altogether with the FXML to provide support for all Roles.
- * @author Raz Malka
+
  * @since 01/01/2020
  */
 public class RequestDetailsController extends BaseController 
@@ -58,14 +64,127 @@ public class RequestDetailsController extends BaseController
 		MessageObject msg = new MessageObject(RequestType.AttachFile, args);
 		sendMessage(msg);	
 	}
-	/**
-	 * send messege to the Server to move the request to Execution Stage
-	 * @param requestID 
-	 */
-	public void moveRequestToExecutionStage(String requestID) {
+
+	public void submitMoreDetails(String requestID, String additionalInfo) {
+		MessageObject msg = new MessageObject(RequestType.AdditionalInfo, new ArrayList<>());
+		msg.getArgs().add(requestID);
+		msg.getArgs().add(additionalInfo);
+		sendMessage(msg);
+		swapStage(requestID, "Evaluation", "Decision");
+		switchScene("ViewAllRequests");
+		((ViewAllRequestsFX)getCurrentFX()).refreshWasPressed(null);
+	}
+
+	public void viewEvaluatorReport(String requestID) {
+		switchScene("EvaluatorReportSubmition");
+		EvaluatorReportSubmitionFX currentScene = ((EvaluatorReportSubmitionFX) getCurrentFX());
+		currentScene.setRequestID(requestID);
+		currentScene.clearFieldsWasPressed(null);
+		currentScene.adjustScreenToViewEvaluatorReport();
+	}
+
+	public void setComponentVisibility(boolean visibility, Node... items) {
+		try {
+		for (Node item : items)
+			item.setVisible(visibility);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void setComponentDisability(boolean disability, Node... items) {
+		for (Node item : items)
+			item.setDisable(disability);
+	}
+
+	public void submitEvaluationReport(String requestID) {
+		switchScene("EvaluatorReportSubmition");
+		EvaluatorReportSubmitionFX currentScene = ((EvaluatorReportSubmitionFX) getCurrentFX());
+		currentScene.setRequestID(requestID);
+		currentScene.clearFieldsWasPressed(null);
+		currentScene.initShowAdditionalInfo();
+	}
+
+	public void viewAttachedFiles(String requestID) {
+		switchScene("ViewAttachedFiles");
+		ViewAttachedFilesFX currentFX = (ViewAttachedFilesFX) getCurrentFX();
+		currentFX.showAttachedFiles(requestID);
+	}
+	
+	/** This methods swaps the current stage to a new stage */
+	public void swapStage(String requestID, String newStage, String currentStage) {
 		ArrayList<Object> args = new ArrayList<Object>();
 		args.add(requestID);
-		MessageObject msg = new MessageObject(RequestType.moveRequestToExecutionStage, args);
+		args.add(newStage);
+		args.add(currentStage);
+		MessageObject msg = new MessageObject(RequestType.swapStage, args);
+		sendMessage(msg);
+	}
+	
+	public void committeeApprovesRequest(String requestID, String currentStage) {
+		//switchScene("ViewAllRequests");
+		//swapStage(requestID, "Execution", currentStage);
+	}
+	
+	public void changeApproval(String requestID, String currentStage) {
+		switchScene("ViewAllRequests");
+		swapStage(requestID, "Testing", currentStage);
+	}
+
+	public void testerReportApproved(String requestID, String currentStage) {
+		switchScene("ViewAllRequests");
+		swapStage(requestID, "Closing", currentStage);
+	}
+	
+	public void testerReportRejected(String requestID, String rejectionDetails, String currentStage) {
+		switchScene("ViewAllRequests");
+		swapStage(requestID, "Execution", currentStage);
+		// handle rejection details
+		MessageObject msg = new MessageObject(RequestType.updateTesterRejectionDetails, new ArrayList<>());
+		msg.getArgs().add(requestID);
+		msg.getArgs().add(rejectionDetails);
+		sendMessage(msg);
+	}
+	
+	/** This methods swaps the current status to a new status */
+	private void swapStatus(String requestID, String newStatus, String currentStatus) {
+		ArrayList<Object> args = new ArrayList<Object>();
+		args.add(requestID);
+		args.add(newStatus);
+		args.add(currentStatus);
+		MessageObject msg = new MessageObject(RequestType.swapStatus, args);
+		sendMessage(msg);
+	}
+
+	public void committeeRejectRequest(String requestID, String currentStage) {
+		switchScene("ViewAllRequests");
+		swapStage(requestID, "Closing", currentStage);
+	}
+
+	public void supervisorClosesRequest(String requestID, String currentStatus) {
+		switchScene("ViewAllRequests");
+		swapStatus(requestID, "Closed", currentStatus);
+	}
+
+	public void supervisorFreeze(String requestID, String currentStatus) {
+		switchScene("ViewAllRequests");
+		swapStatus(requestID, "Frozen", currentStatus);
+	}
+
+	public void supervisorUnfreeze(String requestID, String currentStatus) {
+		switchScene("ViewAllRequests");
+		swapStatus(requestID, "Active", currentStatus);
+	}
+
+	public void initTestRejectionInfo(String requestID) {
+		ArrayList<Object> args = new ArrayList<>();
+		args.add(requestID);
+		MessageObject msg = new MessageObject(RequestType.TestRejectionInfo, args);
+		sendMessage(msg);
+	}
+
+	public void initCommittee() {
+		MessageObject msg = new MessageObject(RequestType.GetCommittee, new ArrayList<>());
 		sendMessage(msg);
 	}
 }

@@ -21,10 +21,11 @@
          <children>
             <TableView fx:id="tableView" layoutX="17.0" layoutY="196.0" prefHeight="411.0" prefWidth="890.0">
               <columns>
-                <TableColumn fx:id="requestIdColumn" prefWidth="242.99996948242188" text="RequestID" />
-                <TableColumn fx:id="statusColumn" prefWidth="205.66668701171875" text="Status" />
-                  <TableColumn fx:id="myRoleColumn" prefWidth="215.0" text="Role" />
-                  <TableColumn fx:id="initiatorColumn" prefWidth="225.0" text="Initiator" />
+                <TableColumn fx:id="requestIdColumn" prefWidth="178.0" text="RequestID" />
+                <TableColumn fx:id="statusColumn" prefWidth="178.0" text="Status" />
+                  <TableColumn fx:id="stageColumn" prefWidth="178.0" text="Stage" />
+                  <TableColumn fx:id="myRoleColumn" minWidth="0.0" prefWidth="178.0" text="Role" />
+                  <TableColumn fx:id="initiatorColumn" prefWidth="178.0" text="Initiator" />
               </columns>
             </TableView>
             <JFXTextField fx:id="requestIDField" layoutX="81.0" layoutY="132.0" prefHeight="36.0" prefWidth="180.0" promptText="Request ID" />

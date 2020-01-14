@@ -15,21 +15,19 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="613.0" prefWidth="1230.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ManageApprovesFX">
+<AnchorPane prefHeight="613.0" prefWidth="1230.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ManageApprovesFX">
    <children>
-      <TabPane layoutX="299.0" layoutY="102.0" prefHeight="523.0" prefWidth="896.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="299.0" layoutY="80.0" prefHeight="545.0" prefWidth="931.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab style="-fx-background-color: #D3D3D3;" text="Time Extension">
+            <Tab style="-fx-background-color: #D3D3D3;" text="Evaluator Appointment">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="526.0" prefWidth="890.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="553.0" prefWidth="857.0">
                      <children>
-                        <TableView layoutX="-2.0" layoutY="4.0" prefHeight="488.0" prefWidth="896.0">
+                        <TableView fx:id="EvaluatorTable" prefHeight="490.0" prefWidth="896.0">
                           <columns>
-                            <TableColumn prefWidth="119.0" text="Request ID" />
-                            <TableColumn prefWidth="170.0" text="User ID" />
-                              <TableColumn prefWidth="214.0" text="Job description" />
-                              <TableColumn prefWidth="214.0" text="Start Date" />
-                              <TableColumn prefWidth="214.0" text="End Date" />
+                            <TableColumn fx:id="EARequestID" prefWidth="298.0" text="Request ID" />
+                            <TableColumn fx:id="EAEvaluatorID" prefWidth="298.0" text="Evaluator ID" />
+                              <TableColumn fx:id="EAEvaluatorName" prefWidth="299.0" text="Evaluator Name" />
                           </columns>
                         </TableView>
                      </children>
@@ -40,43 +38,48 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="1.0" layoutY="5.0" prefHeight="483.0" prefWidth="896.0">
+                        <TableView fx:id="TimeAssessmentTable" prefHeight="490.0" prefWidth="896.0">
                           <columns>
-                            <TableColumn prefWidth="75.0" text="Request ID" />
-                            <TableColumn prefWidth="197.0" text="User ID" />
-                              <TableColumn prefWidth="168.0" text="Job description" />
-                              <TableColumn prefWidth="165.0" text="Start Date" />
-                              <TableColumn prefWidth="197.0" text="End Date" />
+                            <TableColumn fx:id="TARequestID" prefWidth="128.0" text="Request ID" />
+                            <TableColumn fx:id="TAEvaluatorID" prefWidth="128.0" text="User ID" />
+                              <TableColumn fx:id="TAEvaluatorName" prefWidth="128.0" text="Job Description" />
+                              <TableColumn fx:id="TAStartDate" prefWidth="128.0" text="Start Date" />
+                              <TableColumn fx:id="TAEndDate" prefWidth="128.0" text="End Date" />
+                              <TableColumn fx:id="TAAccept" prefWidth="128.0" text="Accept" />
+                              <TableColumn fx:id="TAReject" prefWidth="128.0" text="Reject" />
                           </columns>
                         </TableView>
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab style="-fx-background-color: #D3D3D3;" text="Execution Leader Appoitmant">
+            <Tab style="-fx-background-color: #D3D3D3;" text="Time Extension">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="526.0" prefWidth="890.0">
+                     <children>
+                        <TableView fx:id="TimeExtensionTable" prefHeight="490.0" prefWidth="896.0">
+                          <columns>
+                            <TableColumn fx:id="TERequestID" prefWidth="128.0" text="Request ID" />
+                            <TableColumn fx:id="TEUserID" prefWidth="128.0" text="User ID" />
+                              <TableColumn fx:id="TEJobDescription" prefWidth="128.0" text="Job Description" />
+                              <TableColumn fx:id="TEStartDate" prefWidth="128.0" text="Start Date" />
+                              <TableColumn fx:id="TEEndDate" prefWidth="128.0" text="End Date" />
+                              <TableColumn fx:id="TEAccept" prefWidth="128.0" text="Accept" />
+                              <TableColumn fx:id="TEReject" prefWidth="128.0" text="Reject" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab style="-fx-background-color: #D3D3D3;" text="Execution Leader Appointment">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="-2.0" layoutY="4.0" prefHeight="486.0" prefWidth="896.0">
+                        <TableView fx:id="ExecutionLeaderTable" prefHeight="490.0" prefWidth="896.0">
                           <columns>
-                            <TableColumn prefWidth="230.0" text="Request ID" />
-                            <TableColumn prefWidth="252.0" text="Execution leader ID" />
-                              <TableColumn prefWidth="241.0" text="Exceution leader Name" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
-            <Tab style="-fx-background-color: #D3D3D3;" text="Evaluator Appointment">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="553.0" prefWidth="857.0">
-                     <children>
-                        <TableView fx:id="EvaluatorTable" layoutX="4.0" layoutY="2.0" onMouseClicked="#setDoubleClickMmouseWasPressed" prefHeight="488.0" prefWidth="890.0">
-                          <columns>
-                            <TableColumn fx:id="RequestID" prefWidth="181.0" text="RequestID" />
-                            <TableColumn fx:id="EvaluatorID" prefWidth="229.0" text="EvaluatorID" />
-                              <TableColumn fx:id="EvaluatorName" prefWidth="229.0" text="Evaulator Name" />
+                            <TableColumn fx:id="ELRequestID" prefWidth="448.0" text="Request ID" />
+                            <TableColumn fx:id="ELStartDate" prefWidth="448.0" text="Execution Stage Start" />
                           </columns>
                         </TableView>
                      </children>
@@ -171,12 +174,20 @@
       </VBox>
       <AnchorPane layoutX="305.0" layoutY="6.0" prefHeight="72.0" prefWidth="896.0">
          <children>
-            <JFXButton fx:id="Back" contentDisplay="GRAPHIC_ONLY" layoutX="842.0" layoutY="14.0" onAction="#logOutWasPressed" prefHeight="50.0" prefWidth="72.0" />
-            <Text fill="#7c8184" layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Approvments">
+            <Text fill="#7c8184" layoutX="10.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Approvements">
                <font>
                   <Font name="System Italic" size="30.0" />
                </font>
             </Text>
+            <JFXButton fx:id="Back" contentDisplay="GRAPHIC_ONLY" layoutX="829.0" layoutY="12.0" onAction="#logOutWasPressed" prefHeight="50.0" prefWidth="72.0">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#backWasPressed" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/ICM_BACK.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
          </children>
       </AnchorPane>
    </children>

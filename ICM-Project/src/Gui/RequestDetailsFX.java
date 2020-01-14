@@ -3,11 +3,19 @@ package Gui;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import javax.sound.midi.ControllerEventListener;
 import javax.swing.JFileChooser;
 
+import com.jfoenix.controls.JFXAlert;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 
@@ -15,15 +23,24 @@ import Common.AttachedFile;
 import Common.Request;
 import LogicController.RequestDetailsController;
 import Utilities.MessageObject;
+import Utilities.RequestType;
+import Utilities.ScreenManager;
+import client.Client;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -33,7 +50,7 @@ import javafx.stage.FileChooser;
  * This FX class represents a generic Request Details, which is hard-coded
  * altogether with the FXML to provide support for all Roles.
  * 
- * @author Raz Malka
+
  * @since 01/01/2020
  */
 public class RequestDetailsFX extends BaseFX {
@@ -87,6 +104,14 @@ public class RequestDetailsFX extends BaseFX {
 	private TextArea notes;
 
 	private String requestID;
+	private String role;
+	
+	@FXML
+	private JFXButton timeAssessmentBtn;
+	@FXML
+	private JFXButton timeExtensionBtn;
+	@FXML
+	private Text deadlineDateLabel;
 
 	// Role AnchorPane Properties **************************************
 	@FXML
@@ -101,13 +126,10 @@ public class RequestDetailsFX extends BaseFX {
 	private AnchorPane evaluatorReportPane;
 	@FXML
 	private AnchorPane supervisorPane;
-
-	// Non Role-Specific Properties ************************************
-	/*
-	 * @FXML private Hyperlink attachment;
-	 * 
-	 * @FXML private Hyperlink evaluatorReport;
-	 */
+	
+	// Current Request *************************************************
+	@FXML
+	private Request currentRequest;
 
 	// Evaluator Properties ********************************************
 	@FXML
@@ -132,13 +154,12 @@ public class RequestDetailsFX extends BaseFX {
 	@FXML
 	private Text changesApprovalLabel;
 	@FXML
-	private Text timeAssessmentLabel;
-	@FXML
 	private JFXButton changesApprovalBtn;
 	@FXML
-	private JFXButton timeAssessmentBtn;
+	private JFXButton rejectionDetailsBtn;
 	@FXML
-	private JFXTextField extensionDays;
+	private AnchorPane rejectionDetailsPane;
+	private String rejectionInfo;
 	
 
 	// Committee Properties ********************************************
@@ -155,7 +176,7 @@ public class RequestDetailsFX extends BaseFX {
 	@FXML
 	private TextArea moreDetails;
 	@FXML
-	private Text executionLeaderReportLabel;
+	private Text committeeReportLabel;
 
 	// Supervisor Properties *******************************************
 	@FXML
@@ -165,21 +186,9 @@ public class RequestDetailsFX extends BaseFX {
 	@FXML
 	private JFXButton closeRequest;
 	@FXML
-	private Tab timeAssessmentTab;
-	@FXML
-	private TableView<?> timeAssessmentTable;
-	@FXML
-	private JFXButton appointEmployeeBtn;
-	@FXML
-	private Text appointLabel;
-	@FXML
 	private Text supervisorReportLabel;
-	@FXML
-	private ComboBox<String> pickExecutionLeaderCBox;
-	@FXML
-	private ComboBox<String> pickEvaluatorCBox;
-	@FXML
-	private ComboBox<String> pickTesterCBox;
+
+	private ArrayList<String> committeeDetails = new ArrayList<>();
 
 	// __ __ _ _ _
 	// | \/ | ___ | |_ | |__ ___ __| | ___
@@ -195,8 +204,6 @@ public class RequestDetailsFX extends BaseFX {
 
 		initializeComboBoxes();
 
-		// Supervisor - Hey Dima, Fill here the tableView in Time Assessment Tab (id:
-		// timeAssessmentTable)
 		requestDetailsController.initPanelHBoxes(isdPane, all_roles, supervisorPanel);
 	}
 
@@ -205,13 +212,6 @@ public class RequestDetailsFX extends BaseFX {
 	 */
 	private void initializeComboBoxes() {
 		testStatusComboBox.getItems().addAll("Approved", "Rejected");
-
-		// Supervisor - Hey Dima, Fill those Comboboxes
-		/*
-		 * pickExecutionLeaderCBox.getItems().addAll(collection);
-		 * pickEvaluatorCBox.getItems().addAll(collection);
-		 * pickTesterCBox.getItems().addAll(collection);
-		 */
 	}
 
 	@FXML
@@ -231,35 +231,8 @@ public class RequestDetailsFX extends BaseFX {
 	 */
 	@FXML
 	public void viewAttachedFilesWasPressed(ActionEvent event) {
-
-		requestDetailsController.switchScene("ViewAttachedFiles");
-		ViewAttachedFilesFX currentFX = (ViewAttachedFilesFX) requestDetailsController.getCurrentFX();
-		currentFX.showAttachedFiles(requestID);
+		requestDetailsController.viewAttachedFiles(requestID);
 	}
-
-	/**
-	 * This method handles the case that the file attachment hyperlink was pressed
-	 * 
-	 * @param event
-	 * @throws IOException
-	 */
-	/*
-	 * @FXML public void attachmentHyperlinkWasPressed(ActionEvent event) throws
-	 * IOException { if (attachedFile == null) return; attachedFile.open(); }
-	 */
-
-	/**
-	 * This method handles the case that the evaluator report attachment hyperlink
-	 * was pressed
-	 * 
-	 * @param event
-	 * @throws IOException
-	 */
-	/*
-	 * @FXML public void evaluatorReportHyperlinkWasPressed(ActionEvent event)
-	 * throws IOException { if (evaluatorReportFile == null) return;
-	 * evaluatorReportFile.open(); }
-	 */
 
 	/**
 	 * Load all of the data into the form's fields
@@ -271,7 +244,7 @@ public class RequestDetailsFX extends BaseFX {
 
 		clearFields();
 		loadNonRoleSpecificFields(request);
-
+		
 		switch (role) {
 		case "Tester":
 			loadTesterFields(request);
@@ -292,30 +265,236 @@ public class RequestDetailsFX extends BaseFX {
 			loadSupervisorFields(request);
 			break;
 		}
-
-		// loadAttachedFile(request);
+		this.role = role;
+		initGetDeadline();
+		initCommittee();
+		initWaitsExecutionLeader();
 	}
 
 	/**
 	 * Clears initializes role-specific fields
 	 */
 	public void clearFields() {
-		// attachedFile = null;
-		// evaluatorReportFile = null;
-
 		clearComboBoxes();
 		clearLabels();
 		clearContainers();
+	}
+	
+	public void initializeFields() {
+		initButtons();
+		initTestRejectionInfo();
+	}
+	
+	/** A method to initialize the Information Systems ComboBox for picking an Information System. */
+	public void initCommittee() {
+		requestDetailsController.initCommittee();
+	}
+	
+	/** A method to handle the initialization of the Information Systems ComboBox for picking an Information System. */
+	public void handleCommittee(MessageObject message) {
+		committeeDetails.clear();
+		committeeDetails.addAll((ArrayList<String>)message.getArgs().get(0));
+		if (currentRequest.getTesterID() == null || currentRequest.getTesterID().equalsIgnoreCase("")) {
+			appointAdhocBtn.setDisable(false);
+			requestDetailsController.setComponentDisability(true, rejectRequestBtn, approveRequestBtn, moreDetails, submitMoreDetailsBtn);
+		} else {
+			appointAdhocBtn.setDisable(true);
+			requestDetailsController.setComponentDisability(false, rejectRequestBtn, approveRequestBtn, moreDetails, submitMoreDetailsBtn);
+		}
+	}
+	
+	public void handleSetTester() {
+		appointAdhocBtn.setDisable(true);
+		requestDetailsController.setComponentDisability(false, rejectRequestBtn, approveRequestBtn, moreDetails, submitMoreDetailsBtn);
+	}
+	
+	public void initSetWaitsExecutionLeader() {
+		MessageObject msg = new MessageObject(RequestType.SetWaitsExecutionLeaderAppointment, new ArrayList<>());
+		msg.getArgs().add(requestID);
+		requestDetailsController.sendMessage(msg);
+	}
+	
+	public void handleSetWaitsExecutionLeader(MessageObject message) {
+		requestDetailsController.setComponentDisability(true, approveRequestBtn, rejectRequestBtn, appointAdhocBtn, submitMoreDetailsBtn, moreDetails);
+	}
 
+	public void initWaitsExecutionLeader() {
+		MessageObject msg = new MessageObject(RequestType.WaitsExecutionLeaderAppointment, new ArrayList<>());
+		msg.getArgs().add(requestID);
+		requestDetailsController.sendMessage(msg);
+	}
+	
+	public void handleWaitsExecutionLeader(MessageObject message) {
+		if (!(boolean)message.getArgs().get(0)) return;
+		handleSetWaitsExecutionLeader(message);
+	}
+	
+	public void initGetDeadline() {
+		MessageObject msg = new MessageObject(RequestType.GetDeadline, new ArrayList<>());
+		msg.getArgs().add(requestID);
+		msg.getArgs().add(currentRequest.getCurrentStage());
+		requestDetailsController.sendMessage(msg);
+	}
+	
+	public void handleGetDeadline(MessageObject message) throws ParseException {
+		requestDetailsController.setComponentVisibility(false, timeAssessmentBtn, timeExtensionBtn, deadlineDateLabel);
+		if (role.equalsIgnoreCase("Supervisor") || role.equalsIgnoreCase("Initiator"))
+			 return;
+
+		if (message.getArgs().get(0) == null) {
+			requestDetailsController.setComponentVisibility(true, timeAssessmentBtn); // add if was rejected send mail / message (like noam did)
+			if ((boolean)message.getArgs().get(1))
+				 timeAssessmentBtn.setDisable(true); // already sent
+			else timeAssessmentBtn.setDisable(false);
+			
+			requestDetailsController.setComponentDisability(true, attach, changesApprovalBtn, rejectionDetailsBtn, submitTesterReportButton,
+					testStatusComboBox, rejectionDetails, approveRequestBtn, rejectRequestBtn, appointAdhocBtn, submitMoreDetailsBtn, moreDetails);
+		}
+		else {
+			deadlineDateLabel.setVisible(true);
+			deadlineDateLabel.setText("Deadline Date: " + message.getArgs().get(0).toString());
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			LocalDate deadline = LocalDate.parse(message.getArgs().get(0).toString(), dtf);
+			LocalDate three_days_later_ldt = LocalDate.now().plusDays(3);
+			if (deadline.isBefore(three_days_later_ldt)) {
+				requestDetailsController.setComponentVisibility(true, timeExtensionBtn); // add if was rejected send mail / message (like noam did)
+				if ((boolean)message.getArgs().get(2))
+					 timeExtensionBtn.setDisable(true); // already sent
+				else timeExtensionBtn.setDisable(false);
+			}
+			
+			requestDetailsController.setComponentDisability(false, attach, changesApprovalBtn, rejectionDetailsBtn, submitTesterReportButton,
+					testStatusComboBox, rejectionDetails, approveRequestBtn, rejectRequestBtn, appointAdhocBtn, submitMoreDetailsBtn, moreDetails);
+		}
+	}
+	
+	public void timeAssessmentWasPressed(ActionEvent event) {
+		try {
+		JFXAlert<Void> timeAssessmentPopup = new JFXAlert<Void>();
+		AnchorPane anchorPane = new AnchorPane();
+		TextArea node = new TextArea();
+		
+		// Set TextArea node
+		node.textProperty().addListener(new ChangeListener<String>() { @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+		        if (!newValue.matches("\\d*")) node.setText(newValue.replaceAll("[^\\d]", ""));
+		        if (newValue.length() > 2) node.setText(newValue.substring(0, 2)); }});
+		node.setPrefHeight(20); node.setPrefWidth(30); node.setWrapText(true); node.setEditable(true); node.setLayoutX(50); node.setLayoutY(7);
+		
+		// Set Send Button
+		Button send = new Button("Send");
+		send.setOnAction((ActionEvent sendEvent) -> {
+			if (node.getText().equals("")) { send.requestFocus(); return; }
+			MessageObject response = new MessageObject(RequestType.NewTimeAssessment, new ArrayList());
+			response.getArgs().add(requestID);
+			response.getArgs().add(Client.getInstance().getCurrentUser().getId());
+			switch (currentRequest.getCurrentStage()) {
+			case "Evaluation": response.getArgs().add("Evaluator"); break;
+			case "Decision": response.getArgs().add("Committee"); break;
+			case "Execution": response.getArgs().add("Execution Leader"); break;
+			case "Testing": response.getArgs().add("Tester"); break;
+			default: break;
+			}
+			response.getArgs().add(node.getText());
+			try {
+				Client.getInstance().sendToServer(response);
+			} catch (IOException e) {e.printStackTrace();}
+			timeAssessmentPopup.close();
+			requestDetailsController.switchScene("ViewAllRequests");
+			((ViewAllRequestsFX) ScreenManager.getInstance().getCurrentFX()).refreshWasPressed(null);
+		});
+		send.setLayoutX(100); send.setLayoutY(12);
+		anchorPane.getChildren().addAll(node, send);
+		
+		// Set JFXAlert Dialogue
+		timeAssessmentPopup.setTitle("Assessment (Days):"); timeAssessmentPopup.setContent(anchorPane); timeAssessmentPopup.setSize(180, 50); timeAssessmentPopup.showAndWait();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void timeExtensionWasPressed(ActionEvent event) {
+		try {
+		JFXAlert<Void> timeExtensionPopup = new JFXAlert<Void>();
+		AnchorPane anchorPane = new AnchorPane();
+		TextArea node = new TextArea();
+		
+		// Set TextArea node
+		node.textProperty().addListener(new ChangeListener<String>() { @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+		        if (!newValue.matches("\\d*")) node.setText(newValue.replaceAll("[^\\d]", ""));
+		        if (newValue.length() > 2) node.setText(newValue.substring(0, 2)); }});
+		node.setPrefHeight(20); node.setPrefWidth(30); node.setWrapText(true); node.setEditable(true); node.setLayoutX(50); node.setLayoutY(7);
+		
+		// Set Send Button
+		Button send = new Button("Send");
+		send.setOnAction((ActionEvent sendEvent) -> {
+			if (node.getText().equals("")) { send.requestFocus(); return; }
+			MessageObject response = new MessageObject(RequestType.NewTimeExtension, new ArrayList());
+			response.getArgs().add(requestID);
+			response.getArgs().add(Client.getInstance().getCurrentUser().getId());
+			switch (currentRequest.getCurrentStage()) {
+			case "Evaluation": response.getArgs().add("Evaluator"); break;
+			case "Decision": response.getArgs().add("Committee"); break;
+			case "Execution": response.getArgs().add("Execution Leader"); break;
+			case "Testing": response.getArgs().add("Tester"); break;
+			default: break;
+			}
+			response.getArgs().add(currentRequest.getCurrentStage());
+			response.getArgs().add(node.getText());
+			try {
+				Client.getInstance().sendToServer(response);
+			} catch (IOException e) {e.printStackTrace();}
+			timeExtensionPopup.close();
+			requestDetailsController.switchScene("ViewAllRequests");
+			((ViewAllRequestsFX) ScreenManager.getInstance().getCurrentFX()).refreshWasPressed(null);
+		});
+		send.setLayoutX(100); send.setLayoutY(12);
+		anchorPane.getChildren().addAll(node, send);
+		
+		// Set JFXAlert Dialogue
+		timeExtensionPopup.setTitle("Extension (Days):"); timeExtensionPopup.setContent(anchorPane); timeExtensionPopup.setSize(180, 50); timeExtensionPopup.showAndWait();
+		} catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+
+	private void initTestRejectionInfo() {
+		requestDetailsController.initTestRejectionInfo(requestID);
+	}
+	
+	public void handleTestRejectionInfo(MessageObject message) {
+		try {
+		rejectionInfo = (String) message.getArgs().get(0).toString();
+		if (!rejectionInfo.equalsIgnoreCase("null") && rejectionInfo.length() > 0)
+			rejectionDetailsPane.setVisible(true);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	/** This method initializes the methods according to the relevant stage and status */
+	private void initButtons() {
+		if (currentRequest == null) return;
+		if (currentRequest.getCurrentStage().equals("Closing")) {
+			if (currentRequest.getRequestStatus().equals("Closed"))
+				requestDetailsController.setComponentVisibility(false, unfreeze, freeze, closeRequest);
+			else {
+				 requestDetailsController.setComponentVisibility(false, unfreeze, freeze);
+				 requestDetailsController.setComponentVisibility(true, closeRequest);
+			}
+		}
+		else {
+			requestDetailsController.setComponentVisibility(true, unfreeze, freeze);
+			requestDetailsController.setComponentVisibility(false, closeRequest);
+		}
 	}
 
 	/**
 	 * Sub-method of clearFields(). Clears the ComboBoxes.
 	 */
 	private void clearComboBoxes() {
-		pickExecutionLeaderCBox.setValue("");
-		pickEvaluatorCBox.setValue("");
-		pickTesterCBox.setValue("");
 		testStatusComboBox.setValue("");
 	}
 
@@ -323,27 +502,18 @@ public class RequestDetailsFX extends BaseFX {
 	 * Sub-method of clearFields(). Clears the Labels.
 	 */
 	private void clearLabels() {
-		rejectionDetailsLabel.setVisible(false);
-		rejectionDetails.setVisible(false);
+		requestDetailsController.setComponentVisibility(false, rejectionDetails, rejectionDetailsLabel);
 		fileName.setText("");
 		supervisorReportLabel.setText("");
 		testerReportSubmittionStatus.setText("");
-		/*
-		 * attachment.setText("None"); evaluatorReport.setText("None");
-		 */
 	}
 
 	/**
 	 * Sub-method of clearFields(). Clears the containers.
 	 */
 	private void clearContainers() {
-		evaluatorPane.setVisible(false);
-		testerPane.setVisible(false);
-		executionLeaderPane.setVisible(false);
-		committeePane.setVisible(false);
-		evaluatorReportPane.setVisible(false);
-		supervisorPane.setVisible(false);
-		timeAssessmentTab.setDisable(true);
+		requestDetailsController.setComponentVisibility(false, evaluatorPane, testerPane, executionLeaderPane,
+														committeePane, evaluatorReportPane, supervisorPane, rejectionDetailsPane);
 	}
 
 	/**
@@ -362,39 +532,9 @@ public class RequestDetailsFX extends BaseFX {
 		reason.setText(request.getReasonForRequest());
 		notes.setText(request.getNote());
 		requestID = request.getRequestID();
-
+		currentRequest = request;
 	}
-
-	/**
-	 * Loads the Attached File if there is one
-	 * 
-	 * @param event
-	 */
-	/*
-	 * private void loadAttachedFile(Request request) { AttachedFile attachedFile =
-	 * requestDetailsController.getAttachedFile(request); if (attachedFile == null)
-	 * return;
-	 * 
-	 * this.attachedFile = attachedFile;
-	 * 
-	 * Platform.runLater (() ->
-	 * {attachment.setText(attachedFile.getFile().getName());}); }
-	 */
-
-	/**
-	 * Loads the Attached Evaluator Report File if there is one
-	 * 
-	 * @param event
-	 */
-	/*
-	 * private void loadAttachedEvaluatorReportFile(String requestID) { AttachedFile
-	 * attachedEvaluatorReportFile = requestDetailsController.getAttachedFile("E" +
-	 * requestID); if (attachedEvaluatorReportFile == null) return;
-	 * 
-	 * this.evaluatorReportFile = attachedEvaluatorReportFile; Platform.runLater (()
-	 * -> {evaluatorReport.setText(evaluatorReportFile.getFile().getName());}); }
-	 */
-
+	
 	// Evaluator Methods ***********************************************
 	/**
 	 * Load all of the evaluator's fields.
@@ -415,30 +555,25 @@ public class RequestDetailsFX extends BaseFX {
 	 */
 	@FXML
 	public void submitEvaluationReportWasPressed(ActionEvent event) {
-		requestDetailsController.switchScene("EvaluatorReportSubmition");
-		((EvaluatorReportSubmitionFX) requestDetailsController.getCurrentFX()).setRequestID(requestID);
-
+		requestDetailsController.submitEvaluationReport(requestID);
 	}
 
 	// Tester Methods **************************************************
 	private void loadTesterFields(Request request) {
-		testerPane.setVisible(true);
-		evaluatorReportPane.setVisible(true);
-		// loadAttachedEvaluatorReportFile(request.getRequestID());
+		requestDetailsController.setComponentVisibility(true, testerPane, evaluatorReportPane);
 	}
 
 	@FXML
 	private void testerReportButtonWasPressed(ActionEvent event) {
-		if (testStatusComboBox.getValue() == "") {
-			testerReportSubmittionStatus.setText("Please choose a status!");
-			return;
+		if (testStatusComboBox.getValue().equals("")) {
+			testerReportSubmittionStatus.setText("Please choose a status!"); return;
 		}
-		if (testStatusComboBox.getValue() == "Rejected" && rejectionDetails.getText().isEmpty()) {
-			testerReportSubmittionStatus.setText("Please Fill Details");
-			return;
-		}
-		// SEND MSG
-		// TO DB AND SUCH .... UPDATE STATUS AND DESCRIPTION
+		if (testStatusComboBox.getValue().equals("Rejected"))
+			if (rejectionDetails.getText().isEmpty()) { testerReportSubmittionStatus.setText("Please Fill Details"); return; }
+			else { requestDetailsController.testerReportRejected(requestID, rejectionDetails.getText(), currentRequest.getCurrentStage()); return; }
+		else if (testStatusComboBox.getValue().equals("Approved"))
+			requestDetailsController.testerReportApproved(requestID, currentRequest.getCurrentStage());
+		
 		testerReportSubmittionStatus.setText("Status Updated!");
 	}
 
@@ -446,13 +581,11 @@ public class RequestDetailsFX extends BaseFX {
 	private void testStatusComboBoxChanged(ActionEvent event) {
 		switch (testStatusComboBox.getValue()) {
 		case "Approved":
-			rejectionDetailsLabel.setVisible(false);
-			rejectionDetails.setVisible(false);
+			requestDetailsController.setComponentVisibility(false, rejectionDetails, rejectionDetailsLabel);
 			testerReportSubmittionStatus.setText("");
 			break;
 		case "Rejected":
-			rejectionDetailsLabel.setVisible(true);
-			rejectionDetails.setVisible(true);
+			requestDetailsController.setComponentVisibility(true, rejectionDetails, rejectionDetailsLabel);
 			testerReportSubmittionStatus.setText("Please Elaborate!");
 			break;
 		}
@@ -461,45 +594,81 @@ public class RequestDetailsFX extends BaseFX {
 	// Execution Leader Methods *******************************************
 	private void loadExecutionLeaderFields(Request request) {
 		executionLeaderPane.setVisible(true);
-		// loadAttachedEvaluatorReportFile(request.getRequestID());
 	}
 
 	@FXML
 	private void changesApprovalWasPressed(ActionEvent event) {
 		changesApprovalLabel.setText("Changes Approval Updated!");
+		requestDetailsController.changeApproval(requestID, currentRequest.getCurrentStage());
 	}
-
+	
+	/** This method displays to the execution leader the details of test rejection */
 	@FXML
-	private void timeAssessmentBtnPressed(ActionEvent event) {
-		timeAssessmentLabel.setText("Time Assessment Updated!");
+	private void rejectionDetailsBtnPressed(ActionEvent event) {
+		TextArea node = new TextArea(rejectionInfo);
+		node.setPrefHeight(300);
+		node.setWrapText(true);
+		node.setEditable(false);
+		
+		JFXAlert<Void> rejectionDetailsPopup = new JFXAlert<Void>();
+		rejectionDetailsPopup.setTitle("Test Rejection Details: ");
+		rejectionDetailsPopup.setContent(node);
+		rejectionDetailsPopup.setSize(400, 200);
+		rejectionDetailsPopup.showAndWait();
 	}
 
 	// Committee Methods **************************************************
 	private void loadCommitteeFields(Request request, String role) {
-		committeePane.setVisible(true);
-		evaluatorReportPane.setVisible(true);
-		// loadAttachedEvaluatorReportFile(request.getRequestID());
+		requestDetailsController.setComponentVisibility(true, committeePane, evaluatorReportPane);
 
-		if (role.equals("Committee Chairman")) {
-			appointAdhocBtn.setVisible(true);
-			rejectRequestBtn.setVisible(true);
-			approveRequestBtn.setVisible(true);
-		} else {
-			appointAdhocBtn.setVisible(false);
-			rejectRequestBtn.setVisible(false);
-			approveRequestBtn.setVisible(false);
-		}
+		if (role.equals("Committee Chairman"))
+			 requestDetailsController.setComponentVisibility(true, appointAdhocBtn, rejectRequestBtn, approveRequestBtn);
+		else requestDetailsController.setComponentVisibility(false, appointAdhocBtn, rejectRequestBtn, approveRequestBtn);
 	}
 
 	@FXML
 	private void appointAdhocWasPressed(ActionEvent event) {
-		executionLeaderReportLabel.setText("Appoint Ad-Hoc was Pressed!");
+		JFXAlert<Void> rejectionDetailsPopup = new JFXAlert<Void>();
+		AnchorPane anchorPane = new AnchorPane();
+		ComboBox node = new ComboBox();
+		
+		// Set ComboBox node
+		node.setPrefWidth(150);
+		node.setLayoutX(7);
+		node.setLayoutY(7);
+		for (int i = 0; i < committeeDetails.size(); i += 2)
+			node.getItems().add(committeeDetails.get(i) + " - " + committeeDetails.get(i+1));
+		
+		// Set Send Button
+		Button send = new Button("Update");
+		send.setOnAction((ActionEvent sendEvent) -> {
+			if (node.getValue().equals("")) {
+				send.requestFocus();
+				return;
+			}
+			MessageObject response = new MessageObject(RequestType.SetTester, new ArrayList());
+			response.getArgs().add(requestID);
+			response.getArgs().add(committeeDetails.get(2*node.getSelectionModel().getSelectedIndex()));
+			try {
+				Client.getInstance().sendToServer(response);
+			} catch (IOException e) {e.printStackTrace();}
+			rejectionDetailsPopup.close();
+		});
+		send.setLayoutX(50);
+		send.setLayoutY(50);
+		
+		anchorPane.getChildren().addAll(node, send);
+		
+		// Set JFXAlert Dialogue
+		rejectionDetailsPopup.setTitle("Select Tester: ");
+		rejectionDetailsPopup.setContent(anchorPane);
+		rejectionDetailsPopup.setSize(160, 100);
+		rejectionDetailsPopup.showAndWait();
 	}
 
 	@FXML
 	private void rejectRequestWasPressed(ActionEvent event) {
-		executionLeaderReportLabel.setText("Reject Request was Pressed!");
-		
+		requestDetailsController.committeeRejectRequest(requestID, currentRequest.getCurrentStage());
 	}
 
 	/**
@@ -508,16 +677,18 @@ public class RequestDetailsFX extends BaseFX {
 	 */
 	@FXML
 	private void approveRequestWasPressed(ActionEvent event) {
-		requestDetailsController.moveRequestToExecutionStage(requestID);
-		requestDetailsController.switchScene("ViewAllRequests");
-		
-		executionLeaderReportLabel.setText("Approve Request was Pressed!");
-		
+		//requestDetailsController.committeeApprovesRequest(requestID, currentRequest.getCurrentStage());
+		initSetWaitsExecutionLeader();
 	}
 
 	@FXML
 	private void submitMoreDetailsWasPressed(ActionEvent event) {
-		executionLeaderReportLabel.setText("Request More Details was Pressed!");
+		if (moreDetails.getText().toString().equalsIgnoreCase("null") || moreDetails.getText().toString().equalsIgnoreCase("")) {
+			moreDetails.setPromptText("Please fill what details you want.");
+			submitMoreDetailsBtn.requestFocus();
+			return;
+		}
+		requestDetailsController.submitMoreDetails(requestID, moreDetails.getText());
 	}
 	
 	/**
@@ -526,10 +697,7 @@ public class RequestDetailsFX extends BaseFX {
 	 */
 	@FXML
 	private void viewEvaluatorReportWasPressed(ActionEvent event) {
-		requestDetailsController.switchScene("EvaluatorReportSubmition");
-		((EvaluatorReportSubmitionFX) requestDetailsController.getCurrentFX()).setRequestID(requestID);
-		((EvaluatorReportSubmitionFX) requestDetailsController.getCurrentFX()).adjustScreenToViewEvaluatorReport();
-		
+		requestDetailsController.viewEvaluatorReport(requestID);
 	}
 	
 	
@@ -537,37 +705,25 @@ public class RequestDetailsFX extends BaseFX {
 	// Supervisor Methods *************************************************
 	private void loadSupervisorFields(Request request) {
 		supervisorPane.setVisible(true);
-		timeAssessmentTab.setDisable(false);
 	}
 
 	@FXML
 	private void closeRequestWasPressed(ActionEvent event) {
-
+		status.setText(status.getText().replace("Frozen", "Closed"));
+		status.setText(status.getText().replace("Active", "Closed"));
+		requestDetailsController.supervisorClosesRequest(requestID, currentRequest.getRequestStatus());
 	}
 
 	@FXML
 	private void freezeWasPressed(ActionEvent event) {
-
+		status.setText(status.getText().replace("Active", "Frozen"));
+		requestDetailsController.supervisorFreeze(requestID, currentRequest.getRequestStatus());
 	}
 
 	@FXML
 	private void unfreezeWasPressed(ActionEvent event) {
-
-	}
-
-	@FXML
-	private void appointEmployeeBtnWasPressed(ActionEvent event) {
-
-	}
-
-	@FXML
-	private void employeeComboBoxChanged(ActionEvent event) {
-
-	}
-
-	@FXML
-	private void roleComboBoxChanged(ActionEvent event) {
-
+		status.setText(status.getText().replace("Frozen", "Active"));
+		requestDetailsController.supervisorUnfreeze(requestID, currentRequest.getRequestStatus());
 	}
 
 	// Side Panel Methods *************************************************
@@ -598,8 +754,7 @@ public class RequestDetailsFX extends BaseFX {
 
 	@FXML
 	public void ManageApprovesWasPressed(ActionEvent event) {
-		requestDetailsController.switchScene("ManageApproves");
-		
+		requestDetailsController.manageAprrovementWasPressed(null);
 	}
 
 	// ISD START
@@ -607,7 +762,7 @@ public class RequestDetailsFX extends BaseFX {
 	 * Manage permanent roles (supervisor, committee), and Information System's
 	 * evaluators.
 	 * 
-	 * @author Raz Malka
+
 	 * @param event
 	 */
 	@FXML

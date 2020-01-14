@@ -46,7 +46,7 @@ public class BaseController {
 	 * to prevent reinitializing FX's and LC's over and over. Regular utilization
 	 * will lead to extreme acceleration of scene switching.
 	 * 
-	 * @author Raz Malka
+
 	 * @param fxml_name
 	 * @return Boolean indicating whether the scene already exists.
 	 */
@@ -131,8 +131,8 @@ public class BaseController {
 
 	public void handleViewRequestDetailsRequest(MessageObject message) {
 		switchScene("ViewAllRequests");
-		((ViewAllRequestsFX) getCurrentFX()).clearFields();
 		((ViewAllRequestsFX) getCurrentFX()).loadRequests(message);
+		((ViewAllRequestsFX) getCurrentFX()).clearFields();
 	}
 
 	public void handleSearchRequest(MessageObject message, Object currentFX) {
@@ -140,6 +140,7 @@ public class BaseController {
 		if ((boolean) message.getArgs().get(0)) {
 			switchScene("RequestDetails");
 			((RequestDetailsFX) getCurrentFX()).loadRequest(message, role);
+			((RequestDetailsFX) getCurrentFX()).initializeFields();
 		}
 		((ViewAllRequestsFX) currentFX).handleSearchRequestDetails(message);
 	}
@@ -179,8 +180,7 @@ public class BaseController {
 
 	public void manageAprrovementWasPressed(ActionEvent event) {
 		switchScene("ManageApproves");
-		((ManageApprovesFX) getCurrentFX()).clearFields();
-		((ManageApprovesFX) getCurrentFX()).loadDataToEvalutorTable();
+		((ManageApprovesFX) getCurrentFX()).refreshTables();
 	}
 
 	public void newChangeRequestWasPressed(ActionEvent event) {

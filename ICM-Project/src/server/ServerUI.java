@@ -15,7 +15,7 @@ import javafx.stage.WindowEvent;
  * This class constructs the UI for a JavaFX client.
  * 
  * @author Team16 Braude
- * @author Raz Malka
+
  * @version Dec2019
  */
 public class ServerUI extends Application {

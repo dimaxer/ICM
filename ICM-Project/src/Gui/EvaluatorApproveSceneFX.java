@@ -55,7 +55,7 @@ public class EvaluatorApproveSceneFX extends BaseFX {
 	}
 
 	public void backWasPressed(ActionEvent event) {
-		evaluatorApproveSceneController.switchScene("ManageApproves");
+		evaluatorApproveSceneController.manageAprrovementWasPressed(null);
 	}
 
 //-----------------------------Panel Methods--------------------------------------------------
@@ -74,7 +74,7 @@ public class EvaluatorApproveSceneFX extends BaseFX {
 		evaluatorApproveSceneController.switchScene("ManageApproves");
 		ManageApprovesFX manageApprovment;
 		manageApprovment = (ManageApprovesFX) evaluatorApproveSceneController.getCurrentFX();
-		manageApprovment.loadDataToEvalutorTable();
+		manageApprovment.refreshTables();
 	}
 
 	

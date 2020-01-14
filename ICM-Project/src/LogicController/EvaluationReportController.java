@@ -27,7 +27,11 @@ public class EvaluationReportController extends BaseController {
 		ArrayList<Object> args = new ArrayList<Object>();
 		args.add(requestID);
 		sendMessage(new MessageObject(RequestType.GetEvaluatorReport,args));
-		
-		
+	}
+
+	public void initShowAdditionalInfo(String requestID) {
+		MessageObject msg = new MessageObject(RequestType.ShowAdditionalInfo, new ArrayList<>());
+		msg.getArgs().add(requestID);
+		sendMessage(msg);
 	}
 }

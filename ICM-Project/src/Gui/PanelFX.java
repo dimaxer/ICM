@@ -114,7 +114,7 @@ public class PanelFX extends BaseFX {
 	// ISD START
 	/**
 	 * Manage permanent roles (supervisor, committee), and Information System's evaluators.
-	 * @author Raz Malka
+
 	 * @param event
 	 */
 	@FXML

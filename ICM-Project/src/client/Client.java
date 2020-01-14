@@ -64,7 +64,12 @@ public class Client extends AbstractClient {
 	 */
 	public void handleMessageFromServer(Object msg) {
 		if (!msg.equals("check if alive"))
-			requestHandler.handle(msg);
+			try {
+				requestHandler.handle(msg);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 	/**

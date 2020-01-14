@@ -1,6 +1,7 @@
 package Gui;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -83,6 +84,8 @@ public class ViewAllRequestsFX  extends BaseFX  {
 	@FXML
 	private TableColumn<ViewAllRequestsRequest, String> requestIdColumn;
 	@FXML
+	private TableColumn<ViewAllRequestsRequest, String> stageColumn;
+	@FXML
 	private TableColumn<ViewAllRequestsRequest, String> myRoleColumn;
 	@FXML
 	private TableColumn<ViewAllRequestsRequest, String> initiatorColumn;
@@ -117,7 +120,7 @@ public class ViewAllRequestsFX  extends BaseFX  {
 	}
 	
 	/** This function sets an event handler on mouse double click on a row.
-	 * @author Raz Malka
+
 	 */
 	private void onRowDoubleClick() {
 		tableView.setRowFactory( tv -> {
@@ -166,6 +169,7 @@ public class ViewAllRequestsFX  extends BaseFX  {
 	}
 	
 	public void handleRefresh(MessageObject message) {
+		allTableInfo.clear();
 		allTableInfo = viewAllRequestsController.loadRequests(message, tableView);
 	}
 
@@ -244,6 +248,7 @@ public class ViewAllRequestsFX  extends BaseFX  {
 		// TODO Auto-generated method stub
 		statusColumn.setCellValueFactory(new PropertyValueFactory<ViewAllRequestsRequest, String>("Status"));
 		myRoleColumn.setCellValueFactory(new PropertyValueFactory<ViewAllRequestsRequest, String>("MyRole"));
+		stageColumn.setCellValueFactory(new PropertyValueFactory<ViewAllRequestsRequest, String>("Stage"));
 		initiatorColumn.setCellValueFactory(new PropertyValueFactory<ViewAllRequestsRequest, String>("Initiator"));
 		requestIdColumn.setCellValueFactory(new PropertyValueFactory<ViewAllRequestsRequest, String>("RequestId"));
 		
@@ -272,7 +277,7 @@ public class ViewAllRequestsFX  extends BaseFX  {
 	// ISD START
 	/**
 	 * Manage permanent roles (supervisor, committee), and Information System's evaluators.
-	 * @author Raz Malka
+
 	 * @param event
 	 */
 	@FXML

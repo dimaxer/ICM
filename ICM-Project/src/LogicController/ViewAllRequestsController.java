@@ -41,7 +41,7 @@ public class ViewAllRequestsController extends BaseController {
 		case "ISD Chief":
 		case "Committee Member":
 		case "Committee Chairman":
-			fillAllRequestTable(user, request); break;
+			fillAllRequestTable(user, request, uid); break;
 		default: fillUserRequestTable(user, request, uid); break;
 		}
 		return request;
@@ -49,31 +49,39 @@ public class ViewAllRequestsController extends BaseController {
 
 	private void fillUserRequestTable(User user, ObservableList<ViewAllRequestsRequest> request, String uid) {
 		for (Request r : user.getRequestArray()) {
-			if (uid.equals(r.getTesterID())) {
-				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Tester",
+			if (uid.equals(r.getTesterID()) && r.getCurrentStage().equals("Testing")) {
+				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), r.getCurrentStage(), "Tester",
 						r.getInitaitorID()));
-			} else if (uid.equals(r.getExequtionLeaderID())) {
-				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Execution Leader",
+			} else if (uid.equals(r.getExequtionLeaderID()) && r.getCurrentStage().equals("Execution")) {
+				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), r.getCurrentStage(), "Execution Leader",
 						r.getInitaitorID()));
-			}else if (uid.equals(r.getEvaluatorID())) {
-				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Evaluator",
+			}else if (uid.equals(r.getEvaluatorID()) && r.getCurrentStage().equals("Evaluation")) {
+				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), r.getCurrentStage(), "Evaluator",
 						r.getInitaitorID()));
 			}else if (uid.equals(r.getInitaitorID())) {
-				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "Initiator",
+				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), r.getCurrentStage(), "Initiator",
 						r.getInitaitorID()));
 			}
 		}
 	}
 	
-	private void fillAllRequestTable(User user, ObservableList<ViewAllRequestsRequest> request) {
+	private void fillAllRequestTable(User user, ObservableList<ViewAllRequestsRequest> request, String uid) {
+		if (!user.getJobDescription().equals("Supervisor"))
+			fillUserRequestTable(user, request, uid);
 		for (Request r : user.getRequestArray()) {
-			request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), Client.getInstance().getCurrentUser().getJobDescription(),
-					r.getInitaitorID()));
+			if (!r.getCurrentStage().equals("Decision") &&
+				(user.getJobDescription().equals("Committee Member") || user.getJobDescription().equals("Committee Chairman")))
+				continue;
+			
+			ViewAllRequestsRequest requestToAdd = new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), r.getCurrentStage(),
+					Client.getInstance().getCurrentUser().getJobDescription(), r.getInitaitorID());
+			if (!request.contains(requestToAdd)) // Uncomment this if you want to skip rows for main role ~ Malka
+				request.add(requestToAdd);
 		}
 	}
 
 	/**
-	 * @author Raz Malka
+
 	 */
 	public void refresh() {
 		// TODO Auto-generated method stub
@@ -81,25 +89,6 @@ public class ViewAllRequestsController extends BaseController {
 		arrlist.add(Client.getInstance().getCurrentUser());
 		MessageObject searchRequest = new MessageObject(RequestType.refreshViewUserRequestTable, arrlist);
 		sendMessage(searchRequest);
-	}
-
-	/**
-	 * @author Raz Malka
-	 */
-	public ObservableList<ViewAllRequestsRequest> loadPendingRequests(MessageObject message, TableView<ViewAllRequestsRequest> tableView) {
-			ObservableList<ViewAllRequestsRequest> requests = getPendingObservableListRequest((User)message.getArgs().get(0));
-			tableView.setItems(requests);
-			return requests;
-	}
-	
-	/**
-	 * @author Raz Malka
-	 */
-	private ObservableList<ViewAllRequestsRequest> getPendingObservableListRequest(User user) {
-		ObservableList<ViewAllRequestsRequest> request = FXCollections.observableArrayList();
-		for (Request r : user.getRequestArray())
-			request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), "ISD Chief", r.getInitaitorID()));
-		return request;
 	}
 
 }

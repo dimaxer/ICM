@@ -17,7 +17,7 @@ import Utilities.ScreenManager;
 
 public class ClientRequestHandler {
 	// Instance methods ************************************************
-	public void handle(Object msg) {
+	public void handle(Object msg) throws Exception {
 		MessageObject message = (MessageObject) msg;
 		Client.getInstance().printMessageRecieved(message);
 		Object currentFX = ScreenManager.getInstance().getCurrentFX();
@@ -45,7 +45,6 @@ public class ClientRequestHandler {
 			break;
 		case ViewAttachedFiles:
 			((ViewAttachedFilesFX) currentFX).handleShowAttachedFiles(message);
-
 			break;
 		case DownloadAttachedFiles:
 			((ViewAttachedFilesFX) currentFX).handleDownloadAttachedFiles(message);
@@ -68,9 +67,6 @@ public class ClientRequestHandler {
 		case PermanentRoles_Details:
 			((ManagePermissionsFX) currentFX).handlePermanentRoles(message);
 			break;
-		case ViewEvaluatorTable:
-			((ManageApprovesFX) currentFX).loadEvaluatorTable(message);
-			break;
 		case ViewIseTable:
 			((ReplaceEvaluatorSceneFX) currentFX).loadISETable(message);
 			break;
@@ -80,9 +76,56 @@ public class ClientRequestHandler {
 		case GetEvaluatorReport:
 			((EvaluatorReportSubmitionFX) currentFX).fillReportFilds(message);
 			break;
-		case moveRequestToExecutionStage:
+		case swapStage:
+			if (currentFX instanceof ViewAllRequestsFX)
+				 ((ViewAllRequestsFX) currentFX).refreshWasPressed(null);
+			else ((ManageApprovesFX) currentFX).refreshTables();
 			break;
-
+		case swapStatus:
+			((ViewAllRequestsFX) currentFX).refreshWasPressed(null);
+			break;
+		case ShowAdditionalInfo:
+			((EvaluatorReportSubmitionFX) currentFX).handleShowAdditionalInfo(message);
+			break;
+		case TestRejectionInfo:
+			((RequestDetailsFX) currentFX).handleTestRejectionInfo(message);
+			break;
+		case updateTesterRejectionDetails:
+			((ViewAllRequestsFX) currentFX).refreshWasPressed(null);
+			break;
+		case GetEvaluatorTable:
+			((ManageApprovesFX) currentFX).handleEvaluatorTable(message);
+			break;
+		case GetTimeAssessmentTable:
+			((ManageApprovesFX) currentFX).handleTimeAssessmentTable(message);
+			break;
+		case GetTimeExtensionTable:
+			((ManageApprovesFX) currentFX).handleTimeExtensionTable(message);
+			break;
+		case GetExecutionLeaderTable:
+			((ManageApprovesFX) currentFX).handleExecutionLeaderTable(message);
+			break;
+		case GetDeadline:
+			((RequestDetailsFX) currentFX).handleGetDeadline(message);
+			break;
+		case GetCommittee:
+			((RequestDetailsFX) currentFX).handleCommittee(message);
+			break;
+		case SetTester:
+			((RequestDetailsFX) currentFX).handleSetTester();
+			break;
+		case WaitsExecutionLeaderAppointment:
+			((RequestDetailsFX) currentFX).handleWaitsExecutionLeader(message);
+			break;
+		case SetWaitsExecutionLeaderAppointment:
+			((RequestDetailsFX) currentFX).handleSetWaitsExecutionLeader(message);
+			break;
+		case GetExecutionLeaderOptions:
+			((ManageApprovesFX) currentFX).handleExecutionLeaderDetails(message);
+			break;
+		case SetExecutionLeader:
+			((ManageApprovesFX) currentFX).refreshTables();
+			break;
 		default:
 			break;
 		}

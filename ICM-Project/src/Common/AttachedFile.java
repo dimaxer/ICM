@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * This class represents an Attached File.
- * @author Raz Malka
+
  */
 public class AttachedFile implements Serializable
 {

@@ -1,4 +1,4 @@
-package Common.EvaluatorAppoitmentTable;
+package Common;
 
 import java.io.Serializable;
 
@@ -6,28 +6,16 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class EvaluatorAppoitmentTable   {
+public class ISEAppoitmentTable   {
 
-
-	
-	private SimpleStringProperty RequestID, EvaluatorID, EvaluatorName;
+	private SimpleStringProperty EvaluatorID, EvaluatorName;
 	 
 	 
-	public EvaluatorAppoitmentTable(String requestId, String EvaluatorID, String EvaluatorName) {
-		this.RequestID = new SimpleStringProperty(requestId);
+	public ISEAppoitmentTable(String EvaluatorID, String EvaluatorName) {
 		this.EvaluatorID = new SimpleStringProperty(EvaluatorID);
 		this.EvaluatorName = new SimpleStringProperty(EvaluatorName);
 	}
 
-	
-	
-	public String getRequestID() {
-		return RequestID.get();
-	}
-
-	public void setRequestID(SimpleStringProperty requestId) {
-		this.RequestID = requestId;
-	}
 
 	public String getEvaluatorID() {
 		return EvaluatorID.get();
