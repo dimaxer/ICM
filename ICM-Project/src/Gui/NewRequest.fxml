@@ -15,21 +15,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="613.0" prefWidth="1230.0" style="-fx-background-color: #f6faff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.NewChangeRequestFX">
+<AnchorPane prefHeight="613.0" prefWidth="1230.0" style="-fx-background-color: #f6faff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.NewChangeRequestFX">
    <children>
-      <AnchorPane layoutX="300.0" prefHeight="613.0" prefWidth="917.0">
+      <AnchorPane layoutX="300.0" layoutY="2.0" prefHeight="613.0" prefWidth="917.0">
          <children>
             <AnchorPane layoutX="-8.0" prefHeight="86.0" prefWidth="938.0">
                <children>
-                  <JFXButton fx:id="Back" contentDisplay="GRAPHIC_ONLY" layoutX="842.0" layoutY="14.0" onAction="#logOutWasPressed" prefHeight="50.0" prefWidth="72.0">
-                     <graphic>
-                        <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#backWasPressed" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@Images/ICM_BACK.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
                   <Text fill="#7c8184" layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Submit New Change Request">
                      <font>
                         <Font name="System Italic" size="30.0" />
@@ -37,19 +28,37 @@
                   </Text>
                </children>
             </AnchorPane>
-            <ComboBox fx:id="infoSysComboBox" layoutX="60.0" layoutY="134.0" onAction="#updateCurrentEvaluator" prefHeight="25.0" prefWidth="161.0" />
-            <Text layoutX="55.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information System Responsible" />
+            <ComboBox fx:id="infoSysComboBox" layoutX="60.0" layoutY="124.0" onAction="#updateCurrentEvaluator" prefHeight="35.0" prefWidth="161.0" />
+            <Text layoutX="55.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information System Responsible">
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
             <Text fx:id="fillComboBoxAlert" fill="RED" layoutX="54.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select an Information System" visible="false">
                <font>
                   <Font size="11.0" />
                </font>
             </Text>
-            <JFXTextField fx:id="jfxrequestedChange" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="211.0" prefHeight="25.0" prefWidth="454.0" promptText="Requested Change (Title)" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
-            <JFXTextField fx:id="jfxsituation" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="294.0" prefHeight="25.0" prefWidth="454.0" promptText="Situation Description" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
-            <JFXTextField fx:id="jfxreasons" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="366.0" prefHeight="58.0" prefWidth="454.0" promptText="Change Reasons" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
-            <JFXTextField fx:id="jfxnotes" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="470.0" prefHeight="58.0" prefWidth="454.0" promptText="Notes (Optional)" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
-            <Button fx:id="AddFiles" defaultButton="true" layoutX="602.0" layoutY="383.0" mnemonicParsing="false" onAction="#addFilesWasPressed" prefHeight="25.0" prefWidth="161.0" text="Add Files" />
-            <Button fx:id="submit" defaultButton="true" layoutX="602.0" layoutY="468.0" mnemonicParsing="false" onAction="#submitWasPressed" prefHeight="66.0" prefWidth="161.0" text="&#9;Submit&#10; Change Request">
+            <JFXTextField fx:id="jfxrequestedChange" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="205.0" prefHeight="62.0" prefWidth="454.0" promptText="Requested Change (Title)" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK">
+               <font>
+                  <Font size="15.0" />
+               </font></JFXTextField>
+            <JFXTextField fx:id="jfxsituation" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="294.0" prefHeight="62.0" prefWidth="454.0" promptText="Situation Description" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK">
+               <font>
+                  <Font size="15.0" />
+               </font></JFXTextField>
+            <JFXTextField fx:id="jfxreasons" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="378.0" prefHeight="62.0" prefWidth="454.0" promptText="Change Reasons" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK">
+               <font>
+                  <Font size="15.0" />
+               </font></JFXTextField>
+            <JFXTextField fx:id="jfxnotes" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="466.0" prefHeight="62.0" prefWidth="454.0" promptText="Notes (Optional)" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK">
+               <font>
+                  <Font size="15.0" />
+               </font></JFXTextField>
+            <Button fx:id="AddFiles" defaultButton="true" layoutX="602.0" layoutY="362.0" mnemonicParsing="false" onAction="#addFilesWasPressed" prefHeight="62.0" prefWidth="161.0" style="-fx-background-color: #333645; -fx-background-radius: 70;" text="Add Files" textFill="#fffdfd">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+            <Button fx:id="submit" defaultButton="true" layoutX="602.0" layoutY="468.0" mnemonicParsing="false" onAction="#submitWasPressed" prefHeight="62.0" prefWidth="161.0" style="-fx-background-color: #333645; -fx-background-radius: 70;" text="&#9;Submit&#10; Change Request" textFill="#fffdfd">
                <font>
                   <Font size="18.0" />
                </font>
@@ -64,7 +73,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <VBox fx:id="all_roles" prefHeight="616.0" prefWidth="300.0" style="-fx-background-color: #333645;">
+      <VBox fx:id="all_roles" prefHeight="616.0" prefWidth="300.0" style="-fx-background-color: #333645;" visible="false">
          <children>
             <Label prefHeight="80.0" prefWidth="300.0" style="-fx-background-color: #4682b4;" text="   ICM Panel" textFill="WHITE">
                <font>
@@ -179,6 +188,14 @@
                   </HBox>
                </children>
             </AnchorPane>
+            <JFXButton buttonType="RAISED" onAction="#logOutWasPressed" prefHeight="32.0" prefWidth="206.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" text="Log out" textAlignment="JUSTIFY">
+               <font>
+                  <Font name="Palatino Linotype Bold" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="50.0" top="150.0" />
+               </VBox.margin>
+            </JFXButton>
          </children>
       </VBox>
       <VBox fx:id="supervisorPanel" prefHeight="616.0" prefWidth="300.0" style="-fx-background-color: #333645;">
@@ -252,6 +269,14 @@
                   </JFXButton>
                </children>
             </HBox>
+            <JFXButton buttonType="RAISED" onAction="#logOutWasPressed" prefHeight="32.0" prefWidth="206.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" text="Log out" textAlignment="JUSTIFY">
+               <font>
+                  <Font name="Palatino Linotype Bold" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="50.0" top="275.0" />
+               </VBox.margin>
+            </JFXButton>
          </children>
       </VBox>
    </children>

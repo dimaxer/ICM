@@ -42,6 +42,11 @@ public class StatisticsReportFX extends BaseFX {
 		
 	}
 
+	@FXML
+	public void ActivityReportWasPressed(ActionEvent event)
+	{
+		statisticsReportController.ActivityReportWasPressed(event);
+	}
 	
 	/** This method switches the scene back to the main panel page */
 	@FXML

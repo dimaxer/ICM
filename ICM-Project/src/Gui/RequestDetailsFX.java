@@ -742,10 +742,6 @@ public class RequestDetailsFX extends BaseFX {
 	 * 
 	 * @param event
 	 */
-	@FXML
-	public void logOutWasPressed(ActionEvent event) {
-		requestDetailsController.logOutWasPressed(event);
-	}
 
 	@FXML
 	public void ViewAllRequestsWasPressed(ActionEvent event) {

@@ -252,6 +252,7 @@ public class NewChangeRequestFX extends BaseFX {
 
 	@FXML
 	public void backWasPressed(ActionEvent event) {
+		
 		newChangeRequestController.switchScene("Panel");
 	}
 
@@ -331,16 +332,19 @@ public class NewChangeRequestFX extends BaseFX {
 
 	@FXML
 	public void ManageApprovesWasPressed(ActionEvent event) {
+		browseFiles.setVisible(false);
 		newChangeRequestController.manageAprrovementWasPressed(event);
 	}
 
 	@FXML
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
+		browseFiles.setVisible(false);
 		newChangeRequestController.ViewAllRequestsWasPressed(event);
 	}
 
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
+		
 		newChangeRequestController.logOutWasPressed(event);
 	}
 
@@ -354,16 +358,19 @@ public class NewChangeRequestFX extends BaseFX {
 	 */
 	@FXML
 	public void managePermissionsWasPressed(ActionEvent event) {
+		browseFiles.setVisible(false);
 		newChangeRequestController.managePermissionsWasPressed(event);
 	}
 
 	@FXML
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
+		browseFiles.setVisible(false);
 		newChangeRequestController.viewAllSystemDataWasPressed(event);
 	}
 
 	@FXML
 	public void viewStatisticsReportWasPressed(ActionEvent event) {
+		browseFiles.setVisible(false);
 		newChangeRequestController.viewStatisticsReportWasPressed(event);
 	}
 	// ISD END

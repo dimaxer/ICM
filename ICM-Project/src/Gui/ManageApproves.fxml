@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="613.0" prefWidth="1230.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ManageApprovesFX">
+<AnchorPane prefHeight="613.0" prefWidth="1230.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ManageApprovesFX">
    <children>
       <TabPane layoutX="299.0" layoutY="80.0" prefHeight="545.0" prefWidth="931.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -162,9 +162,9 @@
                   </JFXButton>
                </children>
             </HBox>
-            <JFXButton fx:id="logOutSupervisor" buttonType="RAISED" onAction="#logOutWasPressed" prefHeight="32.0" prefWidth="206.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" text="Log out">
+            <JFXButton buttonType="RAISED" onAction="#logOutWasPressed" prefHeight="32.0" prefWidth="206.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" text="Log out">
                <VBox.margin>
-                  <Insets left="50.0" top="90.0" />
+                  <Insets left="50.0" top="275.0" />
                </VBox.margin>
                <font>
                   <Font name="Palatino Linotype Bold" size="18.0" />
@@ -179,15 +179,6 @@
                   <Font name="System Italic" size="30.0" />
                </font>
             </Text>
-            <JFXButton fx:id="Back" contentDisplay="GRAPHIC_ONLY" layoutX="829.0" layoutY="12.0" onAction="#logOutWasPressed" prefHeight="50.0" prefWidth="72.0">
-               <graphic>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#backWasPressed" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Images/ICM_BACK.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
          </children>
       </AnchorPane>
    </children>
