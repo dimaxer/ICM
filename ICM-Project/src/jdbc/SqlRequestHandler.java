@@ -47,7 +47,7 @@ public class SqlRequestHandler {
 	/**
 	 * This method adds a new Change Request.
 	 * 
-
+	 * 
 	 * @param args Arguments of New Request
 	 * @return Success or Failure of the adding.
 	 */
@@ -58,18 +58,21 @@ public class SqlRequestHandler {
 			String query = "INSERT INTO Requests (Date, InformationSystem, RequestedChange, CurrentSituation, RequestReason, Note, AttachFiles, Stage, Status, InitiatorID, EvaluatorID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
 			for (int i = 0; i < 11; i++)
-				if (i == 6) stmt.setBoolean(i+1, (args.get(i) != null));
-				else stmt.setString(i+1, args.get(i).toString());
-			
+				if (i == 6)
+					stmt.setBoolean(i + 1, (args.get(i) != null));
+				else
+					stmt.setString(i + 1, args.get(i).toString());
+
 			stmt.executeUpdate();
 			System.out.println("Query of Create New Request Executed Successfully!");
 
 			String requestID = getLastInsertID();
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			LocalDate now = LocalDate.now();
-			
-			insertNewEvaluatorToEvaluatorTable(args.get(10).toString(), requestID); /// insert New Evaluator to "Evaluator
-																			/// Appointment Table"
+
+			insertNewEvaluatorToEvaluatorTable(args.get(10).toString(), requestID); /// insert New Evaluator to
+																					/// "Evaluator
+			/// Appointment Table"
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(insertStatusToStatusTable);
 			stmt.setString(1, requestID);
 			stmt.setString(2, "Active");
@@ -91,7 +94,7 @@ public class SqlRequestHandler {
 	/**
 	 * Using a well-known mySQL procedure to get the latest ID after INSERT call.
 	 * 
-
+	 * 
 	 * @return Last Inserted Auto-Incremented ID
 	 */
 	public String getLastInsertID() {
@@ -224,7 +227,7 @@ public class SqlRequestHandler {
 	 * @param msg userID
 	 * @return User that contain all relevant requests
 	 * @throws SQLException
-
+	 * 
 	 */
 	public MessageObject viewRequestTable(MessageObject msg) throws SQLException {
 		User currentUser = (User) msg.getArgs().get(0);
@@ -494,28 +497,28 @@ public class SqlRequestHandler {
 	public MessageObject updateRequestEvaluator(String requestID, String evaluatorID) {
 
 		String updateEvaloeytor = "Update Requests SET EvaluatorID =?  WHERE RequestID =? ";
-		String updateStageInRequests ="UPDATE Requests SET Stage = ? WHERE RequestID = ?";
+		String updateStageInRequests = "UPDATE Requests SET Stage = ? WHERE RequestID = ?";
 		String insertStageToStageTable = "INSERT INTO StageTable (requestId, stage, startTime, endTime, deadlineTime) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE startTime = ?, endTime = ?";
 
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(updateEvaloeytor);
-			
+
 			stmt.setString(1, evaluatorID);
 			stmt.setString(2, requestID);
 			// Update EvaloeytorID in the DB
 			stmt.executeUpdate();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(updateStageInRequests);
-			
+
 			stmt.setString(1, "Evaluation");
 			stmt.setString(2, requestID);
 			stmt.executeUpdate();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(insertStageToStageTable);
-			
+
 			java.sql.Date ourJavaDateObject = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-			
+
 			stmt.setString(1, requestID);
 			stmt.setString(2, "Evaluation");
 			stmt.setString(3, ourJavaDateObject.toString());
@@ -537,6 +540,7 @@ public class SqlRequestHandler {
 	/**
 	 * Update the stage of requests table for RequestID Insert new Evaluation Stage
 	 * in StageTable in the DB
+	 * 
 	 * @deprecated
 	 * @param requestID
 	 */
@@ -577,7 +581,7 @@ public class SqlRequestHandler {
 	/**
 	 * This methods gets the Name and Evaluator ID of Information Systems
 	 * 
-
+	 * 
 	 * @throws SQLException
 	 */
 	public MessageObject getInformationSystemDetails(MessageObject message) throws SQLException {
@@ -614,7 +618,7 @@ public class SqlRequestHandler {
 	/**
 	 * This method gets the ID and Name of each User
 	 * 
-
+	 * 
 	 * @throws SQLException
 	 */
 	public MessageObject getAllUserDetails(MessageObject message) throws SQLException {
@@ -642,7 +646,7 @@ public class SqlRequestHandler {
 	/**
 	 * This method gets the Details of Users with Permanent Roles (roleName, ID)
 	 * 
-
+	 * 
 	 * @throws SQLException
 	 */
 	public MessageObject getPermanentRolesDetails(MessageObject message) throws SQLException {
@@ -667,7 +671,8 @@ public class SqlRequestHandler {
 		return null;
 	}
 
-	/** This method updates the evaluator of a certain Information System
+	/**
+	 * This method updates the evaluator of a certain Information System
 	 * 
 	 * @param message
 	 * @throws SQLException
@@ -694,7 +699,8 @@ public class SqlRequestHandler {
 		}
 	}
 
-	/** This method updates the permanent roles holders
+	/**
+	 * This method updates the permanent roles holders
 	 * 
 	 * @param message
 	 * @throws SQLException
@@ -734,6 +740,7 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method gets the Evaluator Table and returns it
+	 * 
 	 * @param message
 	 * @return
 	 */
@@ -762,6 +769,7 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method gets the ISE Workers Table and returns it
+	 * 
 	 * @param message
 	 * @return
 	 */
@@ -814,7 +822,7 @@ public class SqlRequestHandler {
 			stmt.setString(8, result);
 
 			stmt.executeUpdate();
-			
+
 			ArrayList<Object> args = new ArrayList<>();
 			args.add(requestID);
 			args.add("Decision");
@@ -845,7 +853,7 @@ public class SqlRequestHandler {
 		try {
 			PreparedStatement stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
 
-			//stmt.setNull(1, java.sql.Types.VARCHAR);
+			// stmt.setNull(1, java.sql.Types.VARCHAR);
 			stmt.setString(1, EvaluatorID);
 			stmt.setString(2, requestID);
 
@@ -860,58 +868,61 @@ public class SqlRequestHandler {
 		return true;
 
 	}
+
 	/**
 	 * getting from the DB all the information of the report
+	 * 
 	 * @param message ArrayList that contain the requestID of the report
-	 * @return 
+	 * @return
 	 */
 	public EvaluatorReport getEvaluatorReport(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
 		String reportQuery = "SELECT * FROM EvaluationReport WHERE RequestID =?";
-		
+
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(reportQuery);
 			stmt.setString(1, requestID);
 			EvaluatorReport evaluatorReport = new EvaluatorReport(stmt.executeQuery());
-			
+
 			return evaluatorReport;
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
 
 	/**
-	 * This method sets an additional info to be asked by the evaluator by the committee
+	 * This method sets an additional info to be asked by the evaluator by the
+	 * committee
+	 * 
 	 * @param message
 	 */
 	public void askForAdditionalInfo(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
 		String additionalInfo = (String) message.getArgs().get(1);
 		String query = "INSERT INTO AdditionalInfo VALUES (?,?) ON DUPLICATE KEY UPDATE additionalInfo = ?";
-		
+
 		String updateStageQuery = "UPDATE Requests SET Stage = 'Evaluation' WHERE RequestID = ?";
 		PreparedStatement stmt;
 		PreparedStatement updateStage;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
 			updateStage = mysqlConnection.getInstance().getConnection().prepareStatement(updateStageQuery);
-			
+
 			// Update into table the Additional Info Required
 			stmt.setString(1, requestID);
 			stmt.setString(2, additionalInfo);
 			stmt.setString(3, additionalInfo);
-			
+
 			stmt.executeUpdate();
-			
+
 			// Update stage back to Evaluation
 			updateStage.setString(1, requestID);
-			
+
 			updateStage.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -921,6 +932,7 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method gets the additional info required by the committee and returns it
+	 * 
 	 * @param message
 	 * @return
 	 */
@@ -930,15 +942,15 @@ public class SqlRequestHandler {
 		String query = "SELECT additionalInfo FROM AdditionalInfo WHERE requestID = ?";
 		String previousReport = "SELECT * FROM EvaluationReport WHERE RequestID = ?";
 		MessageObject response = new MessageObject(RequestType.ShowAdditionalInfo, new ArrayList<>());
-		
+
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
-			
+
 			// Get Additional Info
 			stmt.setString(1, requestID);
 			rs = stmt.executeQuery();
-			
+
 			if (!rs.next())
 				response.getArgs().add("");
 			else {
@@ -946,13 +958,13 @@ public class SqlRequestHandler {
 				stmt = mysqlConnection.getInstance().getConnection().prepareStatement(previousReport);
 				stmt.setString(1, requestID);
 				rs = stmt.executeQuery();
-				
+
 				rs.next();
 				response.getArgs().add(rs.getString("Description"));
 				response.getArgs().add(rs.getString("Constraints"));
 				response.getArgs().add(rs.getString("Result"));
 			}
-			
+
 			return response;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -960,21 +972,22 @@ public class SqlRequestHandler {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * This method swaps between gives stages
+	 * 
 	 * @param message
 	 */
 	public void swapStage(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
 		String newStage = (String) message.getArgs().get(1);
 		String currentStage = (String) message.getArgs().get(2);
-		String updateStageInRequests ="UPDATE Requests SET Stage = ? WHERE RequestID = ?";
+		String updateStageInRequests = "UPDATE Requests SET Stage = ? WHERE RequestID = ?";
 		String insertStageToStageTable = "INSERT INTO StageTable (requestId, stage, startTime, endTime, deadlineTime) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE startTime = ?, endTime = ?";
 		String insertCurrentStageToStageTableLog = "INSERT INTO StageTableLog (requestId, stage, startTime, endTime, deadlineTime) SELECT * FROM StageTable WHERE requestId = ? AND stage = ?";
 		String updateStageTableLogEndDate = "UPDATE StageTableLog SET endTime = ? WHERE requestId = ? AND stage = ? AND endTime IS NULL";
 		String updateStageToStageTable = "UPDATE StageTable SET endTime = ? WHERE requestId = ? AND stage = ?";
-		
+
 		System.out.println(newStage + " : " + currentStage);
 		PreparedStatement stmt;
 		try {
@@ -982,68 +995,75 @@ public class SqlRequestHandler {
 			stmt.setString(1, newStage);
 			stmt.setString(2, requestID);
 			stmt.executeUpdate();
-			
+
 			executeStage_Status_Swap(requestID, newStage, currentStage, insertStageToStageTable,
 					insertCurrentStageToStageTableLog, updateStageTableLogEndDate);
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(updateStageToStageTable);
-			
+
 			java.sql.Date ourJavaDateObject = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-			
+
 			stmt.setString(1, ourJavaDateObject.toString());
 			stmt.setString(2, requestID);
 			stmt.setString(3, currentStage);
 			stmt.executeUpdate();
 
 			return;
-		} catch (SQLException e) { e.printStackTrace(); }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return;
 	}
 
 	/**
 	 * This method swaps between gives statuses
+	 * 
 	 * @param message
 	 */
 	public void swapStatus(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
 		String newStatus = (String) message.getArgs().get(1);
 		String currentStatus = (String) message.getArgs().get(2);
-		String updateStageInRequests ="UPDATE Requests SET Status = ? WHERE RequestID = ?";
+		String updateStageInRequests = "UPDATE Requests SET Status = ? WHERE RequestID = ?";
 		String insertStatusToStatusTable = "INSERT INTO StatusTable (requestId, status, startTime, endTime) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE startTime = ?, endTime = ?";
 		String insertCurrentStatusToStatusTableLog = "INSERT INTO StatusTableLog (requestId, status, startTime, endTime) SELECT * FROM StatusTable WHERE requestId = ? AND status = ?";
 		String updateStatusTableLogEndDate = "UPDATE StatusTableLog SET endTime = ? WHERE requestId = ? AND status = ? AND endTime IS NULL";
-		
+
 		// For Closing/Closed Status and Status
 		String updateStatusToStatusTableClosing = "UPDATE StatusTable SET endTime = ? WHERE requestId = ? AND status = ?";
 		String insertCurrentStatusToStatusTableLogClosing = "INSERT INTO StatusTableLog (requestId, status, startTime, endTime) SELECT * FROM StatusTable WHERE requestId = ? AND status = ?";
 		String updateStatusTableLogEndDateClosing = "UPDATE StatusTableLog SET endTime = ? WHERE requestId = ? AND status = ? AND endTime IS NULL";
-		
+
 		String updateStageToStageTable = "UPDATE StageTable SET endTime = ? WHERE requestId = ? AND stage = ?";
 		String insertCurrentStageToStageTableLog = "INSERT INTO StageTableLog (requestId, stage, startTime, endTime, deadlineTime) SELECT * FROM StageTable WHERE requestId = ? AND stage = ?";
 		String updateStageTableLogEndDate = "UPDATE StageTableLog SET endTime = ? WHERE requestId = ? AND stage = ? AND endTime IS NULL";
-		
+
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(updateStageInRequests);
 			stmt.setString(1, newStatus);
 			stmt.setString(2, requestID);
 			stmt.executeUpdate();
-			
+
 			executeStage_Status_Swap(requestID, newStatus, currentStatus, insertStatusToStatusTable,
 					insertCurrentStatusToStatusTableLog, updateStatusTableLogEndDate);
-			if (!newStatus.equals("Closed")) return;
-			
+			if (!newStatus.equals("Closed"))
+				return;
+
 			executeClosingPhaseUpdates(requestID, updateStatusToStatusTableClosing,
 					insertCurrentStatusToStatusTableLogClosing, updateStatusTableLogEndDateClosing,
 					updateStageToStageTable, insertCurrentStageToStageTableLog, updateStageTableLogEndDate);
 
 			return;
-		} catch (SQLException e) { e.printStackTrace(); }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return;
 	}
 
 	/**
 	 * This method executes the closing phase updates
+	 * 
 	 * @param requestID
 	 * @param updateStatusToStatusTableClosing
 	 * @param insertCurrentStatusToStatusTableLogClosing
@@ -1058,19 +1078,20 @@ public class SqlRequestHandler {
 			String updateStageToStageTable, String insertCurrentStageToStageTableLog, String updateStageTableLogEndDate)
 			throws SQLException {
 		PreparedStatement stmt;
-		
+
 		String status = "Closed", stage = "Closing";
 		java.sql.Date ourJavaDateObject = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-		
+
 		updateClosingPhase(requestID, updateStatusToStatusTableClosing, insertCurrentStatusToStatusTableLogClosing,
 				updateStatusTableLogEndDateClosing, status, ourJavaDateObject);
-		
+
 		updateClosingPhase(requestID, updateStageToStageTable, insertCurrentStageToStageTableLog,
 				updateStageTableLogEndDate, stage, ourJavaDateObject);
 	}
 
 	/**
-	 * This method updates the closing phase of the 
+	 * This method updates the closing phase of the
+	 * 
 	 * @param requestID
 	 * @param updateStatusToStatusTableClosing
 	 * @param insertCurrentStatusToStatusTableLogClosing
@@ -1084,27 +1105,29 @@ public class SqlRequestHandler {
 			java.sql.Date ourJavaDateObject) throws SQLException {
 		PreparedStatement stmt;
 		stmt = mysqlConnection.getInstance().getConnection().prepareStatement(updateStatusToStatusTableClosing);
-		
+
 		stmt.setString(1, ourJavaDateObject.toString());
 		stmt.setString(2, requestID);
 		stmt.setString(3, status);
 		stmt.executeUpdate();
-		
-		stmt = mysqlConnection.getInstance().getConnection().prepareStatement(insertCurrentStatusToStatusTableLogClosing);
-		
+
+		stmt = mysqlConnection.getInstance().getConnection()
+				.prepareStatement(insertCurrentStatusToStatusTableLogClosing);
+
 		stmt.setString(1, requestID);
 		stmt.setString(2, status);
 		stmt.executeUpdate();
-		
+
 		stmt = mysqlConnection.getInstance().getConnection().prepareStatement(updateStatusTableLogEndDateClosing);
-		
+
 		stmt.setString(1, ourJavaDateObject.toString());
 		stmt.setString(2, requestID);
 		stmt.setString(3, status);
 		stmt.executeUpdate();
 	}
-	
-	/** This method swaps between the given stages / statuses
+
+	/**
+	 * This method swaps between the given stages / statuses
 	 * 
 	 * @param requestID
 	 * @param newStage
@@ -1119,9 +1142,9 @@ public class SqlRequestHandler {
 			throws SQLException {
 		PreparedStatement stmt;
 		stmt = mysqlConnection.getInstance().getConnection().prepareStatement(insertStageToStageTable);
-		
+
 		java.sql.Date ourJavaDateObject = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-		
+
 		// AUTO TIMED STAGES:
 		if (insertStageToStageTable.contains("StatusTable")) {
 			stmt.setString(1, requestID);
@@ -1155,22 +1178,22 @@ public class SqlRequestHandler {
 			stmt.executeUpdate();
 		}
 
-		
 		stmt = mysqlConnection.getInstance().getConnection().prepareStatement(insertCurrentStageToStageTableLog);
-		
+
 		stmt.setString(1, requestID);
 		stmt.setString(2, currentStage);
 		stmt.executeUpdate();
-		
+
 		stmt = mysqlConnection.getInstance().getConnection().prepareStatement(updateStageTableLogEndDate);
-		
+
 		stmt.setString(1, ourJavaDateObject.toString());
 		stmt.setString(2, requestID);
 		stmt.setString(3, currentStage);
 		stmt.executeUpdate();
 	}
 
-	/** This method gets test rejection info
+	/**
+	 * This method gets test rejection info
 	 * 
 	 * @param message
 	 * @return
@@ -1181,20 +1204,20 @@ public class SqlRequestHandler {
 		String query = "SELECT additionalInfo FROM TestRejectionInfo WHERE requestID = ?";
 
 		MessageObject response = new MessageObject(RequestType.TestRejectionInfo, new ArrayList<>());
-		
+
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
-			
+
 			// Get Additional Info
 			stmt.setString(1, requestID);
 			rs = stmt.executeQuery();
-			
+
 			if (!rs.next())
 				response.getArgs().add("");
 			else
 				response.getArgs().add(rs.getString("additionalInfo"));
-			
+
 			return response;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1203,7 +1226,8 @@ public class SqlRequestHandler {
 		return null;
 	}
 
-	/** This method updates test rejection info
+	/**
+	 * This method updates test rejection info
 	 * 
 	 * @param message
 	 * @return
@@ -1216,14 +1240,14 @@ public class SqlRequestHandler {
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
-			
+
 			// Update into table the Additional Info Required
 			stmt.setString(1, requestID);
 			stmt.setString(2, additionalInfo);
 			stmt.setString(3, additionalInfo);
-			
+
 			stmt.executeUpdate();
-			
+
 			message.getArgs().clear();
 			return message;
 		} catch (SQLException e) {
@@ -1233,7 +1257,8 @@ public class SqlRequestHandler {
 		return null;
 	}
 
-	/** This method gets the time extension table rows
+	/**
+	 * This method gets the time extension table rows
 	 * 
 	 * @param message
 	 * @return
@@ -1245,9 +1270,9 @@ public class SqlRequestHandler {
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				String requestID = rs.getString("RequestID");
 				String userID = rs.getString("UserID");
@@ -1265,7 +1290,7 @@ public class SqlRequestHandler {
 				row.add(Stage);
 				message.getArgs().add(row);
 			}
-			
+
 			return message;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1274,7 +1299,8 @@ public class SqlRequestHandler {
 		return null;
 	}
 
-	/** This method gets the time assessment table rows
+	/**
+	 * This method gets the time assessment table rows
 	 * 
 	 * @param message
 	 * @return
@@ -1286,16 +1312,16 @@ public class SqlRequestHandler {
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				String requestID = rs.getString("RequestID");
 				String userID = rs.getString("UserID");
 				String jobDescription = rs.getString("JobDescription");
 				String startTime = rs.getString("StartTime");
 				String endTime = rs.getString("EndTime");
-				
+
 				ArrayList<String> row = new ArrayList<>();
 				row.add(requestID);
 				row.add(userID);
@@ -1304,7 +1330,7 @@ public class SqlRequestHandler {
 				row.add(endTime);
 				message.getArgs().add(row);
 			}
-			
+
 			return message;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1313,7 +1339,8 @@ public class SqlRequestHandler {
 		return null;
 	}
 
-	/** This method gets the execution leader table rows
+	/**
+	 * This method gets the execution leader table rows
 	 * 
 	 * @param message
 	 * @return
@@ -1325,19 +1352,19 @@ public class SqlRequestHandler {
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				String requestID = rs.getString("RequestID");
 				String startTime = rs.getString("StartTime");
-				
+
 				ArrayList<String> row = new ArrayList<>();
 				row.add(requestID);
 				row.add(startTime);
 				message.getArgs().add(row);
 			}
-			
+
 			return message;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1345,8 +1372,9 @@ public class SqlRequestHandler {
 		}
 		return null;
 	}
-	
-	/** This method gets the evaluator table rows
+
+	/**
+	 * This method gets the evaluator table rows
 	 * 
 	 * @param message
 	 */
@@ -1357,21 +1385,21 @@ public class SqlRequestHandler {
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			while (rs.next()) {
 				String requestID = rs.getString("RequestID");
 				String evaluatorID = rs.getString("EvaluatorID");
 				String evaluatorName = rs.getString("EvaluatorName");
-				
+
 				ArrayList<String> row = new ArrayList<>();
 				row.add(requestID);
 				row.add(evaluatorID);
 				row.add(evaluatorName);
 				message.getArgs().add(row);
 			}
-			
+
 			return message;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1380,7 +1408,8 @@ public class SqlRequestHandler {
 		return null;
 	}
 
-	/** This method handles a new time assessment acceptance
+	/**
+	 * This method handles a new time assessment acceptance
 	 * 
 	 * @param message
 	 */
@@ -1388,17 +1417,17 @@ public class SqlRequestHandler {
 		String addQuery = "INSERT INTO TimeAssessmentLog (RequestID, UserID, JobDescription, StartTime, EndTime) SELECT * FROM TimeAssessment WHERE RequestID = ?";
 		String deleteQuery = "DELETE FROM TimeAssessment WHERE RequestID = ?";
 		String setQuery = "UPDATE StageTable SET deadlineTime = ? WHERE requestId = ? AND deadlineTime IS NULL";
-		
+
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(addQuery);
 			stmt.setString(1, message.getArgs().get(0).toString());
 			stmt.executeUpdate();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(deleteQuery);
 			stmt.setString(1, message.getArgs().get(0).toString());
 			stmt.executeUpdate();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(setQuery);
 			stmt.setString(1, message.getArgs().get(1).toString());
 			stmt.setString(2, message.getArgs().get(0).toString());
@@ -1409,7 +1438,8 @@ public class SqlRequestHandler {
 		}
 	}
 
-	/** This method handles a new time assessment rejection
+	/**
+	 * This method handles a new time assessment rejection
 	 * 
 	 * @param message
 	 */
@@ -1417,19 +1447,19 @@ public class SqlRequestHandler {
 		ResultSet rs;
 		String addQuery = "INSERT INTO TimeAssessmentRejectionInfo VALUES (?,?,?)";
 		String deleteQuery = "DELETE FROM TimeAssessment WHERE RequestID = ?";
-		
+
 		PreparedStatement stmt;
 		try {
-			
+
 			String UserID = message.getArgs().get(2).toString();
 			String RejectionInfo = message.getArgs().get(1).toString();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(addQuery);
 			stmt.setString(1, message.getArgs().get(0).toString());
 			stmt.setString(2, UserID);
 			stmt.setString(3, RejectionInfo);
 			stmt.executeUpdate();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(deleteQuery);
 			stmt.setString(1, message.getArgs().get(0).toString());
 			stmt.executeUpdate();
@@ -1438,8 +1468,9 @@ public class SqlRequestHandler {
 			e.printStackTrace();
 		}
 	}
-	
-	/** This method handles a new time extension acceptance
+
+	/**
+	 * This method handles a new time extension acceptance
 	 * 
 	 * @param message
 	 */
@@ -1447,17 +1478,17 @@ public class SqlRequestHandler {
 		String addQuery = "INSERT INTO TimeExtensionLog (RequestID, UserID, JobDescription, StartTime, EndTime, Stage) SELECT * FROM TimeExtension WHERE RequestID = ?";
 		String deleteQuery = "DELETE FROM TimeExtension WHERE RequestID = ?";
 		String setQuery = "UPDATE StageTable SET deadlineTime = ? WHERE requestId = ? AND stage = ?";
-		
+
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(addQuery);
 			stmt.setString(1, message.getArgs().get(0).toString());
 			stmt.executeUpdate();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(deleteQuery);
 			stmt.setString(1, message.getArgs().get(0).toString());
 			stmt.executeUpdate();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(setQuery);
 			stmt.setString(1, message.getArgs().get(1).toString());
 			stmt.setString(2, message.getArgs().get(0).toString());
@@ -1469,7 +1500,8 @@ public class SqlRequestHandler {
 		}
 	}
 
-	/** This method handles a new time extension rejection
+	/**
+	 * This method handles a new time extension rejection
 	 * 
 	 * @param message
 	 */
@@ -1477,22 +1509,22 @@ public class SqlRequestHandler {
 		ResultSet rs;
 		String addQuery = "INSERT INTO TimeExtensionRejectionInfo VALUES (?,?,?,?)";
 		String deleteQuery = "DELETE FROM TimeExtension WHERE RequestID = ?";
-		
+
 		PreparedStatement stmt;
 		try {
-			
+
 			String RequestID = message.getArgs().get(0).toString();
 			String UserID = message.getArgs().get(2).toString();
 			String RejectionInfo = message.getArgs().get(1).toString();
 			String Stage = message.getArgs().get(3).toString();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(addQuery);
 			stmt.setString(1, RequestID);
 			stmt.setString(2, UserID);
 			stmt.setString(3, RejectionInfo);
 			stmt.setString(4, Stage);
 			stmt.executeUpdate();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(deleteQuery);
 			stmt.setString(1, message.getArgs().get(0).toString());
 			stmt.executeUpdate();
@@ -1502,7 +1534,9 @@ public class SqlRequestHandler {
 		}
 	}
 
-	/** This method creates a new time extension and returns an appropriate messageObject
+	/**
+	 * This method creates a new time extension and returns an appropriate
+	 * messageObject
 	 * 
 	 * @param message
 	 * @return
@@ -1511,7 +1545,7 @@ public class SqlRequestHandler {
 		ResultSet rs;
 		String getQuery = "SELECT * FROM StageTable WHERE requestId = ? AND stage = ?";
 		String addQuery = "INSERT INTO TimeExtension VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE UserID = ?, JobDescription = ?, StartTime = ?, EndTime = ?, Stage = ?";
-		
+
 		PreparedStatement stmt;
 		try {
 			// get query
@@ -1519,7 +1553,7 @@ public class SqlRequestHandler {
 			String UserID = message.getArgs().get(1).toString();
 			String JobDescription = message.getArgs().get(2).toString();
 			String Stage = message.getArgs().get(3).toString();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(getQuery);
 			stmt.setString(1, RequestID);
 			stmt.setString(2, Stage);
@@ -1532,7 +1566,7 @@ public class SqlRequestHandler {
 			ldt = ldt.plusDays(Integer.parseInt(message.getArgs().get(4).toString()));
 			String EndTime = dtf.format(ldt);
 			// add query
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(addQuery);
 			stmt.setString(1, RequestID);
 			stmt.setString(2, UserID);
@@ -1545,24 +1579,26 @@ public class SqlRequestHandler {
 			stmt.setString(9, StartTime);
 			stmt.setString(10, EndTime);
 			stmt.setString(11, Stage);
-			
+
 			stmt.executeUpdate();
-			
+
 			message.getArgs().clear();
 			message.getArgs().add(true);
-			
+
 			return message;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.getArgs().clear();
 			message.getArgs().add(false);
-			
+
 			return message;
 		}
 	}
 
-	/** This method creates a new time assessment and returns an appropriate messageObject
+	/**
+	 * This method creates a new time assessment and returns an appropriate
+	 * messageObject
 	 * 
 	 * @param message
 	 * @return
@@ -1575,16 +1611,15 @@ public class SqlRequestHandler {
 			String RequestID = message.getArgs().get(0).toString();
 			String UserID = message.getArgs().get(1).toString();
 			String JobDescription = message.getArgs().get(2).toString();
-			
+
 			LocalDateTime ldt = LocalDateTime.now();
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-			
+
 			String StartTime = dtf.format(ldt); // NOW
 			String EndTime = dtf.format(ldt.plusDays(Integer.parseInt(message.getArgs().get(3).toString())));
-			
+
 			// add query
-			
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(addQuery);
 			stmt.setString(1, RequestID);
 			stmt.setString(2, UserID);
@@ -1604,63 +1639,68 @@ public class SqlRequestHandler {
 			e.printStackTrace();
 			message.getArgs().clear();
 			message.getArgs().add(false);
-			
+
 			return message;
 		}
 	}
-	
+
 	/** Was time assessment accepted for this request stage? */
 	public MessageObject getStageDeadline(MessageObject message) {
 		ResultSet rs;
 		String getQuery = "SELECT * FROM StageTable WHERE requestId = ? AND stage = ? AND deadlineTime IS NOT NULL";
 		String alreadySentAssessmentQuery = "SELECT * FROM TimeAssessment WHERE RequestID = ?";
 		String alreadySentExtensionQuery = "SELECT * FROM TimeExtension WHERE RequestID = ? AND Stage = ?";
-		
+
 		PreparedStatement stmt;
 		try {
 			// get query
 			String RequestID = message.getArgs().get(0).toString();
 			String Stage = message.getArgs().get(1).toString();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(getQuery);
 			stmt.setString(1, RequestID);
 			stmt.setString(2, Stage);
-			
+
 			rs = stmt.executeQuery();
 			message.getArgs().clear();
 			if (rs.next())
-				 message.getArgs().add(rs.getString("deadlineTime"));
-			else message.getArgs().add(null);
-			
+				message.getArgs().add(rs.getString("deadlineTime"));
+			else
+				message.getArgs().add(null);
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(alreadySentAssessmentQuery);
 			stmt.setString(1, RequestID);
-			
+
 			rs = stmt.executeQuery();
 			if (rs.next())
-				 message.getArgs().add(true);
-			else message.getArgs().add(false);
-			
+				message.getArgs().add(true);
+			else
+				message.getArgs().add(false);
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(alreadySentExtensionQuery);
 			stmt.setString(1, RequestID);
 			stmt.setString(2, Stage);
-			
+
 			rs = stmt.executeQuery();
 			if (rs.next())
-				 message.getArgs().add(true);
-			else message.getArgs().add(false);
-			
+				message.getArgs().add(true);
+			else
+				message.getArgs().add(false);
+
 			return message;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			message.getArgs().clear();
 			message.getArgs().add(null);
-			
+
 			return message;
 		}
 	}
 
-	/** This method gets the committee details and returns an appropriate messageObject
+	/**
+	 * This method gets the committee details and returns an appropriate
+	 * messageObject
 	 * 
 	 * @param message
 	 * @return
@@ -1669,15 +1709,15 @@ public class SqlRequestHandler {
 		ResultSet get_rs, name_rs;
 		String getQuery = "SELECT userID FROM PermanentEmployee WHERE jobDescription = 'Committee Chairman' OR jobDescription = 'Committee Member'";
 		String nameQuery = "SELECT Name FROM Users WHERE UserID = ?";
-		
+
 		PreparedStatement stmt;
 		try {
 			// get query
 			message.getArgs().clear();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(getQuery);
 			get_rs = stmt.executeQuery();
-			
+
 			ArrayList<String> args = new ArrayList<String>();
 			while (get_rs.next()) {
 				String id = get_rs.getString("userID");
@@ -1691,7 +1731,7 @@ public class SqlRequestHandler {
 				args.add(name);
 			}
 			message.getArgs().add(args);
-			
+
 			return message;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -1699,8 +1739,9 @@ public class SqlRequestHandler {
 		}
 		return null;
 	}
-	
-	/** This method sets a tester to the request returns an appropriate messageObject
+
+	/**
+	 * This method sets a tester to the request returns an appropriate messageObject
 	 * 
 	 * @param message
 	 * @return
@@ -1711,12 +1752,12 @@ public class SqlRequestHandler {
 		try {
 			String requestID = message.getArgs().get(0).toString();
 			String testerID = message.getArgs().get(1).toString();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(setQuery);
 			stmt.setString(1, testerID);
 			stmt.setString(2, requestID);
 			stmt.executeUpdate();
-			
+
 			message.getArgs().clear();
 			return message;
 		} catch (SQLException e) {
@@ -1726,7 +1767,9 @@ public class SqlRequestHandler {
 		return null;
 	}
 
-	/** This method gets the 'waits for execution leader appointment' state and returns an appropriate messageObject
+	/**
+	 * This method gets the 'waits for execution leader appointment' state and
+	 * returns an appropriate messageObject
 	 * 
 	 * @param message
 	 * @return
@@ -1737,16 +1780,17 @@ public class SqlRequestHandler {
 		PreparedStatement stmt;
 		try {
 			String requestID = message.getArgs().get(0).toString();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(setQuery);
 			stmt.setString(1, requestID);
 			rs = stmt.executeQuery();
-			
+
 			message.getArgs().clear();
 			if (rs.next())
-				 message.getArgs().add(true);
-			else message.getArgs().add(false);
-			
+				message.getArgs().add(true);
+			else
+				message.getArgs().add(false);
+
 			return message;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1754,8 +1798,10 @@ public class SqlRequestHandler {
 		}
 		return null;
 	}
-	
-	/** This method sets the 'waits for execution leader appointment' state and returns an appropriate messageObject
+
+	/**
+	 * This method sets the 'waits for execution leader appointment' state and
+	 * returns an appropriate messageObject
 	 * 
 	 * @param message
 	 * @return
@@ -1768,13 +1814,13 @@ public class SqlRequestHandler {
 			LocalDate now = LocalDate.now();
 			String requestID = message.getArgs().get(0).toString();
 			String StartTime = dtf.format(now);
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(setQuery);
 			stmt.setString(1, requestID);
 			stmt.setString(2, StartTime);
 			stmt.setString(3, StartTime);
 			stmt.executeUpdate();
-			
+
 			message.getArgs().clear();
 			return message;
 		} catch (SQLException e) {
@@ -1784,7 +1830,9 @@ public class SqlRequestHandler {
 		return null;
 	}
 
-	/** This method gets the options for execution leaders and returns an appropriate messageObject
+	/**
+	 * This method gets the options for execution leaders and returns an appropriate
+	 * messageObject
 	 * 
 	 * @param message
 	 * @return
@@ -1793,12 +1841,12 @@ public class SqlRequestHandler {
 		ResultSet get_rs, name_rs;
 		String setQuery = "SELECT * FROM Users WHERE userType = 'ISE' AND UserID NOT IN (SELECT userID FROM PermanentEmployee)";
 		String nameQuery = "SELECT Name FROM Users WHERE UserID = ?";
-		
+
 		PreparedStatement stmt;
 		try {
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(setQuery);
 			get_rs = stmt.executeQuery();
-			
+
 			message.getArgs().clear();
 			ArrayList<String> args = new ArrayList<>();
 			while (get_rs.next()) {
@@ -1820,8 +1868,10 @@ public class SqlRequestHandler {
 		}
 		return null;
 	}
-	
-	/** This method sets the execution leader and returns an appropriate messageObject
+
+	/**
+	 * This method sets the execution leader and returns an appropriate
+	 * messageObject
 	 * 
 	 * @param message
 	 * @return
@@ -1833,16 +1883,16 @@ public class SqlRequestHandler {
 		try {
 			String requestID = message.getArgs().get(0).toString();
 			String executionLeaderID = message.getArgs().get(1).toString();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(setQuery);
 			stmt.setString(1, executionLeaderID);
 			stmt.setString(2, requestID);
 			stmt.executeUpdate();
-			
+
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(deleteQuery);
 			stmt.setString(1, requestID);
 			stmt.executeUpdate();
-			
+
 			message.getArgs().clear();
 			return message;
 		} catch (SQLException e) {
@@ -1850,5 +1900,41 @@ public class SqlRequestHandler {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	/**
+	 * this method returns a resultSet with relevant dates for all kinds of reports
+	 * 
+	 * @param table
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	public ResultSet returnRelaventDates(String table, String startTime, String endTime) {
+
+		String setQuery = "SELECT * FROM ? WHERE startTime between ? and ? and endTime between ? and ?";
+
+		ResultSet result;
+		PreparedStatement stmt;
+		try {
+
+			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(setQuery);
+			stmt.setString(1, table);
+			stmt.setString(2, startTime);
+			stmt.setString(3, endTime);
+			stmt.setString(4, startTime);
+			stmt.setString(5, endTime);
+			result = stmt.executeQuery();
+
+			while (result.next()) {
+
+			}
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 }
