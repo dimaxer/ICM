@@ -14,7 +14,7 @@ public class ActivityReportController extends BaseController {
 		arrlist.add(calculationByText);
 		arrlist.add(startDate);
 		arrlist.add(endDate);
-		MessageObject activityReport = new MessageObject(RequestType.activityReport, arrlist);
+		MessageObject activityReport = new MessageObject(RequestType.ActivityReport, arrlist);
 		sendMessage(activityReport);
 		
 	}
