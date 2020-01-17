@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="613.0" prefWidth="1230.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.EvaluatorReportSubmitionFX">
+   <children>
+      <VBox fx:id="all_roles" prefHeight="616.0" prefWidth="300.0" style="-fx-background-color: #333645;">
+         <children>
+            <Label prefHeight="80.0" prefWidth="305.0" style="-fx-background-color: #4682b4;" text="   ICM Panel" textFill="WHITE">
+               <font>
+                  <Font name="Candara Light Italic" size="40.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="51.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/ICM_LOGO.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <HBox prefHeight="62.0" prefWidth="300.0" style="-fx-background-color: #F0F8FF; -fx-background-radius: 0;">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/view_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton cacheShape="false" centerShape="false" focusTraversable="false" mouseTransparent="true" prefHeight="42.0" prefWidth="259.0" ripplerFill="STEELBLUE" scaleShape="false" style="-fx-background-color: #F0F8FF; -fx-background-radius: 40;" text="View Request Details" textAlignment="JUSTIFY">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="NONE" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="300.0">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/new_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="newChangeRequest" mnemonicParsing="false" onAction="#newChangeRequestWasPressed" prefHeight="42.0" prefWidth="259.0" ripplerFill="STEELBLUE" styleClass="btns" text="New Change Request" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <JFXTextField fx:id="description" alignment="TOP_LEFT" layoutX="369.0" layoutY="137.0" prefHeight="97.0" prefWidth="519.0" style="-fx-background-color: #DCDCDC;" />
+      <AnchorPane layoutX="300.0" layoutY="6.0" prefHeight="86.0" prefWidth="938.0">
+         <children>
+            <JFXButton fx:id="back" contentDisplay="GRAPHIC_ONLY" layoutX="842.0" layoutY="14.0" onAction="#backWasPressed" prefHeight="50.0" prefWidth="72.0">
+               <graphic>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#backWasPressed" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/ICM_BACK.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <Text fill="#7c8184" layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Evaluation Report">
+               <font>
+                  <Font name="System Italic" size="30.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <JFXTextField fx:id="constraints" alignment="TOP_LEFT" layoutX="369.0" layoutY="285.0" prefHeight="97.0" prefWidth="519.0" style="-fx-background-color: #DCDCDC;" />
+      <JFXTextField fx:id="result" alignment="TOP_LEFT" layoutX="369.0" layoutY="441.0" prefHeight="97.0" prefWidth="519.0" style="-fx-background-color: #DCDCDC;" />
+      <JFXButton fx:id="submit" layoutX="378.0" layoutY="567.0" onAction="#submitWasPressed" prefHeight="32.0" prefWidth="119.0" style="-fx-background-radius: 60; -fx-background-color: grey;" text="Submit" />
+      <JFXButton fx:id="clear" layoutX="560.0" layoutY="567.0" onAction="#clearFieldsWasPressed" prefHeight="32.0" prefWidth="119.0" style="-fx-background-radius: 60; -fx-background-color: grey;" text="Clear Fields" />
+      <Label layoutX="369.0" layoutY="105.0" prefHeight="32.0" prefWidth="277.0" text="Location and Description of the Required Change:" />
+      <Label layoutX="369.0" layoutY="253.0" prefHeight="32.0" prefWidth="336.0" text="Constraints, Risks and Evaluation of the Remaining Execution:" />
+      <Label layoutX="369.0" layoutY="409.0" prefHeight="32.0" prefWidth="277.0" text="Result of the Change:" />
+      <AnchorPane fx:id="additionalInfoPane" layoutX="912.0" layoutY="105.0">
+         <children>
+            <JFXTextField fx:id="additionalInfo" alignment="TOP_LEFT" editable="false" layoutY="32.0" prefHeight="245.0" prefWidth="286.0" style="-fx-background-color: #DCDCDC;" />
+            <Label prefHeight="32.0" prefWidth="277.0" text="Additional Info Required:" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

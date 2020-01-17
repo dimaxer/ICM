@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="613.0" prefWidth="1230.0" style="-fx-background-color: #f6faff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.StatisticsReportFX">
+   <children>
+      <AnchorPane layoutX="292.0" prefHeight="86.0" prefWidth="938.0">
+         <children>
+            <Text fill="#7c8184" layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Statistics Report">
+               <font>
+                  <Font name="System Italic" size="30.0" />
+               </font>
+            </Text>
+            <Button fx:id="activityBtn" defaultButton="true" layoutX="335.0" layoutY="22.0" mnemonicParsing="false" onAction="#activityBtnWasPressed" prefHeight="45.0" prefWidth="91.0" style="-fx-border-radius: 40; -fx-background-radius: 40; -fx-background-color: #333645; -fx-font-weight: bold; -fx-font-style: italic;" text=" Activity&#10;Reports" textFill="#d7d5d5" wrapText="true" />
+            <Button fx:id="performanceBtn" defaultButton="true" layoutX="435.0" layoutY="22.0" mnemonicParsing="false" onAction="#performanceBtnWasPressed" prefHeight="45.0" prefWidth="91.0" style="-fx-border-radius: 40; -fx-background-radius: 40; -fx-background-color: #333645; -fx-font-weight: bold; -fx-font-style: italic;" text="Performance&#10;    Reports" textFill="#d7d5d5" wrapText="true" />
+            <Button fx:id="delayBtn" defaultButton="true" layoutX="535.0" layoutY="22.0" mnemonicParsing="false" onAction="#delayBtnWasPressed" prefHeight="45.0" prefWidth="91.0" style="-fx-border-radius: 40; -fx-background-radius: 40; -fx-background-color: #333645; -fx-font-weight: bold; -fx-font-style: italic;" text="  Delay&#10;Reports" textFill="#d7d5d5" wrapText="true" />
+         </children>
+      </AnchorPane>
+      <VBox fx:id="all_roles" prefHeight="616.0" prefWidth="300.0" style="-fx-background-color: #333645;">
+         <children>
+            <Label prefHeight="80.0" prefWidth="300.0" style="-fx-background-color: #4682b4;" text="   ICM Panel" textFill="WHITE">
+               <font>
+                  <Font name="Candara Light Italic" size="40.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="51.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/ICM_LOGO.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <HBox prefHeight="62.0" prefWidth="300.0">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/view_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="viewRequestDetails" mnemonicParsing="false" onAction="#ViewAllRequestsWasPressed" prefHeight="42.0" prefWidth="259.0" ripplerFill="STEELBLUE" styleClass="btns" text="View Request Details" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="300.0">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/new_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="newChangeRequest" mnemonicParsing="false" onAction="#newChangeRequestWasPressed" prefHeight="42.0" prefWidth="259.0" ripplerFill="ALICEBLUE" styleClass="btns" text="New Change Request" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <AnchorPane fx:id="isdPane">
+               <children>
+                  <HBox prefHeight="62.0" prefWidth="300.0">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <children>
+                        <ImageView fitHeight="39.0" fitWidth="41.0">
+                           <image>
+                              <Image url="@Images/icons8_maintenance_64px.png" />
+                           </image>
+                        </ImageView>
+                        <JFXButton onAction="#managePermissionsWasPressed" prefHeight="42.0" prefWidth="259.0" styleClass="btns" text="Manage Permissions" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <HBox layoutY="62.0" prefHeight="62.0" prefWidth="300.0" style="-fx-background-color: #F0F8FF;">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <children>
+                        <ImageView fitHeight="39.0" fitWidth="41.0">
+                           <image>
+                              <Image url="@Images/icons8_graph_50px.png" />
+                           </image>
+                        </ImageView>
+                        <JFXButton fx:id="viewStatisticsReport" prefHeight="42.0" prefWidth="259.0" styleClass="btns" text="Statistics Report" textAlignment="JUSTIFY">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <HBox layoutY="124.0" prefHeight="62.0" prefWidth="300.0">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <children>
+                        <ImageView fitHeight="39.0" fitWidth="41.0">
+                           <image>
+                              <Image url="@Images/icons8_system_task_64px.png" />
+                           </image>
+                        </ImageView>
+                        <JFXButton fx:id="viewAllSystemData" onAction="#viewAllSystemDataWasPressed" prefHeight="42.0" prefWidth="259.0" styleClass="btns" text="View All System Data" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <VBox fx:id="supervisorPanel" prefHeight="616.0" prefWidth="300.0" style="-fx-background-color: #333645;" visible="false">
+         <children>
+            <Label prefHeight="80.0" prefWidth="300.0" style="-fx-background-color: #4682b4;" text="   ICM Panel" textFill="WHITE">
+               <font>
+                  <Font name="Candara Light Italic" size="40.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="51.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/ICM_LOGO.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <HBox prefHeight="62.0" prefWidth="300.0">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/view_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton mnemonicParsing="false" prefHeight="42.0" prefWidth="259.0" ripplerFill="STEELBLUE" styleClass="btns" text="View Request Details" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="300.0">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/new_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton mnemonicParsing="false" prefHeight="42.0" prefWidth="259.0" ripplerFill="STEELBLUE" styleClass="btns" text="New Change Request" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="300.0">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/new_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton prefHeight="42.0" prefWidth="259.0" styleClass="btns" text="Manage Approvements" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <TabPane fx:id="activityTabPane" layoutX="300.0" layoutY="80.0" prefHeight="535.0" prefWidth="930.0" visible="false">
+         <tabs>
+            <Tab closable="false" text="Requests Report by Status">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <Text layoutX="22.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From:" wrappingWidth="40.999997556209564" />
+                        <Text layoutX="22.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To:" wrappingWidth="22.546875" />
+                        <Button fx:id="statusIssueReportBtn" defaultButton="true" layoutX="426.0" layoutY="45.0" mnemonicParsing="false" onAction="#statusIssueReportBtnWasPressed" prefHeight="28.0" prefWidth="150.0" style="-fx-border-radius: 30; -fx-background-radius: 30;" text="Issue Report" wrapText="true" />
+                        <DatePicker fx:id="statusFrom" layoutX="100.0" layoutY="14.0" prefHeight="16.0" prefWidth="174.0" />
+                        <DatePicker fx:id="statusTo" layoutX="100.0" layoutY="46.0" prefHeight="16.0" prefWidth="174.0" />
+                        <Text fx:id="statusIssueReportLabel" layoutX="450.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <StackPane fx:id="statusGraphPane" layoutX="22.0" layoutY="91.0" prefHeight="401.0" prefWidth="886.0" style="-fx-border-color: #d7d5d5; -fx-border-radius: 20;" />
+                        <ComboBox fx:id="statusComboBox" layoutX="426.0" layoutY="14.0" prefWidth="150.0" />
+                        <Text layoutX="332.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Status:" wrappingWidth="40.999997556209564" />
+                        <Text fx:id="statusStdLabel" layoutX="643.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Deviation:" />
+                        <Text fx:id="statusMedianLabel" layoutX="643.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Requests Report by Rejection">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <Text layoutX="22.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From:" wrappingWidth="40.999997556209564" />
+                        <Text layoutX="22.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To:" wrappingWidth="22.546875" />
+                        <Button fx:id="rejectionIssueReportBtn" defaultButton="true" layoutX="426.0" layoutY="45.0" mnemonicParsing="false" onAction="#rejectionIssueReportBtnWasPressed" prefHeight="28.0" prefWidth="150.0" style="-fx-border-radius: 30; -fx-background-radius: 30;" text="Issue Report" wrapText="true" />
+                        <DatePicker fx:id="rejectionFrom" layoutX="100.0" layoutY="14.0" prefHeight="16.0" prefWidth="174.0" />
+                        <DatePicker fx:id="rejectionTo" layoutX="100.0" layoutY="46.0" prefHeight="16.0" prefWidth="174.0" />
+                        <Text fx:id="rejectionIssueReportLabel" layoutX="450.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <StackPane fx:id="rejectionGraphPane" layoutX="22.0" layoutY="91.0" prefHeight="401.0" prefWidth="886.0" style="-fx-border-color: #d7d5d5; -fx-border-radius: 20;" />
+                        <Text fx:id="rejectionStdLabel" layoutX="643.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Deviation:" />
+                        <Text fx:id="rejectionMedianLabel" layoutX="643.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Requests Report by Work Days">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <Text layoutX="22.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From:" wrappingWidth="40.999997556209564" />
+                        <Text layoutX="22.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To:" wrappingWidth="22.546875" />
+                        <Button fx:id="activeDaysIssueReportBtn" defaultButton="true" layoutX="426.0" layoutY="45.0" mnemonicParsing="false" onAction="#activeDaysIssueReportBtnWasPressed" prefHeight="28.0" prefWidth="150.0" style="-fx-border-radius: 30; -fx-background-radius: 30;" text="Issue Report" wrapText="true" />
+                        <DatePicker fx:id="activeDaysFrom" layoutX="100.0" layoutY="14.0" prefHeight="16.0" prefWidth="174.0" />
+                        <DatePicker fx:id="activeDaysTo" layoutX="100.0" layoutY="46.0" prefHeight="16.0" prefWidth="174.0" />
+                        <Text fx:id="activeDaysIssueReportLabel" layoutX="450.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <StackPane fx:id="activeDaysGraphPane" layoutX="22.0" layoutY="91.0" prefHeight="401.0" prefWidth="886.0" style="-fx-border-color: #d7d5d5; -fx-border-radius: 20;" />
+                        <Text fx:id="activeDaysStdLabel" layoutX="643.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Deviation:" />
+                        <Text fx:id="activeDaysMedianLabel" layoutX="643.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <TabPane fx:id="performancesTabPane" layoutX="300.0" layoutY="80.0" prefHeight="535.0" prefWidth="930.0" visible="false">
+         <tabs>
+            <Tab closable="false" text="Extensions Report">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <Button fx:id="extensionsIssueReportBtn" defaultButton="true" layoutX="426.0" layoutY="45.0" mnemonicParsing="false" onAction="#extensionsIssueReportBtnWasPressed" prefHeight="28.0" prefWidth="150.0" style="-fx-border-radius: 30; -fx-background-radius: 30;" text="Issue Report" wrapText="true" />
+                        <Text fx:id="extensionsIssueReportLabel" layoutX="450.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <StackPane fx:id="extensionsGraphPane" layoutX="22.0" layoutY="91.0" prefHeight="401.0" prefWidth="886.0" style="-fx-border-color: #d7d5d5; -fx-border-radius: 20;" />
+                        <Text fx:id="extensionsStdLabel" layoutX="643.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Deviation:" />
+                        <Text fx:id="extensionsMedianLabel" layoutX="643.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Added Durations Report">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <Button fx:id="durationsIssueReportBtn" defaultButton="true" layoutX="426.0" layoutY="45.0" mnemonicParsing="false" onAction="#durationsIssueReportBtnWasPressed" prefHeight="28.0" prefWidth="150.0" style="-fx-border-radius: 30; -fx-background-radius: 30;" text="Issue Report" wrapText="true" />
+                        <Text fx:id="durationsIssueReportLabel" layoutX="450.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <StackPane fx:id="durationsGraphPane" layoutX="22.0" layoutY="91.0" prefHeight="401.0" prefWidth="886.0" style="-fx-border-color: #d7d5d5; -fx-border-radius: 20;" />
+                        <Text fx:id="durationsStdLabel" layoutX="643.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Deviation:" />
+                        <Text fx:id="durationsMedianLabel" layoutX="643.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <TabPane fx:id="delaysTabPane" layoutX="300.0" layoutY="80.0" prefHeight="535.0" prefWidth="930.0" visible="false">
+         <tabs>
+            <Tab closable="false" text="Delays Report">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <Button fx:id="delaysIssueReportBtn" defaultButton="true" layoutX="426.0" layoutY="45.0" mnemonicParsing="false" onAction="#delaysIssueReportBtnWasPressed" prefHeight="28.0" prefWidth="150.0" style="-fx-border-radius: 30; -fx-background-radius: 30;" text="Issue Report" wrapText="true" />
+                        <Text fx:id="delaysIssueReportLabel" layoutX="450.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <StackPane fx:id="delaysGraphPane" layoutX="22.0" layoutY="91.0" prefHeight="401.0" prefWidth="886.0" style="-fx-border-color: #d7d5d5; -fx-border-radius: 20;" />
+                        <Text fx:id="delaysStdLabel" layoutX="643.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Deviation:" />
+                        <Text fx:id="delaysMedianLabel" layoutX="643.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:" />
+                        <ComboBox fx:id="delaysComboBox" layoutX="426.0" layoutY="14.0" prefWidth="150.0" />
+                        <Text layoutX="333.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Info System:" wrappingWidth="71.99996799230576" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <JFXButton buttonType="RAISED" layoutX="55.0" layoutY="510.0" onAction="#logOutWasPressed" prefHeight="32.0" prefWidth="206.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" text="Log out">
+         <font>
+            <Font name="Palatino Linotype Bold" size="18.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

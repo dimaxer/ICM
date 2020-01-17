@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="613.0" prefWidth="1230.0" style="-fx-background-color: #f6faff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.NewChangeRequestFX">
+   <children>
+      <AnchorPane layoutX="300.0" prefHeight="613.0" prefWidth="917.0">
+         <children>
+            <AnchorPane layoutX="-8.0" prefHeight="86.0" prefWidth="938.0">
+               <children>
+                  <Text fill="#7c8184" layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Submit New Change Request">
+                     <font>
+                        <Font name="System Italic" size="30.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <ComboBox fx:id="infoSysComboBox" layoutX="60.0" layoutY="134.0" onAction="#updateCurrentEvaluator" prefHeight="25.0" prefWidth="161.0" />
+            <Text layoutX="55.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Information System Responsible" />
+            <Text fx:id="fillComboBoxAlert" fill="RED" layoutX="54.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please select an Information System" visible="false">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Text>
+            <JFXTextField fx:id="jfxrequestedChange" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="211.0" prefHeight="25.0" prefWidth="454.0" promptText="Requested Change (Title)" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
+            <JFXTextField fx:id="jfxsituation" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="294.0" prefHeight="25.0" prefWidth="454.0" promptText="Situation Description" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
+            <JFXTextField fx:id="jfxreasons" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="366.0" prefHeight="58.0" prefWidth="454.0" promptText="Change Reasons" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
+            <JFXTextField fx:id="jfxnotes" focusColor="#30a73a" labelFloat="true" layoutX="60.0" layoutY="470.0" prefHeight="58.0" prefWidth="454.0" promptText="Notes (Optional)" style="-fx-background-color: WHITE; -fx-border-color: gray;" unFocusColor="BLACK" />
+            <Button fx:id="AddFiles" defaultButton="true" layoutX="602.0" layoutY="383.0" mnemonicParsing="false" onAction="#addFilesWasPressed" prefHeight="25.0" prefWidth="161.0" text="Add Files" />
+            <Button fx:id="submit" defaultButton="true" layoutX="602.0" layoutY="468.0" mnemonicParsing="false" onAction="#submitWasPressed" prefHeight="66.0" prefWidth="161.0" text="&#9;Submit&#10; Change Request">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Text fx:id="fileName" layoutX="620.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <AnchorPane fx:id="browseFiles" layoutX="34.0" layoutY="82.0" prefHeight="525.0" prefWidth="837.0" style="-fx-background-color: white;" visible="false">
+               <children>
+                  <ListView fx:id="listView" layoutX="299.0" prefHeight="525.0" prefWidth="461.0" />
+                  <JFXButton fx:id="attachFiles" layoutX="60.0" layoutY="158.0" onAction="#attachFilesWasPressed" prefHeight="48.0" prefWidth="217.0" style="-fx-background-color: gray; -fx-background-radius: 70;" text="Attach FIles" />
+                  <JFXButton fx:id="uploadFiles" layoutX="62.0" layoutY="256.0" onAction="#closeAttachFilesWasPressed" prefHeight="48.0" prefWidth="217.0" style="-fx-background-color: gray; -fx-background-radius: 70;" text="Close" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <VBox fx:id="all_roles" prefHeight="616.0" prefWidth="300.0" style="-fx-background-color: #333645;">
+         <children>
+            <Label prefHeight="80.0" prefWidth="300.0" style="-fx-background-color: #4682b4;" text="   ICM Panel" textFill="WHITE">
+               <font>
+                  <Font name="Candara Light Italic" size="40.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="51.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/ICM_LOGO.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <HBox prefHeight="62.0" prefWidth="300.0">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/view_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="viewRequestDetails" mnemonicParsing="false" onAction="#ViewAllRequestsWasPressed" prefHeight="42.0" prefWidth="259.0" ripplerFill="STEELBLUE" styleClass="btns" text="View Request Details" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="300.0" style="-fx-background-color: #F0F8FF; -fx-background-radius: 0;">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/new_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="newChangeRequest" mnemonicParsing="false" prefHeight="42.0" prefWidth="259.0" ripplerFill="ALICEBLUE" styleClass="btns" text="New Change Request" textAlignment="JUSTIFY">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <AnchorPane fx:id="isdPane">
+               <children>
+                  <HBox prefHeight="62.0" prefWidth="300.0">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <children>
+                        <ImageView fitHeight="39.0" fitWidth="41.0">
+                           <image>
+                              <Image url="@Images/icons8_maintenance_64px.png" />
+                           </image>
+                        </ImageView>
+                        <JFXButton fx:id="managePermissions" onAction="#managePermissionsWasPressed" prefHeight="42.0" prefWidth="259.0" styleClass="btns" text="Manage Permissions" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <HBox layoutY="62.0" prefHeight="62.0" prefWidth="300.0">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <children>
+                        <ImageView fitHeight="39.0" fitWidth="41.0">
+                           <image>
+                              <Image url="@Images/icons8_graph_50px.png" />
+                           </image>
+                        </ImageView>
+                        <JFXButton fx:id="viewStatisticsReport" onAction="#viewStatisticsReportWasPressed" prefHeight="42.0" prefWidth="259.0" styleClass="btns" text="Statistics Report" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+                  <HBox layoutY="124.0" prefHeight="62.0" prefWidth="300.0">
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                     <children>
+                        <ImageView fitHeight="39.0" fitWidth="41.0">
+                           <image>
+                              <Image url="@Images/icons8_system_task_64px.png" />
+                           </image>
+                        </ImageView>
+                        <JFXButton fx:id="viewAllSystemData" onAction="#viewAllSystemDataWasPressed" prefHeight="42.0" prefWidth="259.0" styleClass="btns" text="View All System Data" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="21.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <VBox fx:id="supervisorPanel" prefHeight="616.0" prefWidth="300.0" style="-fx-background-color: #333645;">
+         <children>
+            <Label prefHeight="80.0" prefWidth="300.0" style="-fx-background-color: #4682b4;" text="   ICM Panel" textFill="WHITE">
+               <font>
+                  <Font name="Candara Light Italic" size="40.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="51.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Images/ICM_LOGO.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Label>
+            <HBox prefHeight="62.0" prefWidth="300.0">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/view_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton mnemonicParsing="false" onAction="#ViewAllRequestsWasPressed" prefHeight="42.0" prefWidth="259.0" ripplerFill="STEELBLUE" styleClass="btns" text="View Request Details" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="300.0" style="-fx-background-color: #F0F8FF; -fx-background-radius: 0;">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/new_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton mnemonicParsing="false" prefHeight="42.0" prefWidth="259.0" ripplerFill="ALICEBLUE" styleClass="btns" text="New Change Request" textAlignment="JUSTIFY">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox prefHeight="62.0" prefWidth="300.0">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <children>
+                  <ImageView fitHeight="39.0" fitWidth="41.0">
+                     <image>
+                        <Image url="@Images/new_change_request.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="ManageApproves" onAction="#ManageApprovesWasPressed" prefHeight="42.0" prefWidth="259.0" styleClass="btns" text="Manage Approvements" textAlignment="JUSTIFY" textFill="#d7d5d5">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <JFXButton buttonType="RAISED" layoutX="55.0" layoutY="510.0" onAction="#logOutWasPressed" prefHeight="32.0" prefWidth="206.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 30;" text="Log out">
+         <font>
+            <Font name="Palatino Linotype Bold" size="18.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

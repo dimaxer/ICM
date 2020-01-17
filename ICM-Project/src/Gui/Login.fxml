@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="613.0" prefWidth="1230.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.LoginFX">
+   <children>
+      <AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="342.0">
+         <children>
+            <AnchorPane layoutX="16.0" layoutY="215.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="268.0" prefWidth="315.0">
+               <children>
+                  <ImageView fitHeight="229.0" fitWidth="313.0" layoutX="2.0" layoutY="20.0">
+                     <image>
+                        <Image url="@Images/images%20(1).jfif" />
+                     </image>
+                     <effect>
+                        <BoxBlur height="63.76" width="44.63" />
+                     </effect>
+                  </ImageView>
+                  <Button fx:id="login" defaultButton="true" layoutX="60.0" layoutY="189.0" mnemonicParsing="false" onAction="#loginWasPressed" prefHeight="39.0" prefWidth="198.0" style="-fx-background-radius: 60;" text="Login" />
+                  <JFXTextField fx:id="id" focusColor="#44b6ea" layoutX="45.0" layoutY="59.0" prefHeight="31.0" prefWidth="245.0" promptText="I.D" style="-fx-background-color: WHITE;" unFocusColor="BLACK" />
+                  <JFXPasswordField fx:id="password" focusColor="#44b6ea" layoutX="45.0" layoutY="119.0" prefHeight="31.0" prefWidth="245.0" promptText="Password" style="-fx-background-color: white;" unFocusColor="#1e1e1e" />
+                  <ImageView fitHeight="31.0" fitWidth="36.0" layoutX="-1.0" layoutY="117.0">
+                     <image>
+                        <Image url="@Images/password_50px.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust contrast="1.0" />
+                     </effect>
+                  </ImageView>
+                  <ImageView fitHeight="31.0" fitWidth="36.0" layoutX="-1.0" layoutY="59.0">
+                     <image>
+                        <Image url="@Images/user_50px.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="-0.95" />
+                     </effect>
+                  </ImageView>
+                  <Text fx:id="wrongPassword" layoutX="41.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="252.00000054389238" />
+               </children>
+               <effect>
+                  <Blend />
+               </effect>
+            </AnchorPane>
+            <Text fx:id="date" fontSmoothingType="LCD" layoutX="11.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="19 Nov 2019" wrappingWidth="112.00000058859587">
+               <font>
+                  <Font name="Trebuchet MS Italic" size="15.0" />
+               </font>
+            </Text>
+            <ImageView blendMode="DARKEN" depthTest="ENABLE" fitHeight="102.0" fitWidth="112.0" layoutX="118.0" layoutY="153.0">
+               <image>
+                  <Image url="@Images/icons8_male_user_100px_6.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+               <effect>
+                  <Reflection fraction="0.21" topOpacity="0.13">
+                     <input>
+                        <DropShadow />
+                     </input>
+                  </Reflection>
+               </effect>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="615.0" fitWidth="864.0" layoutX="366.0">
+         <image>
+            <Image url="@Images/photo-1516979187457-637abb4f9353.jfif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="123.0" fitWidth="122.0" layoutX="650.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/ICM_LOGO.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
