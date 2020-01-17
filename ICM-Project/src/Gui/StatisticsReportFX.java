@@ -1,17 +1,26 @@
 package Gui;
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.Array;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXAlert;
+
 import Common.Interval;
 import LogicController.StatisticsReportController;
 import Utilities.MessageObject;
 import Utilities.RequestType;
+import Utilities.ScreenManager;
 import Utilities.Statistics;
+import client.Client;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +33,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -144,6 +154,8 @@ public class StatisticsReportFX extends BaseFX {
 	private TabPane performancesTabPane;
 	@FXML
 	private TabPane delaysTabPane;
+	@FXML
+	private TabPane historyTabPane;
 	
 	// Tab Pane Buttons ***************************
 	@FXML
@@ -152,7 +164,24 @@ public class StatisticsReportFX extends BaseFX {
 	private Button performanceBtn;
 	@FXML
 	private Button delayBtn;
+	@FXML
+	private Button historyBtn;
+	
+	// History ************************************
+	@FXML
+	private StackPane historyGraphPane;
+	@FXML
+	private Button historyIssueReportBtn;
+	@FXML
+	private Text historyIssueReportLabel;
+	@FXML
+	private Text historyStdLabel;
+	@FXML
+	private Text historyMedianLabel;
 
+	// Reports ArrayList **************************
+	ArrayList<ArrayList<Interval>> allReports = new ArrayList<>();
+	
 	// Controller *********************************
 	/** Logical controller of {@link StatisticsReportFX}*/
 	private StatisticsReportController statisticsReportController;
@@ -164,6 +193,7 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.initStatusComboBox(statusComboBox);
 		
 		initGetInfoSystems();
+		statisticsReportController.getReports();
 	}
 
 	public void clearFields() {
@@ -174,6 +204,7 @@ public class StatisticsReportFX extends BaseFX {
 		activityTabPane.setVisible(true);
 		performancesTabPane.setVisible(false);
 		delaysTabPane.setVisible(false);
+		historyTabPane.setVisible(false);
 	}
 	
 	@FXML
@@ -181,6 +212,7 @@ public class StatisticsReportFX extends BaseFX {
 		activityTabPane.setVisible(false);
 		performancesTabPane.setVisible(true);
 		delaysTabPane.setVisible(false);
+		historyTabPane.setVisible(false);
 	}
 	
 	@FXML
@@ -188,6 +220,15 @@ public class StatisticsReportFX extends BaseFX {
 		activityTabPane.setVisible(false);
 		performancesTabPane.setVisible(false);
 		delaysTabPane.setVisible(true);
+		historyTabPane.setVisible(false);
+	}
+	
+	@FXML
+	private void historyBtnWasPressed(ActionEvent event) {
+		activityTabPane.setVisible(false);
+		performancesTabPane.setVisible(false);
+		delaysTabPane.setVisible(false);
+		historyTabPane.setVisible(true);
 	}
 	
 	public void initGetInfoSystems() {
@@ -212,6 +253,7 @@ public class StatisticsReportFX extends BaseFX {
 		
 		updateStatusReportLabels(intervals);
 		fillGraph(statusGraphPane, intervals, status, status + " Report", "Status");
+		statisticsReportController.saveReport(status + " Report", intervals);
 	}
 	
 	private void updateStatusReportLabels(ArrayList<Interval> intervals) {
@@ -253,6 +295,7 @@ public class StatisticsReportFX extends BaseFX {
 		
 		updateRejectionReportLabels(intervals);
 		fillGraph(rejectionGraphPane,intervals, status, status + " Report", "Rejection");
+		statisticsReportController.saveReport(status + " Report", intervals);
 	}
 	
 	private void updateRejectionReportLabels(ArrayList<Interval> intervals) {
@@ -290,6 +333,7 @@ public class StatisticsReportFX extends BaseFX {
 		
 		updateActiveDaysReportLabels(intervals);
 		fillGraph(activeDaysGraphPane, intervals, status, status + " Report", "Active Days");
+		statisticsReportController.saveReport(status + " Report", intervals);
 	}
 	
 	@FXML
@@ -327,6 +371,7 @@ public class StatisticsReportFX extends BaseFX {
 		
 		updateExtensionsReportLabels(intervals);
 		fillGraph(extensionsGraphPane, intervals, status, status + " Report", "Extensions");
+		statisticsReportController.saveReport(status + " Report", intervals);
 	}
 	
 	@FXML
@@ -360,6 +405,7 @@ public class StatisticsReportFX extends BaseFX {
 		
 		updateDurationsReportLabels(intervals);
 		fillGraph(durationsGraphPane, intervals, status, status + " Report", "Durations");
+		statisticsReportController.saveReport(status + " Report", intervals);
 	}
 	
 	@FXML
@@ -393,6 +439,7 @@ public class StatisticsReportFX extends BaseFX {
 		
 		updateDelaysReportLabels(intervals);
 		fillGraph(delaysGraphPane, intervals, status, status + " Report", "Delays");
+		statisticsReportController.saveReport(status + " Report", intervals);
 	}
 	
 	@FXML
@@ -416,6 +463,64 @@ public class StatisticsReportFX extends BaseFX {
 		float median = statisticsReportController.getStatisticsUtility().GetMedian(valueList);
 		delaysStdLabel.setText("Standard Deviation:\t\t" + standardDeviation);
 		delaysMedianLabel.setText("Median:\t\t\t\t" + median);
+	}
+	
+	// Request Report by History ***********************************
+	private void initGetReportHistoryData(ArrayList<Interval> intervals) {
+		historyGraphPane.getChildren().clear();
+		
+		String status = "status";
+
+		updateHistoryReportLabels(intervals);
+		fillGraph(historyGraphPane, intervals, status, status + " Report", "History");
+		statisticsReportController.saveReport(status + " Report", intervals);
+		historyIssueReportLabel.setText("Report Issued!");
+	}
+	
+	@FXML
+	public void historyIssueReportBtnWasPressed(ActionEvent event) {
+		try {
+		JFXAlert<Void> timeAssessmentPopup = new JFXAlert<Void>();
+		AnchorPane anchorPane = new AnchorPane();
+		TextArea node = new TextArea();
+		
+		// Set TextArea node
+		node.textProperty().addListener(new ChangeListener<String>() { @Override
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+		        if (!newValue.matches("\\d*")) node.setText(newValue.replaceAll("[^\\d]", ""));
+		        if (newValue.length() > 2) node.setText(newValue.substring(0, 2)); }});
+		node.setPrefHeight(20); node.setPrefWidth(30); node.setWrapText(true); node.setEditable(true); node.setLayoutX(50); node.setLayoutY(7);
+		
+		// Set Send Button
+		Button send = new Button("Send");
+		send.setOnAction((ActionEvent sendEvent) -> {
+			if (node.getText().equals("")) { send.requestFocus(); return; }
+
+		});
+		send.setLayoutX(100); send.setLayoutY(12);
+		anchorPane.getChildren().addAll(node, send);
+		
+		// Set JFXAlert Dialogue
+		timeAssessmentPopup.setTitle("Assessment (Days):"); timeAssessmentPopup.setContent(anchorPane); timeAssessmentPopup.setSize(180, 50); timeAssessmentPopup.showAndWait();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		
+		//initGetReportHistoryData();
+	}
+	
+	private void updateHistoryReportLabels(ArrayList<Interval> intervals) {
+		if (intervals == null) return;
+		
+		ArrayList<Integer> valueList = new ArrayList<>();
+		for (int i = 0; i < intervals.size(); i++)
+			valueList.add(intervals.get(i).getValue());
+		
+		float standardDeviation = statisticsReportController.getStatisticsUtility().GetStandardDeviation(valueList);
+		float median = statisticsReportController.getStatisticsUtility().GetMedian(valueList);
+		historyStdLabel.setText("Standard Deviation:\t\t" + standardDeviation);
+		historyMedianLabel.setText("Median:\t\t\t\t" + median);
 	}
 	
 	// Graphical ******************************************************
@@ -449,6 +554,9 @@ public class StatisticsReportFX extends BaseFX {
         });
 	}
 
+	public void handleGetReports(MessageObject msg) {
+		allReports = (ArrayList<ArrayList<Interval>>)msg.getArgs().get(0);
+	}
 	
 	// Side Panel *****************************************************
 	/** This method switches the scene back to the main panel page */

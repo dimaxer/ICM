@@ -59,6 +59,7 @@ public class ViewAllRequestsController extends BaseController {
 				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), r.getCurrentStage(), "Evaluator",
 						r.getInitaitorID()));
 			}else if (uid.equals(r.getInitaitorID())) {
+				if (r.getCurrentStage().equals("Decision") && (user.getJobDescription().equals("Committee Chairman") || user.getJobDescription().equals("Committee Member"))) continue;
 				request.add(new ViewAllRequestsRequest(r.getRequestID(), r.getRequestStatus(), r.getCurrentStage(), "Initiator",
 						r.getInitaitorID()));
 			}

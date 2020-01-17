@@ -29,6 +29,7 @@
             <Button fx:id="activityBtn" defaultButton="true" layoutX="335.0" layoutY="22.0" mnemonicParsing="false" onAction="#activityBtnWasPressed" prefHeight="45.0" prefWidth="91.0" style="-fx-border-radius: 40; -fx-background-radius: 40; -fx-background-color: #333645; -fx-font-weight: bold; -fx-font-style: italic;" text=" Activity&#10;Reports" textFill="#d7d5d5" wrapText="true" />
             <Button fx:id="performanceBtn" defaultButton="true" layoutX="435.0" layoutY="22.0" mnemonicParsing="false" onAction="#performanceBtnWasPressed" prefHeight="45.0" prefWidth="91.0" style="-fx-border-radius: 40; -fx-background-radius: 40; -fx-background-color: #333645; -fx-font-weight: bold; -fx-font-style: italic;" text="Performance&#10;    Reports" textFill="#d7d5d5" wrapText="true" />
             <Button fx:id="delayBtn" defaultButton="true" layoutX="535.0" layoutY="22.0" mnemonicParsing="false" onAction="#delayBtnWasPressed" prefHeight="45.0" prefWidth="91.0" style="-fx-border-radius: 40; -fx-background-radius: 40; -fx-background-color: #333645; -fx-font-weight: bold; -fx-font-style: italic;" text="  Delay&#10;Reports" textFill="#d7d5d5" wrapText="true" />
+            <Button fx:id="historyBtn" defaultButton="true" layoutX="635.0" layoutY="22.0" mnemonicParsing="false" onAction="#historyBtnWasPressed" prefHeight="45.0" prefWidth="91.0" style="-fx-border-radius: 40; -fx-background-radius: 40; -fx-background-color: #333645; -fx-font-weight: bold; -fx-font-style: italic;" text=" Report&#10;History" textFill="#d7d5d5" wrapText="true" />
          </children>
       </AnchorPane>
       <VBox fx:id="all_roles" prefHeight="616.0" prefWidth="300.0" style="-fx-background-color: #333645;">
@@ -321,6 +322,23 @@
                         <Text fx:id="delaysMedianLabel" layoutX="643.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:" />
                         <ComboBox fx:id="delaysComboBox" layoutX="426.0" layoutY="14.0" prefWidth="150.0" />
                         <Text layoutX="333.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Info System:" wrappingWidth="71.99996799230576" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <TabPane fx:id="historyTabPane" layoutX="310.0" layoutY="90.0" prefHeight="535.0" prefWidth="930.0">
+         <tabs>
+            <Tab closable="false" text="Report History">
+               <content>
+                  <AnchorPane>
+                     <children>
+                        <Button fx:id="historyIssueReportBtn" defaultButton="true" layoutX="426.0" layoutY="45.0" mnemonicParsing="false" onAction="#historyIssueReportBtnWasPressed" prefHeight="28.0" prefWidth="150.0" style="-fx-border-radius: 30; -fx-background-radius: 30;" text="Issue Report" wrapText="true" />
+                        <Text fx:id="historyIssueReportLabel" layoutX="450.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <StackPane fx:id="historyGraphPane" layoutX="22.0" layoutY="91.0" prefHeight="401.0" prefWidth="886.0" style="-fx-border-color: #d7d5d5; -fx-border-radius: 20;" />
+                        <Text fx:id="historyStdLabel" layoutX="643.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Standard Deviation:" />
+                        <Text fx:id="historyMedianLabel" layoutX="643.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:" />
                      </children>
                   </AnchorPane>
                </content>

@@ -165,6 +165,9 @@ public class ClientRequestHandler {
 		case GetReportDelays:
 			((StatisticsReportFX) currentFX).handleGetReportDelaysData(message);
 			break;
+		case GetReports:
+			((StatisticsReportFX) currentFX).handleGetReports(message);
+			break;
 		default:
 			break;
 		}

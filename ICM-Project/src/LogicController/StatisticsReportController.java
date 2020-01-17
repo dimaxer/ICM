@@ -1,8 +1,10 @@
 package LogicController;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import Common.Interval;
 import Utilities.IStatistics;
 import Utilities.MessageObject;
 import Utilities.RequestType;
@@ -106,6 +108,20 @@ public class StatisticsReportController extends BaseController {
 	public void initGetReportDelaysData(String infoSys) {
 		MessageObject msg = new MessageObject(RequestType.GetReportDelays, new ArrayList<>());
 		msg.getArgs().add(infoSys);
+		sendMessage(msg);
+	}
+
+	// Saving and Getting Reports *************************************
+	public void saveReport(String name, ArrayList<Interval> intervals) {
+		MessageObject msg = new MessageObject(RequestType.SaveReport, new ArrayList<>());
+		msg.getArgs().add(name);
+		msg.getArgs().add(Date.valueOf(LocalDate.now()));
+		msg.getArgs().add(intervals);
+		sendMessage(msg);
+	}
+	
+	public void getReports() {
+		MessageObject msg = new MessageObject(RequestType.GetReports, new ArrayList<>());
 		sendMessage(msg);
 	}
 }

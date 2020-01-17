@@ -206,6 +206,12 @@ public class ServerRequestHandler {
 			case SendMail:
 				handleSendMail(message,client);
 				break;
+			case SaveReport:
+				handleSaveReport(message,client);
+				break;
+			case GetReports:
+				responseMessage = handleGetReports(message,client);
+				break;
 			default:
 				break;
 			}
@@ -214,6 +220,14 @@ public class ServerRequestHandler {
 				DBServer.getInstance().sendMessage(responseMessage, client);
 		} else
 			System.out.println("Error - Message rechieved is not a MessageObject");
+	}
+
+	private MessageObject handleGetReports(MessageObject message, ConnectionToClient client) {
+		return mysqlRequestHandler.getReports(message);
+	}
+
+	private void handleSaveReport(MessageObject message, ConnectionToClient client) {
+		mysqlRequestHandler.saveReport(message);
 	}
 
 	private void handleSendMail(MessageObject message, ConnectionToClient client) {

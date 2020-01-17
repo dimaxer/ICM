@@ -1,5 +1,7 @@
 package jdbc;
 
+import java.sql.Array;
+import java.sql.Blob;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,6 +26,7 @@ import Common.TimeAssessmentRequest;
 import Common.TimeExtensionRequest;
 import Common.User;
 import Common.EvalutorAppoitmentTableSerializable;
+import Common.Interval;
 import Utilities.MailSender;
 import Utilities.MessageObject;
 import Utilities.RequestType;
@@ -2328,5 +2331,67 @@ public class SqlRequestHandler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void saveReport(MessageObject message) {
+		String query = "INSERT INTO IssuedGraph (graphName, issueDate) VALUES (?,?)";
+		String queryLog = "INSERT INTO IssuedGraphLog (issuedIndex, category, value) VALUES (?,?, ?)";
+		PreparedStatement stmt;
+		try {
+			String name = message.getArgs().get(0).toString();
+			java.sql.Date date = (java.sql.Date)message.getArgs().get(1);
+			ArrayList<Interval> intervals = (ArrayList<Interval>)message.getArgs().get(2);
+			
+			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
+			stmt.setString(1, name);
+			stmt.setDate(2, date);
+			stmt.executeUpdate();
+			
+			String issuedIndex = getLastInsertID();
+			for (int i = 0; i < intervals.size(); i++) {
+				stmt = mysqlConnection.getInstance().getConnection().prepareStatement(queryLog);
+				stmt.setString(1, issuedIndex);
+				stmt.setString(2, intervals.get(i).getCategoryName());
+				stmt.setInt(3, intervals.get(i).getValue());
+				stmt.executeUpdate();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public MessageObject getReports(MessageObject message) {
+		ResultSet rs, rs_log;
+		String query = "SELECT * FROM IssuedGraph";
+		String queryLog = "SELECT * FROM IssuedGraphLog WHERE issuedIndex = ?";
+		PreparedStatement stmt;
+		try {
+			ArrayList<ArrayList<Interval>> allIntervals = new ArrayList<>();
+			ArrayList<Interval> intervals = new ArrayList<>();
+			
+			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				String issuedIndex = rs.getString("rowIndex");
+				System.out.println(issuedIndex);
+				stmt = mysqlConnection.getInstance().getConnection().prepareStatement(queryLog);
+				stmt.setString(1, issuedIndex);
+				rs_log = stmt.executeQuery();
+					
+				while (rs_log.next()) {
+					intervals.add(new Interval(rs_log.getInt("value"), 0, null, null, rs_log.getString("category")));
+				}
+				allIntervals.add(intervals);
+			}
+			
+			
+			message.getArgs().clear();
+			message.getArgs().add(allIntervals);
+			return message;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return null;
 	}
 }
