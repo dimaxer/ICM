@@ -328,7 +328,7 @@
             </Tab>
          </tabs>
       </TabPane>
-      <TabPane fx:id="historyTabPane" layoutX="310.0" layoutY="90.0" prefHeight="535.0" prefWidth="930.0">
+      <TabPane fx:id="historyTabPane" layoutX="300.0" layoutY="80.0" prefHeight="535.0" prefWidth="930.0" visible="false">
          <tabs>
             <Tab closable="false" text="Report History">
                <content>

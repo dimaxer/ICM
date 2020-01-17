@@ -32,6 +32,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
@@ -181,6 +182,7 @@ public class StatisticsReportFX extends BaseFX {
 
 	// Reports ArrayList **************************
 	ArrayList<ArrayList<Interval>> allReports = new ArrayList<>();
+	ArrayList<String> allReportsNames = new ArrayList<>();
 	
 	// Controller *********************************
 	/** Logical controller of {@link StatisticsReportFX}*/
@@ -193,7 +195,6 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.initStatusComboBox(statusComboBox);
 		
 		initGetInfoSystems();
-		statisticsReportController.getReports();
 	}
 
 	public void clearFields() {
@@ -225,6 +226,7 @@ public class StatisticsReportFX extends BaseFX {
 	
 	@FXML
 	private void historyBtnWasPressed(ActionEvent event) {
+		statisticsReportController.getReports();
 		activityTabPane.setVisible(false);
 		performancesTabPane.setVisible(false);
 		delaysTabPane.setVisible(false);
@@ -467,47 +469,51 @@ public class StatisticsReportFX extends BaseFX {
 	
 	// Request Report by History ***********************************
 	private void initGetReportHistoryData(ArrayList<Interval> intervals) {
-		historyGraphPane.getChildren().clear();
+		
 		
 		String status = "status";
 
 		updateHistoryReportLabels(intervals);
 		fillGraph(historyGraphPane, intervals, status, status + " Report", "History");
-		statisticsReportController.saveReport(status + " Report", intervals);
 		historyIssueReportLabel.setText("Report Issued!");
 	}
 	
 	@FXML
 	public void historyIssueReportBtnWasPressed(ActionEvent event) {
-		try {
-		JFXAlert<Void> timeAssessmentPopup = new JFXAlert<Void>();
+		historyGraphPane.getChildren().clear();
+		// TODO
+		JFXAlert<Void> popup = new JFXAlert<Void>();
 		AnchorPane anchorPane = new AnchorPane();
-		TextArea node = new TextArea();
+		ListView<String> node = new ListView<String>();
 		
-		// Set TextArea node
-		node.textProperty().addListener(new ChangeListener<String>() { @Override
-		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-		        if (!newValue.matches("\\d*")) node.setText(newValue.replaceAll("[^\\d]", ""));
-		        if (newValue.length() > 2) node.setText(newValue.substring(0, 2)); }});
-		node.setPrefHeight(20); node.setPrefWidth(30); node.setWrapText(true); node.setEditable(true); node.setLayoutX(50); node.setLayoutY(7);
+		// Set ListView node
+		node.setLayoutX(7);
+		node.setLayoutY(7);
+		node.setPrefHeight(250);
+		for (int i = 0; i < allReportsNames.size(); i++)
+			node.getItems().add(i + " - " + allReportsNames.get(i));
 		
 		// Set Send Button
-		Button send = new Button("Send");
+		Button send = new Button("Select");
 		send.setOnAction((ActionEvent sendEvent) -> {
-			if (node.getText().equals("")) { send.requestFocus(); return; }
-
+			if (node.getSelectionModel().getSelectedItem().equals("") || node.getSelectionModel().getSelectedItem() == null) {
+				send.requestFocus();
+				return;
+			}
+			initGetReportHistoryData(allReports.get(node.getSelectionModel().getSelectedIndex()));
+			popup.close();
 		});
-		send.setLayoutX(100); send.setLayoutY(12);
+		send.setLayoutX(100);
+		send.setLayoutY(265);
+		
 		anchorPane.getChildren().addAll(node, send);
 		
 		// Set JFXAlert Dialogue
-		timeAssessmentPopup.setTitle("Assessment (Days):"); timeAssessmentPopup.setContent(anchorPane); timeAssessmentPopup.setSize(180, 50); timeAssessmentPopup.showAndWait();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		popup.setTitle("Select History Report: ");
+		popup.setContent(anchorPane);
+		popup.setSize(264, 300);
+		popup.showAndWait();
 		
-		
-		//initGetReportHistoryData();
 	}
 	
 	private void updateHistoryReportLabels(ArrayList<Interval> intervals) {
@@ -556,6 +562,7 @@ public class StatisticsReportFX extends BaseFX {
 
 	public void handleGetReports(MessageObject msg) {
 		allReports = (ArrayList<ArrayList<Interval>>)msg.getArgs().get(0);
+		allReportsNames = (ArrayList<String>)msg.getArgs().get(1);
 	}
 	
 	// Side Panel *****************************************************

@@ -72,7 +72,91 @@ INSERT INTO `EvaluationReport` (`RequestID`, `EvaluatorID`, `Description`, `Cons
 ('5', '011', '3G', '3G', '4G');
 
 -- --------------------------------------------------------
+CREATE TABLE `IssuedGraph` (
+  `rowIndex` int(11) NOT NULL,
+  `graphName` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `issueDate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `IssuedGraph`
+--
+
+INSERT INTO `IssuedGraph` (`rowIndex`, `graphName`, `issueDate`) VALUES
+(1, 'Active Report', '2020-01-17'),
+(2, 'Active Report', '2020-01-17'),
+(3, 'Extensions Report', '2020-01-17'),
+(4, 'Active Report', '2020-01-17'),
+(5, 'Delays Report', '2020-01-17'),
+(6, 'Delays Report', '2020-01-17'),
+(7, 'Extensions Report', '2020-01-17');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `IssuedGraph`
+--
+ALTER TABLE `IssuedGraph`
+  ADD PRIMARY KEY (`rowIndex`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `IssuedGraph`
+--
+ALTER TABLE `IssuedGraph`
+  MODIFY `rowIndex` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+CREATE TABLE `IssuedGraphLog` (
+  `rowIndex` int(11) NOT NULL,
+  `issuedIndex` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `category` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `value` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `IssuedGraphLog`
+--
+
+INSERT INTO `IssuedGraphLog` (`rowIndex`, `issuedIndex`, `category`, `value`) VALUES
+(1, '1', 'Week 0', 0),
+(2, '1', 'Week 1', 2),
+(3, '1', 'Week 2', 8),
+(4, '2', 'Week 0', 4),
+(5, '2', 'Week 1', 7),
+(6, '2', 'Week 2', 5),
+(7, '3', '0-10', 2),
+(8, '3', '11-21', 1),
+(9, '3', '22-32', 1),
+(10, '4', 'Week 0', 5),
+(11, '4', 'Week 1', 5),
+(12, '7', '0-10', 2),
+(13, '7', '11-21', 1),
+(14, '7', '22-32', 1);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `IssuedGraphLog`
+--
+ALTER TABLE `IssuedGraphLog`
+  ADD PRIMARY KEY (`rowIndex`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `IssuedGraphLog`
+--
+ALTER TABLE `IssuedGraphLog`
+  MODIFY `rowIndex` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- Table structure for table `EvaluatorAppointment`
 --

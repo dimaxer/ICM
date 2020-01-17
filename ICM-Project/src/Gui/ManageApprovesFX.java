@@ -134,6 +134,7 @@ public void initialize(URL location, ResourceBundle resources) {
 	setDoubleClickMouseWasPressed();
 }
 
+@FXML
 public void refreshTables() {
 	initEvaluatorTable();
 	initTimeAssessmentTable();

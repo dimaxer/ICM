@@ -2367,14 +2367,14 @@ public class SqlRequestHandler {
 		PreparedStatement stmt;
 		try {
 			ArrayList<ArrayList<Interval>> allIntervals = new ArrayList<>();
-			ArrayList<Interval> intervals = new ArrayList<>();
 			
+			ArrayList<String> names = new ArrayList<>();
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(query);
 			rs = stmt.executeQuery();
 			
 			while (rs.next()) {
+				ArrayList<Interval> intervals = new ArrayList<>();
 				String issuedIndex = rs.getString("rowIndex");
-				System.out.println(issuedIndex);
 				stmt = mysqlConnection.getInstance().getConnection().prepareStatement(queryLog);
 				stmt.setString(1, issuedIndex);
 				rs_log = stmt.executeQuery();
@@ -2382,12 +2382,14 @@ public class SqlRequestHandler {
 				while (rs_log.next()) {
 					intervals.add(new Interval(rs_log.getInt("value"), 0, null, null, rs_log.getString("category")));
 				}
+				names.add(rs.getString("graphName"));
 				allIntervals.add(intervals);
 			}
 			
 			
 			message.getArgs().clear();
 			message.getArgs().add(allIntervals);
+			message.getArgs().add(names);
 			return message;
 		} catch (Exception ex) {
 			ex.printStackTrace();
