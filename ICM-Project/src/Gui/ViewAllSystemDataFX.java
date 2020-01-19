@@ -24,6 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
+/** This class represents the graphical controller of view all system data page */
 public class ViewAllSystemDataFX extends BaseFX {
 	// Side-Panel *******************************
 	@FXML
@@ -65,9 +66,6 @@ public class ViewAllSystemDataFX extends BaseFX {
 	// Controller *********************************
 	private ViewAllSystemDataController controller;
 
-	/**
-	 * 
-	 */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		controller = new ViewAllSystemDataController();
@@ -86,7 +84,6 @@ public class ViewAllSystemDataFX extends BaseFX {
 	}
 	
 	/** This function sets an event handler on mouse double click on a row.
-
 	 */
 	private void onRowDoubleClick() {
 		RequestTable.setRowFactory( tv -> {
@@ -102,24 +99,21 @@ public class ViewAllSystemDataFX extends BaseFX {
 	}
 	
 	/**
-	 * 
+	 * Clears all Fields
 	 */
 	public void clearFields() {
 		initEmployeeTable();
 		initRequestTable();
 	}
 	
-	/**
-	 * 
-	 */
 	private void initRequestTable() {
 		MessageObject msg = new MessageObject(RequestType.GetRequestTable, new ArrayList());
 		controller.sendMessage(msg);
 	}
 	
 	/**
-	 * 
-	 * @param message
+	 * This method handles the filling of request table
+	 * @param message data
 	 */
 	public void handleRequestTable(MessageObject message) {
 		RequestTable.getItems().clear();
@@ -128,17 +122,14 @@ public class ViewAllSystemDataFX extends BaseFX {
 		RequestTable.setItems(requestList);
 	}
 
-	/**
-	 * 
-	 */
 	private void initEmployeeTable() {
 		MessageObject msg = new MessageObject(RequestType.GetEmployeeTable, new ArrayList());
 		controller.sendMessage(msg);
 	}
 	
 	/**
-	 * 
-	 * @param message
+	 * This method handles filling of employee table
+	 * @param message data
 	 */
 	public void handleEmployeeTable(MessageObject message) {
 		EmployeeTable.getItems().clear();
@@ -147,14 +138,18 @@ public class ViewAllSystemDataFX extends BaseFX {
 		EmployeeTable.setItems(employeeList);
 	}
 
-	/** This method switches the scene back to the main panel page */
+	/** This method switches the scene back to the main panel page
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void backWasPressed(ActionEvent event) {
 		controller.switchScene("Panel");
 	}
+	
 	/**
 	 * This event handler switches scenes back to the Login page
-	 * @param event
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
@@ -163,7 +158,7 @@ public class ViewAllSystemDataFX extends BaseFX {
 	
 	/**
 	 * This event handler switches scenes to Create New Request page
-	 * @param event
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void newChangeRequestWasPressed(ActionEvent event) {
@@ -171,8 +166,8 @@ public class ViewAllSystemDataFX extends BaseFX {
 	}
 	
 	/**
-	 * 
-	 * @param event
+	 * This event handler switches scenes to view all requests page
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
@@ -180,8 +175,8 @@ public class ViewAllSystemDataFX extends BaseFX {
 	}
 	
 	/**
-	 * 
-	 * @param event
+	 * This event handler switches scenes to manage permissions
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void managePermissionsWasPressed(ActionEvent event) {
@@ -189,8 +184,8 @@ public class ViewAllSystemDataFX extends BaseFX {
 	}
 	
 	/**
-	 * 
-	 * @param event
+	 * This event handler switches scenes to view statistics
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void viewStatisticsReportWasPressed(ActionEvent event) {

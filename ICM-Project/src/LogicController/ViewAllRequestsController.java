@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
+/** This is the logical controller of view all requests */
 public class ViewAllRequestsController extends BaseController {
 
 	public void searchWasPressed(String requestID, String role) {
@@ -24,14 +25,24 @@ public class ViewAllRequestsController extends BaseController {
 		sendMessage(viewAllRequest);
 	}
 
-	//load all the requests to the table
+	
+	/**
+	 * load all the requests to the table
+	 * @param message contin the typr of the request
+	 * @param tableView the table view with the data
+	 * @return request list
+	 */
 	public ObservableList<ViewAllRequestsRequest> loadRequests(MessageObject message, TableView<ViewAllRequestsRequest> tableView) {
 		ObservableList<ViewAllRequestsRequest> requests = getObservableListRequest((User)message.getArgs().get(0));
 		tableView.setItems(requests);
 		return requests;
 	}
 	
-	//Filing the right information to the columns
+	/**
+	 * Filing the right information to the columns
+	 * @param user user with all the information
+	 * @return the request with the data
+	 */
 	private ObservableList<ViewAllRequestsRequest> getObservableListRequest(User user) {
 		ObservableList<ViewAllRequestsRequest> request = FXCollections.observableArrayList();
 		String uid = Client.getInstance().getCurrentUser().getId();
@@ -46,7 +57,12 @@ public class ViewAllRequestsController extends BaseController {
 		}
 		return request;
 	}
-
+/**
+ * fill User request table 
+ * @param user the user
+ * @param request the requests list
+ * @param uid user id
+ */
 	private void fillUserRequestTable(User user, ObservableList<ViewAllRequestsRequest> request, String uid) {
 		for (Request r : user.getRequestArray()) {
 			if (uid.equals(r.getTesterID()) && r.getCurrentStage().equals("Testing")) {
@@ -65,7 +81,12 @@ public class ViewAllRequestsController extends BaseController {
 			}
 		}
 	}
-	
+	/**
+	 * fill all request table with the request
+	 * @param user User information
+	 * @param request request list
+	 * @param uid user id
+	 */
 	private void fillAllRequestTable(User user, ObservableList<ViewAllRequestsRequest> request, String uid) {
 		if (!user.getJobDescription().equals("Supervisor"))
 			fillUserRequestTable(user, request, uid);
@@ -82,7 +103,7 @@ public class ViewAllRequestsController extends BaseController {
 	}
 
 	/**
-
+	 * refresh the table
 	 */
 	public void refresh() {
 		// TODO Auto-generated method stub

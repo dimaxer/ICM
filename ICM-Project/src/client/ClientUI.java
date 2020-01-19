@@ -66,6 +66,7 @@ public class ClientUI extends Application {
 	/**
 	 * this method loads and runs the stage and first scene, after it loads you can
 	 * switch scenes by using the switchScene method
+	 * @param primaryStage stage
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -113,10 +114,8 @@ public class ClientUI extends Application {
 
 	/**
 	 * A method to set client manually in case you connect to another server
-	 * 
-	 * 
-	 * @param String
-	 * @return
+	 * @param ip ip
+	 * @return was set successfully
 	 */
 
 	public Boolean setClient(String ip) {
@@ -128,10 +127,9 @@ public class ClientUI extends Application {
 		}
 	}
 
-	/**
-	 * This method is responsible for the creation of the Client UI.
-	 *
-	 * @param args[0] The host to connect to.
+	/** This method is responsible for the creation of the Client UI.
+	 * 
+	 * @param args arguments
 	 */
 	public static void main(String[] args) {
 

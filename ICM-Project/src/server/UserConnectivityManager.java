@@ -1,14 +1,14 @@
 package server;
 
-/**
- * author dima
- * a class the manages all logged in user's
- */
+
 import java.io.IOException;
 import java.util.HashMap;
 
 import ocsf.server.ConnectionToClient;
 
+/**
+ * a class the manages all logged in user's
+ */
 public class UserConnectivityManager {
 
 	private static UserConnectivityManager singletonInstance = null;
@@ -20,6 +20,10 @@ public class UserConnectivityManager {
 
 	}
 
+	/**
+	 * This is the constuctor of the class.
+	 * @return User Connectivity Manager
+	 */
 	public static UserConnectivityManager getInstance() {
 		if (singletonInstance == null)
 			singletonInstance = new UserConnectivityManager();
@@ -30,9 +34,9 @@ public class UserConnectivityManager {
 	 * this method adds a user to the logged on hash map of users only if he's not
 	 * logged on already
 	 * 
-	 * @param userID
-	 * @param client
-	 * @return
+	 * @param userID id
+	 * @param client client
+	 * @return was successful
 	 */
 	public boolean addLoggedOnUser(String userID, ConnectionToClient client) {
 		if (checkIfThisUserIsAllreadyLoggedOn(userID, client))
@@ -45,9 +49,9 @@ public class UserConnectivityManager {
 	 * method that checks if a user is logged on or off or crashed and returns true
 	 * if he's logged on and false if he logged off or crashed
 	 * 
-	 * @param userID
-	 * @param client
-	 * @return
+	 * @param userID id
+	 * @param client client
+	 * @return was successful
 	 */
 	private boolean checkIfThisUserIsAllreadyLoggedOn(String userID, ConnectionToClient client) {
 		if (loggedOnUsers.containsKey(userID)) {
@@ -73,8 +77,8 @@ public class UserConnectivityManager {
 	/**
 	 * a method that deleted a user from the hash map if he pressed log out
 	 * 
-	 * @param userID
-	 * @return
+	 * @param userID id
+	 * @return was successful
 	 */
 	public boolean logOutUser(String userID) {
 		if (loggedOnUsers.containsKey(userID)) {

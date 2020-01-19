@@ -8,6 +8,7 @@ import Common.MyFile;
 import Utilities.MessageObject;
 import Utilities.RequestType;
 
+/** This is the logical controller of view attached files */
 public class ViewAttachedFilesController extends BaseController {
 
 	private String savePath;
@@ -16,8 +17,8 @@ public class ViewAttachedFilesController extends BaseController {
 	 * this method sends to the server a list of file names and the requests id and
 	 * asks that the server will sends the requested files back
 	 * 
-	 * @param fileNames
-	 * @param requestID
+	 * @param fileNames names
+	 * @param requestID id
 	 */
 	public void askTheServerToDownloadFiles(String[] fileNames, String requestID) {
 		ArrayList<Object> list = new ArrayList<Object>();
@@ -31,7 +32,7 @@ public class ViewAttachedFilesController extends BaseController {
 	/**
 	 * this method asks the server to send the requests attached file names
 	 * 
-	 * @param requestID
+	 * @param requestID id
 	 */
 	public void showAttachedFiles(String requestID) {
 
@@ -45,7 +46,7 @@ public class ViewAttachedFilesController extends BaseController {
 	 * this method download to the path that was selected all the files that were
 	 * selected
 	 * 
-	 * @param message
+	 * @param message data
 	 */
 	public void handleDownloadAttachedFiles(MessageObject message) {
 		MyFile[] downloadFileList = (MyFile[]) message.getArgs().get(0);
@@ -56,11 +57,18 @@ public class ViewAttachedFilesController extends BaseController {
 		}
 
 	}
-
+	/**
+	 * save the path of the file
+	 * @param savePath the path of the file
+	 */
 	public void setSavePath(String savePath) {
 		this.savePath = savePath;
 	}
-
+	/**
+	 * get the savePath
+	 * @param savePath path 
+	 * @return the save path
+	 */
 	public String getSavePath(String savePath) {
 		return savePath;
 	}

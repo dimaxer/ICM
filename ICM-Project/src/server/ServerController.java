@@ -10,6 +10,10 @@ import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 import jdbc.mysqlConnection;
 
+/**
+ * This class is the graphical controller to Server UI.
+ *
+ */
 public class ServerController {
 
 	@FXML
@@ -39,6 +43,9 @@ public class ServerController {
 
 	@FXML
 	JFXButton connectToCustom;
+	
+	@FXML
+	JFXToggleButton email_or_popup;
 
 
 	/**
@@ -46,7 +53,7 @@ public class ServerController {
 	 * connect to any db only when its you can connect to a db when power turns on
 	 * theserver starts listening for clients
 	 * 
-	 * @param event
+	 * @param event Button was Pressed
 	 */
 	@FXML
 	public void serverPowerToggled(ActionEvent event) {
@@ -72,7 +79,7 @@ public class ServerController {
 	/**
 	 * when this button is pressed server connects to the braude default db
 	 * 
-	 * @param event
+	 * @param event Button was Pressed
 	 */
 	@FXML
 	public void connectToBraudePressed(ActionEvent event) {
@@ -89,6 +96,10 @@ public class ServerController {
 		}
 	}
 
+	/**
+	 * This method connects the server to custom db
+	 * @param event Button was Pressed
+	 */
 	@FXML
 	public void connectToCustomPressed(ActionEvent event) {
 		System.out.println("connectToCustomPressed Event!");
@@ -105,5 +116,16 @@ public class ServerController {
 			}
 		}
 
+	}
+	
+	/**
+	 * This method changes the value of isPopup.
+	 * @param event Button was Pressed
+	 */
+	@FXML
+	public void email_or_popupToggled(ActionEvent event) {
+		if (DBServer.getInstance().isPopup())
+			 DBServer.getInstance().setPopup(false);
+		else DBServer.getInstance().setPopup(true);
 	}
 }

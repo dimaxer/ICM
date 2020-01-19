@@ -34,8 +34,8 @@ public interface IStatistics {
 	 * or on the same day, of picked end date.
 	 * @param pickedStartDate Start Date of Report Issued
 	 * @param pickedEndDate End Date of Report Issued
-	 * @param startDates<Request ID, Status Start Date> Start Dates of active/frozen/closed request statuses
-	 * @param endDates<Request ID, Status End Date> End Dates of active/frozen/closed request statuses
+	 * @param startDates Request ID, Status Start Date Start Dates of active/frozen/closed request statuses
+	 * @param endDates Request ID, Status End Date End Dates of active/frozen/closed request statuses
 	 * @return Amount of Requests after Filtering
 	 */
 	public Integer filterStatusByDateRange(LocalDate pickedStartDate, LocalDate pickedEndDate, HashMap<String, LocalDate> startDates, HashMap<String, LocalDate> endDates);
@@ -45,8 +45,8 @@ public interface IStatistics {
 	 * keeps the requests and retrieves the work days (active days) out of them.
 	 * @param pickedStartDate Start Date of Report Issued
 	 * @param pickedEndDate End Date of Report Issued
-	 * @param startDates<Request ID, Status Start Date> Start Dates of active requests
-	 * @param endDates<Request ID, Status End Date> End Dates of active requests
+	 * @param startDates Request ID, Status Start Date Start Dates of active requests
+	 * @param endDates Request ID, Status End Date End Dates of active requests
 	 * @return Amount of Requests after Filtering
 	 */
 	public Integer filterActiveDaysByDateRange(LocalDate pickedStartDate, LocalDate pickedEndDate, HashMap<String, LocalDate> startDates, HashMap<String, LocalDate> endDates);
@@ -61,31 +61,31 @@ public interface IStatistics {
 	
 	/**
 	 * This method filters a date range according to a request type.
-	 * @param startDates
-	 * @param endDates
-	 * @param requestType
-	 * @param currentDate
-	 * @param nextDate
-	 * @return
+	 * @param startDates date
+	 * @param endDates date
+	 * @param requestType type
+	 * @param currentDate date
+	 * @param nextDate date
+	 * @return amount
 	 */
 	public Integer filterDateRange(HashMap<String, LocalDate> startDates, HashMap<String, LocalDate> endDates,
 			String requestType, LocalDate currentDate, LocalDate nextDate);
 	
 	/**
 	 * This method adds a certain value to a key in arrayList.
-	 * @param pickedStartDate
-	 * @param result
-	 * @param endPair
-	 * @param end
+	 * @param pickedStartDate date
+	 * @param result result
+	 * @param endPair endPair
+	 * @param end end
 	 */
 	public void addValueToKey(LocalDate pickedStartDate, HashMap<String, Integer> result,
 			Map.Entry<String, LocalDate> endPair, LocalDate end);
 	
 	/**
 	 * This method gets the interval by a predefined period of time.
-	 * @param requestType
-	 * @param message
-	 * @param intervals
+	 * @param requestType type
+	 * @param message datat
+	 * @param intervals intervals
 	 */
 	public void getIntervalByPeriod(String requestType, MessageObject message, ArrayList<Interval> intervals);
 }

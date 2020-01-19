@@ -30,7 +30,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+/** This is the base controller for all other logical controlelrs */
 public class BaseController {
+	/**
+	 * Switch Scene
+	 * @param fxml_name name
+	 */
 	public void switchScene(String fxml_name) {
 		try {
 			ScreenManager.getInstance().switchScene(fxml_name);
@@ -47,13 +52,17 @@ public class BaseController {
 	 * will lead to extreme acceleration of scene switching.
 	 * 
 
-	 * @param fxml_name
+	 * @param fxml_name name
 	 * @return Boolean indicating whether the scene already exists.
 	 */
 	public Boolean sceneExists(String fxml_name) {
 		return ScreenManager.getInstance().sceneExists(fxml_name);
 	}
 
+	/** Gets Current FX
+	 * 
+	 * @return Current FX
+	 */
 	public Object getCurrentFX() {
 		return ScreenManager.getInstance().getCurrentFX();
 	}
@@ -62,8 +71,7 @@ public class BaseController {
 	 * A function that sends a MessageObject to the Server and notify's if it was
 	 * successfully sent via the console
 	 * 
-	 * @param response
-	 * @param client
+	 * @param response data
 	 */
 	public void sendMessage(MessageObject response) {
 		try {
@@ -83,9 +91,9 @@ public class BaseController {
 	 * Evaluator from AppointEvaluatorTable and connect him to the proper request in
 	 * the database
 	 * 
-	 * @param evaluatorName
-	 * @param requestID
-	 * @param evaluatorID
+	 * @param evaluatorName name
+	 * @param requestID id
+	 * @param evaluatorID id
 	 */
 	public void approvedEvaluator(String requestID, String evaluatorID, String evaluatorName) {
 
@@ -98,6 +106,11 @@ public class BaseController {
 		sendMessage(evaluatorMessage);
 	}
 
+	/**
+	 * This method handles downloading a file.
+	 * @param savePath path
+	 * @param file file
+	 */
 	public void dwonloadFile(String savePath, MyFile file) {
 
 		// add check to see if the user is active or not
@@ -122,6 +135,10 @@ public class BaseController {
 		}
 	}
 
+	/**
+	 * This method handles login
+	 * @param message data
+	 */
 	public void loginHandle(MessageObject message) {
 		if ((Boolean) message.getArgs().get(0)) {
 			Client.getInstance().setCurrentUser((User) message.getArgs().get(1));
@@ -129,12 +146,21 @@ public class BaseController {
 		}
 	}
 
+	/**
+	 * This method handles switching scene to view request details
+	 * @param message data
+	 */
 	public void handleViewRequestDetailsRequest(MessageObject message) {
 		switchScene("ViewAllRequests");
 		((ViewAllRequestsFX) getCurrentFX()).loadRequests(message);
 		((ViewAllRequestsFX) getCurrentFX()).clearFields();
 	}
 
+	/**
+	 * This method handles switching scene to search request
+	 * @param message data
+	 * @param currentFX current FX
+	 */
 	public void handleSearchRequest(MessageObject message, Object currentFX) {
 		String role = (String) message.getArgs().get(1);
 		if ((boolean) message.getArgs().get(0)) {
@@ -146,6 +172,10 @@ public class BaseController {
 			((ViewAllRequestsFX) currentFX).handleSearchRequestDetails(message);
 	}
 
+	/**
+	 * This method handles switching scene to login
+	 * @param event button was pressed
+	 */
 	public void logOutWasPressed(ActionEvent event) {
 		ArrayList<Object> list = new ArrayList<Object>();
 		list.add(Client.getInstance().getCurrentUser().getId());
@@ -157,6 +187,9 @@ public class BaseController {
 		controller.clearFields();
 	}
 
+	/**
+	 * This method handles switching scene to view request details table
+	 */
 	public void viewRequestDetailsWasPressed() {
 		// send the request id to the server
 		ArrayList<Object> arrlist = new ArrayList<>();
@@ -165,6 +198,10 @@ public class BaseController {
 		sendMessage(searchRequest);
 	}
 
+	/**
+	 * This method handles switching scene to view all request details 
+	 * @param event button was pressed
+	 */
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
 		if (sceneExists("ViewAllRequests"))
 			switchScene("ViewAllRequests");
@@ -172,6 +209,11 @@ public class BaseController {
 			viewRequestDetailsWasPressed();
 	}
 
+	/**
+	 * This method handles switching scene to replace evaluator
+	 * @param event button was pressed
+	 * @param ReqestID id
+	 */
 	public void replaceEvalutorWasPressed(ActionEvent event, String ReqestID) {
 		switchScene("ReplaceEvaluatorScene");
 		((ReplaceEvaluatorSceneFX) getCurrentFX()).setRequstId(ReqestID);
@@ -179,31 +221,57 @@ public class BaseController {
 		((ReplaceEvaluatorSceneFX) getCurrentFX()).loadDataToEvalutorTable();
 	}
 
+	/**
+	 * This method handles switching scene to manage approvements
+	 * @param event button was pressed
+	 */
 	public void manageAprrovementWasPressed(ActionEvent event) {
 		switchScene("ManageApproves");
 		((ManageApprovesFX) getCurrentFX()).refreshTables();
 	}
 
+	/**
+	 * This method handles switching scene to new change request
+	 * @param event button was pressed
+	 */
 	public void newChangeRequestWasPressed(ActionEvent event) {
 		switchScene("NewRequest");
 		((NewChangeRequestFX) getCurrentFX()).clearFields();
 	}
 
+	/**
+	 * This method handles switching scene to manage permissions
+	 * @param event button was pressed
+	 */
 	public void managePermissionsWasPressed(ActionEvent event) {
 		switchScene("ManagePermissions");
 		((ManagePermissionsFX) getCurrentFX()).clearFields();
 	}
 
+	/**
+	 * This method handles switching scene to view statistics
+	 * @param event button was pressed
+	 */
 	public void viewStatisticsReportWasPressed(ActionEvent event) {
 		switchScene("StatisticsReport");
 		((StatisticsReportFX) getCurrentFX()).clearFields();
 	}
 
+	/**
+	 * This method handles switching scene to view all system data
+	 * @param event button was pressed
+	 */
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
 		switchScene("ViewAllSystemData");
 		((ViewAllSystemDataFX) getCurrentFX()).clearFields();
 	}
 
+	/**
+	 * This method initiates the panel HBoxes
+	 * @param isd isd vbox
+	 * @param all_roles all roles vbox
+	 * @param supervisor supervisor vbox
+	 */
 	public void initPanelHBoxes(AnchorPane isd, VBox all_roles, VBox supervisor) {
 		if (Client.getInstance().getCurrentUser().getJobDescription().equals("Supervisor")) {
 			supervisor.setVisible(true);
@@ -220,6 +288,10 @@ public class BaseController {
 		}
 	}
 
+	/**
+	 * This method initiates the Information System Details
+	 * @param idCanBeNull can id be null
+	 */
 	public void initInformationSystemDetails(Boolean idCanBeNull) {
 		MessageObject msg = new MessageObject(RequestType.InformationSystem_Details, new ArrayList<>());
 		msg.getArgs().add(idCanBeNull);
@@ -228,9 +300,9 @@ public class BaseController {
 	
 	/**
 	 * This method sends a message to the server in order to it to send a relevant mail.
-	 * @param id
-	 * @param title
-	 * @param content
+	 * @param id id
+	 * @param title title
+	 * @param content content
 	 */
 	public void sendMailByID(String id, String title, String content) {
 		if (id == null || title == null || content == null) throw new NullPointerException("NULL MAIL INFO");

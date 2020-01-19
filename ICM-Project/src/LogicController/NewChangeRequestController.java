@@ -13,11 +13,11 @@ import Utilities.RequestType;
 import client.Client;
 import javafx.event.ActionEvent;
 
+/** This is the logical controller of new change request */
 public class NewChangeRequestController extends BaseController {
 	/**
 	 * This method handles the event where submit was pressed logically.
-	 * 
-
+	 * @param args arguments
 	 */
 	public void submitWasPressed(ArrayList<Object> args) {
 		MessageObject msg = new MessageObject(RequestType.NewChangeRequest, args);
@@ -26,8 +26,8 @@ public class NewChangeRequestController extends BaseController {
 /**
  * this function sends a file to the server
  * to be attached to a certain request
- * @param file
- * @param requestID
+ * @param file file
+ * @param requestID id
  */
 	public void sendFileToServer(File file,String requestID) {
 		MyFile newFile = new MyFile(file.getName());

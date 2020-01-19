@@ -23,7 +23,10 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-
+/**
+ * Login Fxml controller
+ *
+ */
 public class LoginFX extends BaseFX {
 
 	// Class Buttons ***************************************************
@@ -67,7 +70,7 @@ public class LoginFX extends BaseFX {
 	 * Event handler for the search button receives the text that was written into
 	 * the text field and sends the request id as a MessageObject to the server
 	 * 
-	 * @param event
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void loginWasPressed(ActionEvent event) {
@@ -100,7 +103,7 @@ public class LoginFX extends BaseFX {
 	 * was pressed, by checking the boolean argument for true or false the method
 	 * knows if the user and password was in the db or not
 	 * 
-	 * @param msg
+	 * @param msg data
 	 */
 
 	public void loginHandle(MessageObject msg) {

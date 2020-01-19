@@ -50,7 +50,6 @@ import javafx.stage.FileChooser;
  * This FX class represents a generic Request Details, which is hard-coded
  * altogether with the FXML to provide support for all Roles.
  * 
-
  * @since 01/01/2020
  */
 public class RequestDetailsFX extends BaseFX {
@@ -59,8 +58,7 @@ public class RequestDetailsFX extends BaseFX {
 	// | _ \ _ __ ___ _ __ ___ _ __ | |_ (_) ___ ___
 	// | |_) | | '__| / _ \ | '_ \ / _ \ | '__| | __| | | / _ \ / __|
 	// | __/ | | | (_) | | |_) | | __/ | | | |_ | | | __/ \__ \
-	// |_| |_| \___/ | .__/ \___| |_| \__| |_| \___| |___/
-	// |_|
+	// |_| 
 	// Class Properties ************************************************
 	private RequestDetailsController requestDetailsController;
 
@@ -214,11 +212,19 @@ public class RequestDetailsFX extends BaseFX {
 		testStatusComboBox.getItems().addAll("Approved", "Rejected");
 	}
 
+	/**
+	 * Back button was pressed
+	 * @param event back
+	 */
 	@FXML
 	public void backWasPressed(ActionEvent event) {
 		requestDetailsController.switchScene("ViewAllRequests");
 	}
 
+	/**
+	 * Home button was pressed
+	 * @param event home
+	 */
 	@FXML
 	public void homeWasPressed(ActionEvent event) {
 		requestDetailsController.switchScene("Panel");
@@ -227,17 +233,17 @@ public class RequestDetailsFX extends BaseFX {
 	/**
 	 * this method switches scene to view attached files of this specific request
 	 * 
-	 * @param event
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void viewAttachedFilesWasPressed(ActionEvent event) {
 		requestDetailsController.viewAttachedFiles(requestID);
 	}
 
-	/**
-	 * Load all of the data into the form's fields
+	/** Load all of the data into the form's fields\
 	 * 
-	 * @param massage
+	 * @param message message
+	 * @param role role
 	 */
 	public void loadRequest(MessageObject message, String role) {
 		Request request = (Request) (message.getArgs().get(2));
@@ -280,6 +286,9 @@ public class RequestDetailsFX extends BaseFX {
 		clearContainers();
 	}
 	
+	/**
+	 * Initialize the fields
+	 */
 	public void initializeFields() {
 		initButtons();
 		initTestRejectionInfo();
@@ -290,7 +299,10 @@ public class RequestDetailsFX extends BaseFX {
 		requestDetailsController.initCommittee();
 	}
 	
-	/** A method to handle the initialization of the Information Systems ComboBox for picking an Information System. */
+	/** A method to handle the initialization of the Information Systems ComboBox for picking an Information System.
+	 * 
+	 * @param message message
+	 */
 	public void handleCommittee(MessageObject message) {
 		committeeDetails.clear();
 		committeeDetails.addAll((ArrayList<String>)message.getArgs().get(0));
@@ -303,32 +315,52 @@ public class RequestDetailsFX extends BaseFX {
 		}
 	}
 	
+	/**
+	 * Set Tester was pressed
+	 */
 	public void handleSetTester() {
 		appointAdhocBtn.setDisable(true);
 		requestDetailsController.setComponentDisability(false, submitTesterReportButton, testStatusComboBox, rejectionDetails);
 	}
 	
+	/**
+	 * Initialize set waiting for execution leader
+	 */
 	public void initSetWaitsExecutionLeader() {
 		MessageObject msg = new MessageObject(RequestType.SetWaitsExecutionLeaderAppointment, new ArrayList<>());
 		msg.getArgs().add(requestID);
 		requestDetailsController.sendMessage(msg);
 	}
 	
+	/**
+	 * handle set waiting for execution leader
+	 * @param message message
+	 */
 	public void handleSetWaitsExecutionLeader(MessageObject message) {
 		requestDetailsController.setComponentDisability(true, approveRequestBtn, rejectRequestBtn, appointAdhocBtn, submitMoreDetailsBtn, moreDetails);
 	}
 
+	/**
+	 * Initialize waiting for execution leader
+	 */
 	public void initWaitsExecutionLeader() {
 		MessageObject msg = new MessageObject(RequestType.WaitsExecutionLeaderAppointment, new ArrayList<>());
 		msg.getArgs().add(requestID);
 		requestDetailsController.sendMessage(msg);
 	}
 	
+	/**
+	 * handle waiting for execution leader
+	 * @param message message
+	 */
 	public void handleWaitsExecutionLeader(MessageObject message) {
 		if (!(boolean)message.getArgs().get(0)) return;
 		handleSetWaitsExecutionLeader(message);
 	}
 	
+	/**
+	 * Initialize deadline field
+	 */
 	public void initGetDeadline() {
 		MessageObject msg = new MessageObject(RequestType.GetDeadline, new ArrayList<>());
 		msg.getArgs().add(requestID);
@@ -336,6 +368,11 @@ public class RequestDetailsFX extends BaseFX {
 		requestDetailsController.sendMessage(msg);
 	}
 	
+	/**
+	 * handle initialization of deadline field
+	 * @param message message
+	 * @throws ParseException exception
+	 */
 	public void handleGetDeadline(MessageObject message) throws ParseException {
 		boolean shouldShow = !(role.equalsIgnoreCase("Supervisor") || role.equalsIgnoreCase("Initiator"));
 		requestDetailsController.setComponentVisibility(false, timeAssessmentBtn, timeExtensionBtn);
@@ -370,6 +407,10 @@ public class RequestDetailsFX extends BaseFX {
 		}
 	}
 	
+	/**
+	 * handles time assessment press
+	 * @param event time assessment
+	 */
 	public void timeAssessmentWasPressed(ActionEvent event) {
 		try {
 		JFXAlert<Void> timeAssessmentPopup = new JFXAlert<Void>();
@@ -416,6 +457,10 @@ public class RequestDetailsFX extends BaseFX {
 		}
 	}
 	
+	/**
+	 * handles time extension press
+	 * @param event time extension
+	 */
 	public void timeExtensionWasPressed(ActionEvent event) {
 		try {
 		JFXAlert<Void> timeExtensionPopup = new JFXAlert<Void>();
@@ -465,10 +510,17 @@ public class RequestDetailsFX extends BaseFX {
 		}
 	}
 
+	/**
+	 * Initialize test rejection info
+	 */
 	private void initTestRejectionInfo() {
 		requestDetailsController.initTestRejectionInfo(requestID);
 	}
 	
+	/**
+	 * handle test rejection info
+	 * @param message message
+	 */
 	public void handleTestRejectionInfo(MessageObject message) {
 		try {
 		rejectionInfo = (String) message.getArgs().get(0).toString();
@@ -479,7 +531,9 @@ public class RequestDetailsFX extends BaseFX {
 		}
 	}
 
-	/** This method initializes the methods according to the relevant stage and status */
+	/** This method initializes the methods according to the relevant stage and status
+	 * 
+	 */
 	private void initButtons() {
 		if (currentRequest == null) return;
 		if (currentRequest.getCurrentStage().equals("Closing")) {
@@ -524,7 +578,7 @@ public class RequestDetailsFX extends BaseFX {
 	/**
 	 * Load all non role-specific fields.
 	 * 
-	 * @param request
+	 * @param request request
 	 */
 	private void loadNonRoleSpecificFields(Request request) {
 		textRequestID.setText("Request ID:	" + request.getRequestID());
@@ -544,7 +598,7 @@ public class RequestDetailsFX extends BaseFX {
 	/**
 	 * Load all of the evaluator's fields.
 	 * 
-	 * @param request
+	 * @param request request
 	 */
 	private void loadEvaluatorFields(Request request) {
 		evaluatorPane.setVisible(true);
@@ -555,8 +609,7 @@ public class RequestDetailsFX extends BaseFX {
 	 * This method handles the case that 'Submit Evaluator Report' button was
 	 * pressed by the Evaluator
 	 * 
-	 * @param event
-	 * @role Evaluator
+	 * @param event event
 	 */
 	@FXML
 	public void submitEvaluationReportWasPressed(ActionEvent event) {
@@ -737,7 +790,7 @@ public class RequestDetailsFX extends BaseFX {
 	/**
 	 * This event handler switches scenes to Create New Request page
 	 * 
-	 * @param event
+	 * @param event event new change request
 	 */
 	@FXML
 	public void newChangeRequestWasPressed(ActionEvent event) {
@@ -747,18 +800,26 @@ public class RequestDetailsFX extends BaseFX {
 	/**
 	 * This event handler switches scenes to Login scene
 	 * 
-	 * @param event
+	 * @param event event logout
 	 */
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
 		requestDetailsController.logOutWasPressed(event);
 	}
 
+	/**
+	 * This event handles switches scene to view all requests
+	 * @param event view all requests
+	 */
 	@FXML
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
 		requestDetailsController.ViewAllRequestsWasPressed(event);
 	}
 
+	/**
+	 * This event handles switches scene to manage approves
+	 * @param event manage approves
+	 */
 	@FXML
 	public void ManageApprovesWasPressed(ActionEvent event) {
 		requestDetailsController.manageAprrovementWasPressed(null);
@@ -770,18 +831,26 @@ public class RequestDetailsFX extends BaseFX {
 	 * evaluators.
 	 * 
 
-	 * @param event
+	 * @param event manage permissions
 	 */
 	@FXML
 	public void managePermissionsWasPressed(ActionEvent event) {
 		requestDetailsController.managePermissionsWasPressed(event);
 	}
 
+	/**
+	 * This event handles switches scene to view all system data
+	 * @param event view all system data
+	 */
 	@FXML
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
 		requestDetailsController.viewAllSystemDataWasPressed(event);
 	}
 
+	/**
+	 * This event handles switches scene to view all statistics
+	 * @param event view all statistics
+	 */
 	@FXML
 	public void viewStatisticsReportWasPressed(ActionEvent event) {
 		requestDetailsController.viewStatisticsReportWasPressed(event);

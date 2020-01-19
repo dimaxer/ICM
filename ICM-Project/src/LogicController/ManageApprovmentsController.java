@@ -16,18 +16,34 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableView;
 
+/** This is the logical controller of manage approvements */
 public class ManageApprovmentsController extends BaseController {
 
+	/**
+	 * send the fields to the next scene
+	 * @param requestID request id
+	 * @param evaluatorID eveluator id
+	 * @param evaluatorName evaluator id
+	 */
 	public void SendFieldsToNextScene(String requestID, String evaluatorID, String evaluatorName) {
 		((EvaluatorApproveSceneFX) getCurrentFX()).SetFeilds(requestID,evaluatorID,evaluatorName);
 	}	
 	
 	//***** Evaluator Appointment *****//
-	
+	/**
+	 * load evaluator table
+	 * @param msg contain the table information
+	 * @return observable list
+	 */
 	public ObservableList<EvaluatorAppoitmentTable> LoadEvaluatorTable(MessageObject msg) {
 		return getObservableListEvaluatorRequest((ArrayList<Object>)msg.getArgs());
 	}
 
+	/**
+	 * get List evaluator from the db
+	 * @param evaluatorList all the evaluators
+	 * @return list of requests
+	 */
 	private ObservableList<EvaluatorAppoitmentTable> getObservableListEvaluatorRequest(ArrayList<Object> evaluatorList) {
 		ObservableList<EvaluatorAppoitmentTable> request = FXCollections.observableArrayList();
 		for (int i = 0; i < evaluatorList.size(); i++) {
@@ -38,7 +54,11 @@ public class ManageApprovmentsController extends BaseController {
 	}
 	
 	//***** Time Assessment *****//
-	
+	/**
+	 * load the time assesment table
+	 * @param msg time asssasment information
+	 * @return request list
+	 */
 	public ObservableList<TimeAssessmentRequest> LoadTimeAssessmentTable(MessageObject msg) {
 		return getObservableListTimeAssessmentRequest((ArrayList<Object>)msg.getArgs());
 	}
@@ -53,7 +73,11 @@ public class ManageApprovmentsController extends BaseController {
 	}
 
 	//***** Time Extension *****//
-	
+	/**
+	 * load the time extention table
+	 * @param msg time asssasment information
+	 * @return request list
+	 */
 	public ObservableList<TimeExtensionRequest> LoadTimeExtensionTable(MessageObject msg) {
 		return getObservableListTimeExtensionRequest((ArrayList<Object>)msg.getArgs());
 	}
@@ -68,7 +92,11 @@ public class ManageApprovmentsController extends BaseController {
 	}
 	
 	//***** Execution Leader Appointment *****//
-	
+	/**
+	 * execution leader appointtment
+	 * @param msg contain execution leader details
+	 * @return request list
+	 */
 	public ObservableList<ExecutionLeaderAppointmentRequest> LoadExecutionLeaderTable(MessageObject msg) {
 		return getObservableListExecutionLeaderRequest((ArrayList<Object>)msg.getArgs());
 	}
@@ -84,23 +112,37 @@ public class ManageApprovmentsController extends BaseController {
 	
 	//***** Init Methods *****//
 
+	/**
+	 * inital evaluator table
+	 */
 	public void initEvaluatorTable() {
 		sendMessage(new MessageObject(RequestType.GetEvaluatorTable, new ArrayList<>()));
 	}
-	
+	/**
+	 * inital time extension table
+	 */
 	public void initTimeExtensionTable() {
 		sendMessage(new MessageObject(RequestType.GetTimeExtensionTable, new ArrayList<>()));
 	}
-
+	/**
+	 * inital time assesment table
+	 */
 	public void initTimeAssessmentTable() {
 		sendMessage(new MessageObject(RequestType.GetTimeAssessmentTable, new ArrayList<>()));
 	}
-	
+	/**
+	 * inital execution Table
+	 */
 	public void initExecutionLeaderTable() {
 		sendMessage(new MessageObject(RequestType.GetExecutionLeaderTable, new ArrayList<>()));
 	}
 	
-	/** This methods swaps the current stage to a new stage */
+	/** This methods swaps the current stage to a new stage
+	 *  
+	 * @param requestID request id
+	 * @param newStage the new stage
+	 * @param currentStage the current stage
+	 */
 	public void swapStage(String requestID, String newStage, String currentStage) {
 		ArrayList<Object> args = new ArrayList<Object>();
 		args.add(requestID);

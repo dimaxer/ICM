@@ -24,7 +24,6 @@ public class Client extends AbstractClient {
 	 *
 	 * @param host     The server to connect to.
 	 * @param port     The port number to connect on.
-	 * @param clientUI The interface type variable.
 	 */
 
 	private Client(String host, int port) throws IOException {
@@ -37,7 +36,6 @@ public class Client extends AbstractClient {
 	 * Get the Singleton's Instance
 	 * 
 	 * @return Client Singleton Instance
-	 * @throws IOException
 	 */
 	public static Client getInstance() {
 		if (singletonInstance == null)
@@ -49,6 +47,12 @@ public class Client extends AbstractClient {
 		return singletonInstance;
 	}
 
+	/** This method initializes this instance
+	 * 
+	 * @param host host name
+	 * @param port port name
+	 * @throws IOException exception
+	 */
 	public static void initialize(String host, int port) throws IOException {
 		singletonInstance = new Client(host, port);
 	}
@@ -104,7 +108,7 @@ public class Client extends AbstractClient {
 	/**
 	 * this method prints the message that was received from the server
 	 * 
-	 * @param message
+	 * @param message data
 	 */
 	public void printMessageRecieved(MessageObject message) {
 		System.out.println("Message recieved: " + (message).getTypeRequest().toString() + " | "
@@ -112,10 +116,18 @@ public class Client extends AbstractClient {
 
 	}
 
+	/**
+	 * This gets the current user
+	 * @return current user
+	 */
 	public User getCurrentUser() {
 		return currentUser;
 	}
 
+	/**
+	 * This sets the current user
+	 * @param currentUser user
+	 */
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
 	}

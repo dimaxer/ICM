@@ -13,7 +13,11 @@ import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
-
+/**
+ * connect server manualy Fxml controller
+ * @author Malka
+ *
+ */
 public class ConnectServerManualyFX extends BaseFX {
 
 	private ConnectServerManualyController connectManualyController;
@@ -29,6 +33,7 @@ public class ConnectServerManualyFX extends BaseFX {
 	@FXML
 	private Text errorMessage;
 
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		connectManualyController = new ConnectServerManualyController();
@@ -37,7 +42,8 @@ public class ConnectServerManualyFX extends BaseFX {
 	/**
 	 * if user press connect so send new ip to ClientUI class to set the new client
 	 * with new IP
-	 * @throws IOException 
+	 * @param event button was pressed
+	 * @throws IOException exception
 	 * 
 	 */
 	@FXML
@@ -50,7 +56,10 @@ public class ConnectServerManualyFX extends BaseFX {
 			connectManualyController.switchScene("Login");
 		}
 	}
-
+	/**
+	 * connect to defult event handler
+	 * @param event defult button was pressed
+	 */
 	@FXML
 	public void connectToDefaultWasPressed(ActionEvent event) {
 		

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Utilities.MessageObject;
 import Utilities.RequestType;
 
+/** This is the logical controller of manage permissions */
 public class ManagePermissionsController extends BaseController {
 
 	public void initUserDetails() {

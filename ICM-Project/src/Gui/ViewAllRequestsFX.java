@@ -28,6 +28,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+/** This class represents the graphical controller of view all requests page. */
 public class ViewAllRequestsFX  extends BaseFX  {
 
 	// Class Buttons ***************************************************
@@ -99,14 +100,6 @@ public class ViewAllRequestsFX  extends BaseFX  {
 	
 
 	// Class methods ***************************************************
-	/**
-	 * event handler for the search button receives the text that was written into
-	 * the text field and sends the request id to the server so that it can check if
-	 * its the db or not
-	 * 
-	 * @param event
-	 */
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
@@ -120,12 +113,15 @@ public class ViewAllRequestsFX  extends BaseFX  {
 	}
 	
 	/** This function sets an event handler on mouse double click on a row.
-
 	 */
 	private void onRowDoubleClick() {
 		tableView.setRowFactory( tv -> {
 		    TableRow<ViewAllRequestsRequest> row = new TableRow<>();
 		    row.setOnMouseClicked(event -> {
+		    	String role = tableView.getSelectionModel().getSelectedItem().getMyRole();
+		    	String status = tableView.getSelectionModel().getSelectedItem().getStatus();
+		    	if (!role.equals("Supervisor") && !role.equals("Initiator") && !status.equals("Active"))
+						return;
 		        if (event.getClickCount() == 2 && (!row.isEmpty()) ) {
 		        	ViewAllRequestsRequest rowData = row.getItem();
 		        	viewAllRequestsController.searchWasPressed(rowData.getRequestId(), rowData.getMyRole());
@@ -135,9 +131,10 @@ public class ViewAllRequestsFX  extends BaseFX  {
 		});
 	}
 
-	/**
-	 * move the user to request details panel
-	 * */
+	/** move the user to request details panel
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void searchWasPressed(ActionEvent event) {
 		setValdiator();
@@ -163,16 +160,29 @@ public class ViewAllRequestsFX  extends BaseFX  {
 
 	}
 	
+	/**
+	 * This method handles refreshing of table button was pressed
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void refreshWasPressed(ActionEvent event) {
 		viewAllRequestsController.refresh();
 	}
 	
+	/**
+	 * This method handles refreshing of table
+	 * @param message data
+	 */
 	public void handleRefresh(MessageObject message) {
 		allTableInfo.clear();
 		allTableInfo = viewAllRequestsController.loadRequests(message, tableView);
 	}
 
+	/**
+	 * This method finds role out of id
+	 * @param text id
+	 * @return role
+	 */
 	private String findRole(String text) {
 		for (ViewAllRequestsRequest viewAllRequestsRequest : allTableInfo) {
 			if(viewAllRequestsRequest.getRequestId().equals(text)) {
@@ -188,7 +198,6 @@ public class ViewAllRequestsFX  extends BaseFX  {
 	 * so that it could be initialized with the request's information
 	 * 
 	 * @param message in args(0) : boolean request exist, args(1) : String user role in request, args(2) Request the request
-	 * @LastChanged Raz Malka
 	 */
 	public void handleSearchRequestDetails(MessageObject message) {
 		if (!(boolean) message.getArgs().get(0)) {
@@ -197,20 +206,32 @@ public class ViewAllRequestsFX  extends BaseFX  {
 		}
 	}
 
+	/**
+	 * This method handles the pressing of back button
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void backWasPressed(ActionEvent event) {
 		viewAllRequestsController.switchScene("Panel");
 	}
 
+	/**
+	 * This method handles the pressing of home button
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void homeWasPressed(ActionEvent event) {
 		viewAllRequestsController.switchScene("Panel");
 	}
 	
+	/**
+	 * This method handles the pressing of manage approves button
+	 * @param event button was pressed
+	 */
 	@FXML
-		public void ManageApprovesWasPressed(ActionEvent event) {
+	public void ManageApprovesWasPressed(ActionEvent event) {
 		viewAllRequestsController.manageAprrovementWasPressed(event);
-		}
+	}
 	
 
 	/**
@@ -243,7 +264,10 @@ public class ViewAllRequestsFX  extends BaseFX  {
 
 	}
 
-	// load the data from the server
+	/** load the data from the server
+	 * 
+	 * @param message data
+	 */
 	public void loadRequests(MessageObject message) {
 		// TODO Auto-generated method stub
 		statusColumn.setCellValueFactory(new PropertyValueFactory<ViewAllRequestsRequest, String>("Status"));
@@ -258,7 +282,7 @@ public class ViewAllRequestsFX  extends BaseFX  {
 	//-----------------------------------------------root panel methods -------------------------------------------------------------
 	/**
 	 * This event handler switches scenes to Create New Request page
-	 * @param event
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void newChangeRequestWasPressed(ActionEvent event) {
@@ -267,7 +291,7 @@ public class ViewAllRequestsFX  extends BaseFX  {
 	
 	/**
 	 * This event handler switches scenes to Login scene
-	 * @param event
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
@@ -277,19 +301,26 @@ public class ViewAllRequestsFX  extends BaseFX  {
 	// ISD START
 	/**
 	 * Manage permanent roles (supervisor, committee), and Information System's evaluators.
-
-	 * @param event
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void managePermissionsWasPressed(ActionEvent event) {
 		viewAllRequestsController.managePermissionsWasPressed(event);
 	}
 	
+	/**
+	 * This method handles switching scene to view all system data
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
 		viewAllRequestsController.viewAllSystemDataWasPressed(event);
 	}
 	
+	/**
+	 * This method handles switching scene to view statistics
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void viewStatisticsReportWasPressed(ActionEvent event) {
 		viewAllRequestsController.viewStatisticsReportWasPressed(event);

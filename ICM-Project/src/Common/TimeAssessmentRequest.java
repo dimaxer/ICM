@@ -15,11 +15,19 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
-
+/** This class represents a time assessment request */
 public class TimeAssessmentRequest {
 
 	private SimpleStringProperty requestId,userID,jobDescription,startTime,endTime;
 
+	/** Constructor of time assessment request
+	 * 
+	 * @param requestId id
+	 * @param userID id
+	 * @param jobDescription role
+	 * @param startTime start time
+	 * @param endTime end time
+	 */
 	public TimeAssessmentRequest(String requestId, String userID,
 			String jobDescription, String startTime, String endTime) {
 		this.requestId = new SimpleStringProperty(requestId);
@@ -29,6 +37,10 @@ public class TimeAssessmentRequest {
 		this.endTime = new SimpleStringProperty(endTime);
 	}
 	
+	/** Constructor of time assessment request
+	 * 
+	 * @param row data row
+	 */
 	public TimeAssessmentRequest(ArrayList<String> row) {
 		this.requestId = new SimpleStringProperty(row.get(0));
 		this.userID = new SimpleStringProperty(row.get(1));
@@ -37,46 +49,90 @@ public class TimeAssessmentRequest {
 		this.endTime = new SimpleStringProperty(row.get(4));
 	}
 	
+	/** get request id
+	 * 
+	 * @return id
+	 */
 	public String getRequestID() {
 		return requestId.get();
 	}
 
+	/** set request id
+	 * 
+	 * @param requestId id
+	 */
 	public void setRequestID(SimpleStringProperty requestId) {
 		this.requestId = requestId;
 	}
 
+	/** get evaluator id
+	 * 
+	 * @return id
+	 */
 	public String getEvaluatorID() {
 		return userID.get();
 	}
 
+	/** set evaluator id
+	 * 
+	 * @param evaluatorID id
+	 */
 	public void setEvaluatorID(SimpleStringProperty evaluatorID) {
 		this.userID = evaluatorID;
 	}
 
+	/** get evaluator name
+	 * 
+	 * @return name
+	 */
 	public String getEvaluatorName() {
 		return jobDescription.get();
 	}
 
+	/** set evaluator name
+	 * 
+	 * @param evaluatorName name
+	 */
 	public void setEvaluatorName(SimpleStringProperty evaluatorName) {
 		this.jobDescription = evaluatorName;
 	}
 
+	/** get start date
+	 * 
+	 * @return start date
+	 */
 	public String getStartDate() {
 		return startTime.get();
 	}
 
+	/** set start date
+	 * 
+	 * @param startTime start date
+	 */
 	public void setStartDate(SimpleStringProperty startTime) {
 		this.startTime = startTime;
 	}
 
+	/** get end date
+	 * 
+	 * @return end date
+	 */
 	public String getEndDate() {
 		return endTime.get();
 	}
 
+	/** set end date
+	 * 
+	 * @param endTime end date
+	 */
 	public void setEndDate(SimpleStringProperty endTime) {
 		this.endTime = endTime;
 	}
 	
+	/** get accept button
+	 * 
+	 * @return accept button
+	 */
 	public Button getAccept() {
 		Button accept = new Button("Accept");
 		accept.setPrefWidth(128);
@@ -92,6 +148,10 @@ public class TimeAssessmentRequest {
 		return accept;
 	}
 	
+	/** get reject button
+	 * 
+	 * @return reject button
+	 */
 	public Button getReject() {
 		Button reject = new Button("Reject");
 		reject.setPrefWidth(128);

@@ -46,6 +46,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+/** This class represents FX Controller of Statistics */
 public class StatisticsReportFX extends BaseFX {
 	// Side-Panel *********************************
 	@FXML
@@ -197,6 +198,9 @@ public class StatisticsReportFX extends BaseFX {
 		initGetInfoSystems();
 	}
 
+	/**
+	 * clears the fields
+	 */
 	public void clearFields() {
 	}
 	
@@ -233,10 +237,15 @@ public class StatisticsReportFX extends BaseFX {
 		historyTabPane.setVisible(true);
 	}
 	
+	/** Initialize get info systems */
 	public void initGetInfoSystems() {
 		statisticsReportController.initGetInfoSystems();
 	}
 	
+	/** Handle get info systems
+	 * 
+	 * @param message message
+	 */
 	public void handleGetInfoSystems(MessageObject message) {
 		delaysComboBox.getItems().clear();
 		delaysComboBox.getItems().add("All");
@@ -249,6 +258,10 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.initGetReportStatusData(status, from, to);
 	}
 	
+	/**
+	 * Handle get report status
+	 * @param message data
+	 */
 	public void handleGetReportStatusData(MessageObject message) {
 		ArrayList<Interval> intervals = (ArrayList<Interval>)message.getArgs().get(0);
 		String status = message.getArgs().get(1).toString();
@@ -271,6 +284,10 @@ public class StatisticsReportFX extends BaseFX {
 		statusMedianLabel.setText("Median:\t\t\t\t" + median);
 	}
 	
+	/**
+	 * Handle status issue report button event
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void statusIssueReportBtnWasPressed(ActionEvent event) {
 		if (!statisticsReportController.isValidDates(statusFrom, statusTo)) {
@@ -291,6 +308,10 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.initGetReportStatusData(from, to);
 	}
 	
+	/**
+	 * This method handles getting report rejected data
+	 * @param message report rejection data
+	 */
 	public void handleGetReportRejectedData(MessageObject message) {
 		ArrayList<Interval> intervals = (ArrayList<Interval>)message.getArgs().get(0);
 		String status = message.getArgs().get(1).toString();
@@ -313,6 +334,10 @@ public class StatisticsReportFX extends BaseFX {
 		rejectionMedianLabel.setText("Median:\t\t\t\t" + median);
 	}
 	
+	/**
+	 * Rejection issue report button
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void rejectionIssueReportBtnWasPressed(ActionEvent event) {
 		if (!statisticsReportController.isValidDates(rejectionFrom, rejectionTo)) {
@@ -329,6 +354,10 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.initGetReportActiveDaysData(from, to);
 	}
 	
+	/**
+	 * Handles getting report active days data
+	 * @param message data
+	 */
 	public void handleGetReportActiveDaysData(MessageObject message) {
 		ArrayList<Interval> intervals = (ArrayList<Interval>)message.getArgs().get(0);
 		String status = message.getArgs().get(1).toString();
@@ -338,6 +367,10 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.saveReport(status + " Report", intervals);
 	}
 	
+	/**
+	 * Active days issue report button was pressed event handler
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void activeDaysIssueReportBtnWasPressed(ActionEvent event) {
 		if (!statisticsReportController.isValidDates(activeDaysFrom, activeDaysTo)) {
@@ -367,6 +400,10 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.initGetReportExtensionsData();
 	}
 	
+	/**
+	 * This method handles getting report extensions data event
+	 * @param message data
+	 */
 	public void handleGetReportExtensionsData(MessageObject message) {
 		ArrayList<Interval> intervals = (ArrayList<Interval>)message.getArgs().get(0);
 		String status = message.getArgs().get(1).toString();
@@ -376,6 +413,10 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.saveReport(status + " Report", intervals);
 	}
 	
+	/**
+	 * This method handles extensions issue report data sending
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void extensionsIssueReportBtnWasPressed(ActionEvent event) {
 		initGetReportExtensionsData();
@@ -401,6 +442,10 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.initGetReportDurationsData();
 	}
 	
+	/**
+	 * This method handles getting report durations data
+	 * @param message data
+	 */
 	public void handleGetReportDurationsData(MessageObject message) {
 		ArrayList<Interval> intervals = (ArrayList<Interval>)message.getArgs().get(0);
 		String status = message.getArgs().get(1).toString();
@@ -410,6 +455,10 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.saveReport(status + " Report", intervals);
 	}
 	
+	/**
+	 * Duration Issue Report event handler
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void durationsIssueReportBtnWasPressed(ActionEvent event) {
 		initGetReportDurationsData();
@@ -435,6 +484,10 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.initGetReportDelaysData(delaysComboBox.getValue());
 	}
 	
+	/**
+	 * This method handles getting report delays data
+	 * @param message data
+	 */
 	public void handleGetReportDelaysData(MessageObject message) {
 		ArrayList<Interval> intervals = (ArrayList<Interval>)message.getArgs().get(0);
 		String status = message.getArgs().get(1).toString();
@@ -444,6 +497,10 @@ public class StatisticsReportFX extends BaseFX {
 		statisticsReportController.saveReport(status + " Report", intervals);
 	}
 	
+	/**
+	 * This method handles delays issue report button pressed
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void delaysIssueReportBtnWasPressed(ActionEvent event) {
 		if (delaysComboBox.getValue() == null)
@@ -478,6 +535,10 @@ public class StatisticsReportFX extends BaseFX {
 		historyIssueReportLabel.setText("Report Issued!");
 	}
 	
+	/**
+	 * This method handles history issue report button pressed
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void historyIssueReportBtnWasPressed(ActionEvent event) {
 		historyGraphPane.getChildren().clear();
@@ -560,20 +621,27 @@ public class StatisticsReportFX extends BaseFX {
         });
 	}
 
+	/**
+	 * This method handles getting reports data
+	 * @param msg data
+	 */
 	public void handleGetReports(MessageObject msg) {
 		allReports = (ArrayList<ArrayList<Interval>>)msg.getArgs().get(0);
 		allReportsNames = (ArrayList<String>)msg.getArgs().get(1);
 	}
 	
 	// Side Panel *****************************************************
-	/** This method switches the scene back to the main panel page */
+	/** This method switches the scene back to the main panel page
+	 * 
+	 * @param event back was pressed
+	 */
 	@FXML
 	public void backWasPressed(ActionEvent event) {
 		statisticsReportController.switchScene("Panel");
 	}
 	/**
 	 * This event handler switches scenes back to the Login page
-	 * @param event
+	 * @param event logout was pressed
 	 */
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
@@ -582,23 +650,35 @@ public class StatisticsReportFX extends BaseFX {
 	
 	/**
 	 * This event handler switches scenes to Create New Request page
-	 * @param event
+	 * @param event new change request was pressed
 	 */
 	@FXML
 	public void newChangeRequestWasPressed(ActionEvent event) {
 		statisticsReportController.newChangeRequestWasPressed(event);
 	}
 	
+	/**
+	 * This event handler switches scenes to View All Requests
+	 * @param event view all requests was pressed
+	 */
 	@FXML
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
 		statisticsReportController.ViewAllRequestsWasPressed(event);
 	}
 	
+	/**
+	 * This event handler switches scenes to Manage Permissions
+	 * @param event manage permissions was pressed
+	 */
 	@FXML
 	public void managePermissionsWasPressed(ActionEvent event) {
 		statisticsReportController.managePermissionsWasPressed(event);
 	}
 	
+	/**
+	 * This event handler switches scenes to View all system Data
+	 * @param event view all system data was pressed
+	 */
 	@FXML
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
 		statisticsReportController.viewAllSystemDataWasPressed(event);

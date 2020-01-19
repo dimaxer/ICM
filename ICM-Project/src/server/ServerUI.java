@@ -46,8 +46,8 @@ public class ServerUI extends Application {
 	
 // Class Methods ***************************************************
 	
-	/**
-	 * Method that loads the stage and scene for the Server UI
+	/** Method that loads the stage and scene for the Server UI
+	 * @param primaryStage stage
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -80,7 +80,7 @@ public class ServerUI extends Application {
 	/**
 	 * method that launches the Server UI
 	 * 
-	 * @param args
+	 * @param args arguments
 	 */
 	public static void main(String[] args) {
 		launch(args);

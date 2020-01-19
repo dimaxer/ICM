@@ -38,7 +38,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-
+/**
+ * manage Approves Fxml controller
+ *
+ */
 public class ManageApprovesFX extends BaseFX implements Initializable{
 
 @FXML
@@ -134,6 +137,9 @@ public void initialize(URL location, ResourceBundle resources) {
 	setDoubleClickMouseWasPressed();
 }
 
+/**
+ * refresh the tabels
+ */
 @FXML
 public void refreshTables() {
 	initEvaluatorTable();
@@ -142,21 +148,31 @@ public void refreshTables() {
 	initExecutionLeaderTable();
 	initExecutionLeaderDetails();
 }
-
+/**
+ * inital Execution Leader Details 
+ */
 public void initExecutionLeaderDetails() {
 	MessageObject msg = new MessageObject(RequestType.GetExecutionLeaderOptions, new ArrayList<>());
 	manageApprovmentsController.sendMessage(msg);
 }
-
+/**
+ * Execution Leader Details set from DB
+ * @param message Execution Leader Details from the DB
+ */
 public void handleExecutionLeaderDetails(MessageObject message) {
 	executionLeaderDetails.clear();
 	executionLeaderDetails.addAll((ArrayList<String>)message.getArgs().get(0));
 }
-
+/**
+ * inital Evaluator table
+ */
 public void initEvaluatorTable() {
 	manageApprovmentsController.initEvaluatorTable();
 }
-
+/**
+ * Set Up Evaluator table information from the DB
+ * @param msg Message object contain Evaluator table information
+ */
 public void handleEvaluatorTable(MessageObject msg) {
 	//------------------------Initialize Evaluator List-------------------------------------------------------------------
 	EARequestID.setCellValueFactory(new PropertyValueFactory<>("RequestID"));
@@ -166,11 +182,16 @@ public void handleEvaluatorTable(MessageObject msg) {
 	EvaluatorTable.getItems().clear();
 	EvaluatorTable.setItems(EvaluatorList);
 }
-
+/**
+ * inital Time Extention table
+ */
 public void initTimeExtensionTable() {
 	manageApprovmentsController.initTimeExtensionTable();
 }
-
+/**
+ * Set Up time Extension table frim DB into the table
+ * @param msg data
+ */
 public void handleTimeExtensionTable(MessageObject msg) {
 	//------------------------Initialize Time Extension List-------------------------------------------------------------------
 	TERequestID.setCellValueFactory(new PropertyValueFactory<>("RequestID"));
@@ -185,10 +206,16 @@ public void handleTimeExtensionTable(MessageObject msg) {
 	TimeExtensionTable.setItems(TimeExtensionList);
 }
 
+/**
+ * inital Time Assessment Table
+ */
 public void initTimeAssessmentTable() {
 	manageApprovmentsController.initTimeAssessmentTable();
 }
-
+/**
+ * Set Up Time Assessment table information from the db into the table   
+ * @param msg data
+ */
 public void handleTimeAssessmentTable(MessageObject msg) {
 	//------------------------Initialize Time Assessment List-------------------------------------------------------------------
 	TARequestID.setCellValueFactory(new PropertyValueFactory<>("RequestID"));
@@ -202,11 +229,16 @@ public void handleTimeAssessmentTable(MessageObject msg) {
 	TimeAssessmentTable.getItems().clear();
 	TimeAssessmentTable.setItems(TimeAssessmentList);
 }
-
+/**
+ * inital Execution Leader table
+ */
 public void initExecutionLeaderTable() {
 	manageApprovmentsController.initExecutionLeaderTable();
 }
-
+/**
+ * set up all the information of  Execution Leader from the DB into the table
+ * @param msg cintain all the Execution Leader information 
+ */
 public void handleExecutionLeaderTable(MessageObject msg) {
 	//------------------------Initialize Execution Leader Appointment List------------------------------------------------------
 	ELRequestID.setCellValueFactory(new PropertyValueFactory<>("RequestID"));
@@ -216,12 +248,19 @@ public void handleExecutionLeaderTable(MessageObject msg) {
 	ExecutionLeaderTable.setItems(ExecutionLeaderList);
 }
 
+/**
+ * back event handler
+ * @param event back was pressed
+ */
 @FXML
 public void backWasPressed(ActionEvent event)
 {
 	manageApprovmentsController.switchScene("Panel");
 	
 }
+/**
+ * duble click was press handler
+ */
 @FXML
 public void setDoubleClickMouseWasPressed()
 {
@@ -251,7 +290,9 @@ public void OpemApproveEvalutorScene()
 }
 
 //------------------------Execution Leader Appoint table---------------------------------------------------
-
+/**
+ * open Execution Leader Appointment event
+ */
 public void OpenExecutionLeaderAppointment() {
 	ExecutionLeaderAppointmentRequest request = ExecutionLeaderTable.getSelectionModel().getSelectedItem();
 	
@@ -295,17 +336,26 @@ public void OpenExecutionLeaderAppointment() {
 }
 
 //----------------------panel methods----------------------------------------------------------------------
-
+/**
+ * log out event handler
+ * @param event log out button was pressed
+ */
 @FXML
 public void logOutWasPressed(ActionEvent event) {
 	manageApprovmentsController.logOutWasPressed(event);
 }
-
+/**
+ * view all request event handler
+ * @param event View all request button was pressed
+ */
 @FXML
 public void ViewAllRequestsWasPressed(ActionEvent event) {
 	manageApprovmentsController.ViewAllRequestsWasPressed(event);
 }
-
+/**
+ * new change request event handler
+ * @param event new change request button was presed
+ */
 @FXML
 public void newChangeRequestWasPressed(ActionEvent event) {
 	manageApprovmentsController.newChangeRequestWasPressed(event);

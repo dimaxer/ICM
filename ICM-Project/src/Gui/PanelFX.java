@@ -23,8 +23,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 /** This class serves as an FX controller to the main panel page.
- * @LastChanged Malka
- * @LastChanged Noam
  */
 public class PanelFX extends BaseFX {
 	// Class Buttons ***************************************************
@@ -82,7 +80,10 @@ public class PanelFX extends BaseFX {
 		
 		panelController.initPanelHBoxes(isdPane, all_roles, supervisorPanel);
 	}
-
+	/**
+	 * view all request event handler
+	 * @param event view all request was pressed
+	 */
 	@FXML
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
 		panelController.ViewAllRequestsWasPressed(event);
@@ -90,7 +91,7 @@ public class PanelFX extends BaseFX {
 
 	/**
 	 * This event handler switches scenes back to the Login page
-	 * @param event
+	 * @param event logout was pressed
 	 */
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
@@ -99,13 +100,16 @@ public class PanelFX extends BaseFX {
 	
 	/**
 	 * This event handler switches scenes to Create New Request page
-	 * @param event
+	 * @param event new change request was pressed
 	 */
 	@FXML
 	public void newChangeRequestWasPressed(ActionEvent event) {
 		panelController.newChangeRequestWasPressed(event);
 	}
-	
+	/**
+	 * Manage Approves event havdle 
+	 * @param event Manege Approves was pressed
+	 */
 	@FXML
 	public void ManageApprovesWasPressed(ActionEvent event) {
 		panelController.manageAprrovementWasPressed(event);
@@ -114,19 +118,25 @@ public class PanelFX extends BaseFX {
 	// ISD START
 	/**
 	 * Manage permanent roles (supervisor, committee), and Information System's evaluators.
-
-	 * @param event
+	 * @param event manage permissions event handler
+	 * 
 	 */
 	@FXML
 	public void managePermissionsWasPressed(ActionEvent event) {
 		panelController.managePermissionsWasPressed(event);
 	}
-	
+	/**
+	 * view all system data event handler
+	 * @param event view all system data was pressed
+	 */
 	@FXML
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
 		panelController.viewAllSystemDataWasPressed(event);
 	}
-	
+	/**
+	 * view all statistics report event handler
+	 * @param event view all statistics report was pressed
+	 */
 	@FXML
 	public void viewStatisticsReportWasPressed(ActionEvent event) {
 		panelController.viewStatisticsReportWasPressed(event);

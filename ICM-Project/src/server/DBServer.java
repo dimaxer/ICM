@@ -26,6 +26,7 @@ public class DBServer extends AbstractServer {
 	final private static int DEFAULT_PORT = 5555;
 	private static DBServer singletonInstance = null;
 	private ServerRequestHandler requestHandler = null;
+	private boolean popup_instead_of_email = true;
 
 	// Constructors ****************************************************
 
@@ -54,13 +55,13 @@ public class DBServer extends AbstractServer {
 	}
 	
 	// Mail Task *******************************************************
-	public void MailSchedule() {
+	private void MailSchedule() {
 		Timer timer = new Timer(true);
 		LocalDateTime inOneMinute = LocalDateTime.now().plusMinutes(10);
 		timer.schedule(new MailTask(), Date.from(inOneMinute.atZone(ZoneId.systemDefault()).toInstant()));
 	}
 	
-	public class MailTask extends TimerTask {
+	private class MailTask extends TimerTask {
 	    public void run() {
 	        new SqlRequestHandler().SendMailsOneDayBeforeStageEnd();
 	        new SqlRequestHandler().SendMailsExceptionFromDeadline();
@@ -98,7 +99,7 @@ public class DBServer extends AbstractServer {
 	/**
 	 * A method to start the server and listen for client
 	 * 
-	 * @return
+	 * @return was successful
 	 */
 	public boolean startServer() {
 
@@ -115,7 +116,7 @@ public class DBServer extends AbstractServer {
 	/**
 	 * a method to shut down the server
 	 * 
-	 * @return
+	 * @return was successful
 	 */
 	public boolean closeServer() {
 		try {
@@ -130,8 +131,8 @@ public class DBServer extends AbstractServer {
 	 * A function that sends a MessageObject to the Client and notify's if it was
 	 * successfully sent via the console
 	 * 
-	 * @param response
-	 * @param client
+	 * @param response response
+	 * @param client client
 	 */
 	public void sendMessage(MessageObject response, ConnectionToClient client) {
 
@@ -149,11 +150,27 @@ public class DBServer extends AbstractServer {
 	/**
 	 * a printing function to print that a message was successfully received from
 	 * the client
-	 * 
-	 * @param message
+	 * @param message data
+	 * @param client client
 	 */
 	public void printMessageRecieved(MessageObject message, ConnectionToClient client) {
 		System.out.println("Message recieved: " + message.getTypeRequest().toString() + " | "
 				+ message.getArgs().toString() + " from " + client);
+	}
+
+	/**
+	 * This gets the popup value
+	 * @return popup boolean
+	 */
+	public boolean isPopup() {
+		return popup_instead_of_email;
+	}
+
+	/**
+	 * This sets the popup value
+	 * @param popup_instead_of_email what to use
+	 */
+	public void setPopup(boolean popup_instead_of_email) {
+		this.popup_instead_of_email = popup_instead_of_email;
 	}
 }

@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 /**
  * This class represents an Attached File.
-
  */
 public class AttachedFile implements Serializable
 {
@@ -19,11 +18,19 @@ public class AttachedFile implements Serializable
 	private String extension = "";
 	private File file;
 	
+	/** Constructs an attached file\
+	 * 
+	 * @param file file
+	 */
 	public AttachedFile(File file) {
 		setFile(file);
 		initProperties();
 	}
 	
+	/** Constructs an attached file
+	 * 
+	 * @param filePath path
+	 */
 	public AttachedFile(String filePath) {
 		this(new File(filePath));
 	}
@@ -62,7 +69,7 @@ public class AttachedFile implements Serializable
 	
 	/**
 	 * This method opens the attached file on desktop if possible
-	 * @throws IOException
+	 * @throws IOException exception
 	 */
 	public void open() throws IOException {
         // Check if Desktop is supported by Platform or not
@@ -74,26 +81,50 @@ public class AttachedFile implements Serializable
         Desktop.getDesktop().open(file);
 	}
 	
+	/** sets the file
+	 * 
+	 * @param file file
+	 */
 	public void setFile(File file) {
 		this.file = file;
 	}
 	
+	/** gets the file
+	 * 
+	 * @return file
+	 */
 	public File getFile() {
 		return this.file;
 	}
 
+	/** gets file name
+	 * 
+	 * @return file name
+	 */
 	public String getFileName() {
 		return fileName;
 	}
 
+	/** sets file name
+	 * 
+	 * @param fileName file name
+	 */
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 	
+	/** gets extension
+	 * 
+	 * @return extension
+	 */
 	public String getExtension() {
 		return extension;
 	}
 
+	/** sets extension
+	 * 
+	 * @param extension extension
+	 */
 	public void setExtension(String extension) {
 		this.extension = extension;
 	}

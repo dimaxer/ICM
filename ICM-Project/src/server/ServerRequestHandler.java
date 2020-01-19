@@ -27,6 +27,10 @@ import Utilities.Statistics;
 import jdbc.mysqlConnection;
 import ocsf.server.ConnectionToClient;
 
+/**
+ * This class handles requests to server.
+ * 
+ */
 public class ServerRequestHandler {
 	private jdbc.SqlRequestHandler mysqlRequestHandler = null;
 
@@ -222,9 +226,11 @@ public class ServerRequestHandler {
 			System.out.println("Error - Message rechieved is not a MessageObject");
 	}
 
+
 	private MessageObject handleGetReports(MessageObject message, ConnectionToClient client) {
 		return mysqlRequestHandler.getReports(message);
 	}
+
 
 	private void handleSaveReport(MessageObject message, ConnectionToClient client) {
 		mysqlRequestHandler.saveReport(message);
@@ -237,7 +243,7 @@ public class ServerRequestHandler {
 		String recipient = mysqlRequestHandler.getMailByUID(id);
 		if (recipient == null) return;
 		
-		MailSender.getInstance().send(recipient, subject, content);
+		MailSender.getInstance().send(recipient, subject, content, DBServer.getInstance().isPopup());
 	}
 
 	private MessageObject handleGetReportDelaysData(MessageObject message, ConnectionToClient client) {
@@ -561,14 +567,14 @@ public class ServerRequestHandler {
 	 * @param message contains requestID and
 	 * @return messege object contains requestID and
 	 */
-	public MessageObject handleApprovedEvaluator(MessageObject message) {
+	private MessageObject handleApprovedEvaluator(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
 		String evaluatrorID = (String) message.getArgs().get(1);
 
 		return mysqlRequestHandler.updateRequestEvaluator(requestID, evaluatrorID);
 	}
 
-	public MessageObject handleDownloadFile(MessageObject message) {
+	private MessageObject handleDownloadFile(MessageObject message) {
 		String[] fileNames = (String[]) message.getArgs().get(0);
 		String requestID = (String) message.getArgs().get(1);
 		String dir = System.getProperty("user.dir");
@@ -589,7 +595,7 @@ public class ServerRequestHandler {
 	}
 
 
-	public MyFile downloadFile(File file) {
+	private MyFile downloadFile(File file) {
 		MyFile downloadedFile = new MyFile(file.getName());
 		String localFilePath = file.getAbsolutePath();
 
@@ -618,7 +624,7 @@ public class ServerRequestHandler {
 	 * @param message
 	 * @return
 	 */
-	public MessageObject handleViewAttachedFiles(MessageObject message) {
+	private MessageObject handleViewAttachedFiles(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
 		 String dir = System.getProperty("user.dir");
 		File file = new File(dir + "\\RequestsAttachedFiles\\" + requestID);
@@ -643,7 +649,7 @@ public class ServerRequestHandler {
 	 * @return MessageObject that should be sent back to the client, indicating
 	 *         specific request response.
 	 */
-	public MessageObject handleNewChange(MessageObject message, ConnectionToClient client) {
+	private MessageObject handleNewChange(MessageObject message, ConnectionToClient client) {
 		boolean res = mysqlRequestHandler.addCRToDB(message.getArgs());
 
 		ArrayList<Object> args = new ArrayList<Object>();
@@ -664,7 +670,7 @@ public class ServerRequestHandler {
 	 * @param msg    The message received from the client.
 	 * @param client The connection from which the message originated.
 	 */
-	public void handleAttachFile(MessageObject message, ConnectionToClient client) {
+	private void handleAttachFile(MessageObject message, ConnectionToClient client) {
 		if (message.getArgs().get(0) instanceof MyFile) {
 			MyFile attachedFile = (MyFile) message.getArgs().get(0);
 			String dir = System.getProperty("user.dir");
@@ -708,7 +714,7 @@ public class ServerRequestHandler {
 	 * @return MessageObject that should be sent back to the client, indicating
 	 *         specific request response.
 	 */
-	public MessageObject handleLogin(MessageObject message, ConnectionToClient client) {
+	private MessageObject handleLogin(MessageObject message, ConnectionToClient client) {
 		try {
 			return mysqlRequestHandler.checkUserCredentials(message.getArgs().get(0).toString(),
 					message.getArgs().get(1).toString(), client);
@@ -727,7 +733,7 @@ public class ServerRequestHandler {
 	 * @return MessageObject that should be sent back to the client, indicating
 	 *         specific request response.
 	 */
-	public MessageObject handleSearchRequest(MessageObject message, ConnectionToClient client) {
+	private MessageObject handleSearchRequest(MessageObject message, ConnectionToClient client) {
 		try {
 			return mysqlRequestHandler.searchRequest(message);
 		} catch (Exception ex) {
@@ -745,7 +751,7 @@ public class ServerRequestHandler {
 	 * @return MessageObject that should be sent back to the client, indicating
 	 *         specific request response.
 	 */
-	public MessageObject handleChangeStatus(MessageObject message, ConnectionToClient client) {
+	private MessageObject handleChangeStatus(MessageObject message, ConnectionToClient client) {
 		try {
 			return mysqlRequestHandler.changeStatus((message));
 		} catch (Exception e) {
@@ -755,7 +761,7 @@ public class ServerRequestHandler {
 		}
 	}
 
-	public MessageObject handleViewRequestTable(MessageObject message, ConnectionToClient client) {
+	private MessageObject handleViewRequestTable(MessageObject message, ConnectionToClient client) {
 		try {
 			return mysqlRequestHandler.viewRequestTable(message);
 		} catch (Exception e) {
@@ -765,7 +771,7 @@ public class ServerRequestHandler {
 		}
 	}
 
-	public void createFolder(String path) {
+	private void createFolder(String path) {
 
 		String dir = System.getProperty("user.dir");
 		File file = new File(dir + "\\RequestsAttachedFiles");

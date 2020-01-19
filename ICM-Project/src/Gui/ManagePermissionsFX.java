@@ -138,12 +138,18 @@ public class ManagePermissionsFX extends BaseFX {
 		initUserDetails();
 	}
 	
-	/** A method to initialize the Information Systems ComboBox for picking an Information System. */
+	/** A method to initialize the Information Systems ComboBox for picking an Information System. 
+	 * 
+	 * @param idCanBeNull can id be null
+	 */
 	public void initInformationSystemDetails(Boolean idCanBeNull) {
 		managePermissionsController.initInformationSystemDetails(idCanBeNull);
 	}
 	
-	/** A method to handle the initialization of the Information Systems ComboBox for picking an Information System. */
+	/** A method to handle the initialization of the Information Systems ComboBox for picking an Information System. 
+	 * 
+	 * @param message data
+	 */
 	public void handleInformationSystemComboBox(MessageObject message) {
 		infoSysComboBox.getItems().clear();
 		infoSysNames = (ArrayList<String>)message.getArgs().get(0);
@@ -156,7 +162,10 @@ public class ManagePermissionsFX extends BaseFX {
 		managePermissionsController.initPermanentRoles();
 	}
 	
-	/** A method to handle the initialization of the Information Systems ComboBox for picking an Information System. */
+	/** A method to handle the initialization of the Information Systems ComboBox for picking an Information System. 
+	 * 
+	 * @param message data
+	 */
 	public void handlePermanentRoles(MessageObject message) {
 		permanentRolesDetails = (HashMap<String, String>)message.getArgs().get(0);
 		updatePermRolesText();
@@ -171,7 +180,10 @@ public class ManagePermissionsFX extends BaseFX {
 		managePermissionsController.initUserDetails();
 	}
 	
-	/** A method to handle the initialization of the User Data HashMap. */
+	/** A method to handle the initialization of the User Data HashMap. 
+	 * 
+	 * @param message data
+	 */
 	public void handleUserDetails(MessageObject message) {
 		userDetails = ((HashMap<String, String>)message.getArgs().get(0));
 		Platform.runLater(() -> {
@@ -195,7 +207,10 @@ public class ManagePermissionsFX extends BaseFX {
 	}
 	
 	// Set methods ********************************
-	/** This method handles setting the value of some textField when <- was pressed */
+	/** This method handles setting the value of some textField when button was pressed 
+	 * 
+	 * @param textField text field
+	 */
 	public void textFieldSetBtnWasPressed(TextField textField) {
 		String selected = userListView.getSelectionModel().getSelectedItem();
 		if (selected != null) {
@@ -206,31 +221,46 @@ public class ManagePermissionsFX extends BaseFX {
 		}
 	}
 	
-	/** This method handles setting the value of supervisorText when <- was pressed */
+	/** This method handles setting the value of supervisorText when button was pressed 
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void supervisorSetBtnWasPressed(ActionEvent event) {
 		textFieldSetBtnWasPressed(supervisorText);
 	}
 	
-	/** This method handles setting the value of committeeChairmanText when <- was pressed */
+	/** This method handles setting the value of committeeChairmanText when button was pressed 
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void committeeChairmanBtnWasPressed(ActionEvent event) {
 		textFieldSetBtnWasPressed(committeeChairmanText);
 	}
 	
-	/** This method handles setting the value of committeeMember1Text when <- was pressed */
+	/** This method handles setting the value of committeeMember1Text when button was pressed 
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void committeeMember1BtnWasPressed(ActionEvent event) {
 		textFieldSetBtnWasPressed(committeeMember1Text);
 	}
 	
-	/** This method handles setting the value of committeeMember2Text when <- was pressed */
+	/** This method handles setting the value of committeeMember2Text when button was pressed 
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void committeeMember2BtnWasPressed(ActionEvent event) {
 		textFieldSetBtnWasPressed(committeeMember2Text);
 	}
 	
-	/** This method handles setting the value of infoSysEvaluatorText when <- was pressed */
+	/** This method handles setting the value of infoSysEvaluatorText when button was pressed
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void infoSysEvaluatorSetBtnWasPressed(ActionEvent event) {
 		if (infoSysComboBox.getValue().length() > 0)
@@ -238,7 +268,10 @@ public class ManagePermissionsFX extends BaseFX {
 	}
 	
 	// Update methods *****************************
-	/** This method updates the Current Evaluator TextField whenever an item was chosen */
+	/** This method updates the Current Evaluator TextField whenever an item was chosen
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void updateCurrentEvaluator(ActionEvent event) {
 		if (infoSysComboBox.getValue() == "")
@@ -256,7 +289,9 @@ public class ManagePermissionsFX extends BaseFX {
 		}
 	}
 	
-	/** This method updates the Permanent Roles current holders. */
+	/** This method updates the Permanent Roles current holders.
+	 * 
+	 */
 	public void updatePermRolesText() {
 		Platform.runLater(() -> {
 		supervisorText.setText(undefined);
@@ -287,17 +322,30 @@ public class ManagePermissionsFX extends BaseFX {
 		});
 	}
 	
+	/** is valid text field
+	 * 
+	 * @param textField text field
+	 * @return is valid
+	 */
 	public Boolean isValidTextField(TextField textField) {
 		String value = textField.getText();
 		return isValidTextField(value);
 	}
 	
+	/** is valid text field
+	 * 
+	 * @param value text field value
+	 * @return is valid
+	 */
 	public Boolean isValidTextField(String value) {
 		if (value == null) return false;
 		return !(value.equals(undefined) || value.equals(""));
 	}
 	
-	/** This method handles the permanent roles form when update was pressed */
+	/** This method handles the permanent roles form when update was pressed 
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void updatePermRolesWasPressed(ActionEvent event) {
 		
@@ -316,7 +364,10 @@ public class ManagePermissionsFX extends BaseFX {
 		managePermissionsController.updatePermanentRoles(supervisorID, committeeChairmanID, committeeMember1ID, committeeMember2ID);
 	}
 	
-	/** This method handles the information system evaluators form when update was pressed */
+	/** This method handles the information system evaluators form when update was pressed
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void updateEvaluatorBtnWasPressed(ActionEvent event) {
 		if (!isValidTextField(infoSysEvaluatorText) || !isValidTextField(infoSysComboBox.getValue())) {
@@ -339,7 +390,10 @@ public class ManagePermissionsFX extends BaseFX {
 	}
 	
 	// Switching methods **************************
-	/** This method handles the switching between panes whenever a switch button was pressed */
+	/** This method handles the switching between panes whenever a switch button was pressed
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void switchPaneBtnWasPressed(ActionEvent event) {
 		clearFields();
@@ -355,7 +409,10 @@ public class ManagePermissionsFX extends BaseFX {
 		initUserDetails();
 	}
 	
-	/** This method switches the scene back to the main panel page */
+	/** This method switches the scene back to the main panel page
+	 * 
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void backWasPressed(ActionEvent event) {
 		managePermissionsController.switchScene("Panel");
@@ -363,7 +420,7 @@ public class ManagePermissionsFX extends BaseFX {
 	
 	/**
 	 * This event handler switches scenes back to the Login page
-	 * @param event
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
@@ -372,24 +429,35 @@ public class ManagePermissionsFX extends BaseFX {
 	
 	/**
 	 * This event handler switches scenes to Create New Request page
-	 * @param event
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void newChangeRequestWasPressed(ActionEvent event) {
 		managePermissionsController.newChangeRequestWasPressed(event);
 	}
 	
+	/**
+	 * This event handler switches scenes to view all requests
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
 		managePermissionsController.ViewAllRequestsWasPressed(event);
 	}
 	
-	
+	/**
+	 * This event handler switches scenes to view all system data
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
 		managePermissionsController.viewAllSystemDataWasPressed(event);
 	}
 	
+	/**
+	 * This event handler switches scenes to view statistics
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void viewStatisticsReportWasPressed(ActionEvent event) {
 		managePermissionsController.viewStatisticsReportWasPressed(event);

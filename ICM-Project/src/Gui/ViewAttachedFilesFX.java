@@ -23,6 +23,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
+/** This class represents graphical controller for view attached files page */
 public class ViewAttachedFilesFX extends BaseFX {
 
 	// FXML Properties *************************************************
@@ -53,7 +54,7 @@ public class ViewAttachedFilesFX extends BaseFX {
 	 * this method shows in the list view the names of the attached files of this
 	 * request
 	 * 
-	 * @param requestID
+	 * @param requestID id
 	 */
 	public void showAttachedFiles(String requestID) {
 		if (listView.getItems() != null)
@@ -71,7 +72,7 @@ public class ViewAttachedFilesFX extends BaseFX {
 	 * this method receives from the server an array of string which contains the
 	 * names of the attached files of this request
 	 * 
-	 * @param message
+	 * @param message data
 	 */
 	public void handleShowAttachedFiles(MessageObject message) {
 		String[] stringFileArray = (String[]) message.getArgs().get(0);
@@ -84,7 +85,7 @@ public class ViewAttachedFilesFX extends BaseFX {
 	 * this method asks the server to send the files that were selected in the list
 	 * view do the designated location on the clients computer
 	 * 
-	 * @param event
+	 * @param event button was pressed
 	 */
 	@FXML
 	public void downloadWasPressed(ActionEvent event){
@@ -115,13 +116,17 @@ public class ViewAttachedFilesFX extends BaseFX {
 	/**
 	 * server sent the files this method downloads them to the client computer
 	 * 
-	 * @param message
+	 * @param message data
 	 */
 	public void handleDownloadAttachedFiles(MessageObject message) {
 		viewAttachedFilesController.handleDownloadAttachedFiles(message);
 		JOptionPane.showMessageDialog(null, "Files were downloaded successfully");
 	}
 
+	/**
+	 * This event handler switches scene to home
+	 * @param event button was pressed
+	 */
 	@FXML
 	public void backWasPressed(ActionEvent event) {
 		viewAttachedFilesController.switchScene("RequestDetails");

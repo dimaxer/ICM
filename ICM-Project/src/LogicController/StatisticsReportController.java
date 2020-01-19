@@ -11,6 +11,7 @@ import Utilities.RequestType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 
+/** This is the logical controller of statistics report */
 public class StatisticsReportController extends BaseController {
 	// Statistics Utility *****************************************************
 	/** Statistics Utility to be used for statistical calculations and management.*/
@@ -19,7 +20,7 @@ public class StatisticsReportController extends BaseController {
 	/**
 	 * Constructor of {@link StatisticsReportController},
 	 * Enables an injection of Statistics Utility through IStatistics.
-	 * @param statisticsUtility
+	 * @param statisticsUtility statistics utility to be injected
 	 */
 	public StatisticsReportController(IStatistics statisticsUtility) {
 		this.statisticsUtility = statisticsUtility;
@@ -55,9 +56,9 @@ public class StatisticsReportController extends BaseController {
 
 	/**
 	 * Initializes sending of message to get report status data
-	 * @param status
-	 * @param to 
-	 * @param from 
+	 * @param status status
+	 * @param to  date
+	 * @param from date
 	 */
 	public void initGetReportStatusData(String status, LocalDate from, LocalDate to) {
 		MessageObject msg = new MessageObject(RequestType.GetReportStatusData, new ArrayList<>());
@@ -67,14 +68,20 @@ public class StatisticsReportController extends BaseController {
 		sendMessage(msg);
 	}
 
-	/**
-	 * This method Initializes the Status Combo Box
+	/** This method Initializes the Status Combo Box
+	 * 
+	 * @param statusComboBox combo box of statuses
 	 */
 	public void initStatusComboBox(ComboBox<String> statusComboBox) {
 		statusComboBox.getItems().addAll("Active", "Frozen", "Closed");
 	}
 
-	// Request Report by Rejection ************************************
+	
+	/**
+	 * get data for report status for reject status between the dates
+	 * @param from date from
+	 * @param to date to
+	 */
 	public void initGetReportStatusData(LocalDate from, LocalDate to) {
 		MessageObject msg = new MessageObject(RequestType.GetReportRejectedData, new ArrayList<>());
 		msg.getArgs().add("Rejection");
@@ -84,6 +91,12 @@ public class StatisticsReportController extends BaseController {
 	}
 
 	// Request Report by Active Days **********************************
+	/**
+	 * /**
+	 * get data for report status for Active status between the dates
+	 * @param from date from
+	 * @param to date to
+	 */
 	public void initGetReportActiveDaysData(LocalDate from, LocalDate to) {
 		MessageObject msg = new MessageObject(RequestType.GetReportActiveDays, new ArrayList<>());
 		msg.getArgs().add("Active");
@@ -93,18 +106,28 @@ public class StatisticsReportController extends BaseController {
 	}
 	
 	// Request Report by Extensions ************************************
+	/**
+	 * get data for the  Report by Extensions
+	 */
 	public void initGetReportExtensionsData() {
 		MessageObject msg = new MessageObject(RequestType.GetReportExtensions, new ArrayList<>());
 		sendMessage(msg);
 	}
 
 	// Request Report by Durations ************************************
+	/**
+	 * get data for the  Report by Durations
+	 */
 	public void initGetReportDurationsData() {
 		MessageObject msg = new MessageObject(RequestType.GetReportDurations, new ArrayList<>());
 		sendMessage(msg);
 	}
 	
 	// Request Report by Durations ************************************
+	/** get data for the  Report by delays
+	 * 
+	 * @param infoSys information system
+	 */
 	public void initGetReportDelaysData(String infoSys) {
 		MessageObject msg = new MessageObject(RequestType.GetReportDelays, new ArrayList<>());
 		msg.getArgs().add(infoSys);
@@ -112,6 +135,11 @@ public class StatisticsReportController extends BaseController {
 	}
 
 	// Saving and Getting Reports *************************************
+	/**
+	 * save the report 
+	 * @param name name of the report
+	 * @param intervals the interval
+	 */
 	public void saveReport(String name, ArrayList<Interval> intervals) {
 		MessageObject msg = new MessageObject(RequestType.SaveReport, new ArrayList<>());
 		msg.getArgs().add(name);
@@ -119,7 +147,9 @@ public class StatisticsReportController extends BaseController {
 		msg.getArgs().add(intervals);
 		sendMessage(msg);
 	}
-	
+	/**
+	 * get the reports from the db
+	 */
 	public void getReports() {
 		MessageObject msg = new MessageObject(RequestType.GetReports, new ArrayList<>());
 		sendMessage(msg);

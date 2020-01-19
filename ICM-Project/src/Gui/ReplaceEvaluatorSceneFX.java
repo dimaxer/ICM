@@ -23,7 +23,10 @@ import javafx.scene.input.MouseEvent;
 
 
 
-
+/**
+ *  Replace Evaluator Scene Fxml controller
+ *
+ */
 public class ReplaceEvaluatorSceneFX extends BaseFX implements Initializable {
 @FXML
 	private JFXButton back; 
@@ -85,7 +88,6 @@ public void initialize(URL arg0, ResourceBundle arg1) {
  * when user clickTwice on the table show the name and id in the text Fields ("id","name")
  * 
  */
-
 @FXML
 public void setDoubleClickMmouseWasPressed()
 {
@@ -97,12 +99,18 @@ public void setDoubleClickMmouseWasPressed()
     });
 }
 
-
+/**
+ * set request ID 
+ * @param RequestID request id
+ */
 public void setRequstId(String RequestID)
 {
 	this.RequestID.setText(RequestID);
 }
-
+/**
+ * back event handle
+ * @param event back button was pressed
+ */
 @FXML
 public void backWasPressed(ActionEvent event)
 {
@@ -112,9 +120,10 @@ public void backWasPressed(ActionEvent event)
 
 /**
  * reload the data to the table when someone call method
- * 
+ *
+ * @param event appoint new evaluator button was pressed
  */
-//------------------------------------------------------------------------------------------------need to correct--------------------
+
 public void AppointNewEvaluatorWasPressed(ActionEvent event)
 {
 	replaceEvaluatorSceneController.approvedEvaluator(RequestID.getText(),id.getText(),
@@ -122,7 +131,9 @@ public void AppointNewEvaluatorWasPressed(ActionEvent event)
 	replaceEvaluatorSceneController.manageAprrovementWasPressed(event);
 }
 
-
+/**
+ * load eveluator table
+ */
 @FXML
 public void loadEvaluatorTable() {
 	replaceEvaluatorSceneController.switchScene("ManageApproves");
@@ -131,12 +142,18 @@ public void loadEvaluatorTable() {
 	manageApprovment.refreshTables();
 }
 
+/**
+ * load data to evaluator table
+ */
 public void loadDataToEvalutorTable()
 {
 	clearFields();
 	replaceEvaluatorSceneController.viewISETableWasPressed();
 }
 
+/**
+ * clear the fxml fields
+ */
 public void clearFields() {
 	for ( int i = 0; i<ISETable.getItems().size(); i++) {
 		ISETable.getItems().clear();
@@ -145,22 +162,37 @@ public void clearFields() {
 }
 
 //-----------------------------------------------------------Panel Methods----------------------------------------
+/**
+ * view all requests event handler
+ * @param event view all request was pressed
+ */
 @FXML
 public void ViewAllRequestsWasPressed(ActionEvent event) {
 	replaceEvaluatorSceneController.ViewAllRequestsWasPressed(event);
 }
 
+
+/**
+ * new chande request event handler
+ * @param event new change request button was presssed
+ */
 @FXML
 public void newChangeRequestWasPressed(ActionEvent event) {
 	replaceEvaluatorSceneController.newChangeRequestWasPressed(event);
 }
 
-
+/**
+ * log out event handler
+ * @param event kog out was pressed
+ */
 @FXML
 public void logOutWasPressed(ActionEvent event) {
 	replaceEvaluatorSceneController.logOutWasPressed(event);
 }
-
+/**
+ * load ISE table 
+ * @param message contain all the information
+ */
 public void loadISETable(MessageObject message) {
 		ArrayList<Object> ISEListTemp=message.getArgs();
 		EvalutorAppoitmentTableSerializable temp;

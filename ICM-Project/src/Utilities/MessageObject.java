@@ -33,18 +33,34 @@ public class MessageObject implements Serializable {
 		this.args = args;
 	}
 	
+	/**
+	 * This gets the request type
+	 * @return type
+	 */
 	public RequestType getTypeRequest() {
 		return typeRequest;
 	}
 	
+	/**
+	 * This sets the request type
+	 * @param requestType type
+	 */
 	public void setTypeRequest(RequestType requestType) {
 		this.typeRequest = requestType;
 	}
 	
+	/**
+	 * This gets the arguments
+	 * @return arguments
+	 */
 	public ArrayList<Object> getArgs() {
 		return args;
 	}
 	
+	/**
+	 * This sets the arguments
+	 * @param args arguments
+	 */
 	public void setArgs(ArrayList<Object> args) {
 		this.args = args;
 	}

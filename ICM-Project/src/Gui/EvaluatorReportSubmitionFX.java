@@ -16,7 +16,10 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
-
+/**
+ * Evaluator Report Submition Fxml controller
+ *
+ */
 public class EvaluatorReportSubmitionFX extends BaseFX {
 
 	// Main Buttons ******************************
@@ -60,11 +63,16 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 		setValdiator();
 		evaluationReportController = new EvaluationReportController();
 	}
-
+	/**
+	 * inital the additional information
+	 */
 	public void initShowAdditionalInfo() {
 		evaluationReportController.initShowAdditionalInfo(requestID);
 	}
-	
+	/**
+	 * back event handler
+	 * @param event back was pressed
+	 */
 	@FXML
 	public void backWasPressed(ActionEvent event) {
 		evaluationReportController.switchScene("RequestDetails");
@@ -74,7 +82,7 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 	 * this method submit the evaluation report send relevant data to the Evaluation
 	 * report table
 	 * 
-	 * @param event
+	 * @param event Button was Pressed
 	 */
 	@FXML
 	public void submitWasPressed(ActionEvent event) {
@@ -86,7 +94,10 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 					result.getText(), requestID);
 
 	}
-
+	/**
+	 * clear Fields event handler
+	 * @param event clear fields was pressed
+	 */
 	@FXML
 	public void clearFieldsWasPressed(ActionEvent event) {
 		additionalInfoPane.setVisible(false);
@@ -120,11 +131,18 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 		result.validate();
 
 	}
-
+	/**
+	 * 
+	 * set request id
+	 * @param requestID request id
+	 */
 	public void setRequestID(String requestID) {
 		this.requestID = requestID;
 	}
-
+	/**
+	 * report event handler
+	 * @param message message object cntain the request type
+	 */
 	public void reportWasSent(MessageObject message) {
 		if ((boolean) message.getArgs().get(0)) {
 			evaluationReportController.switchScene("ViewAllRequests");
@@ -143,7 +161,7 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 	/**
 	 * This event handler switches scenes back to the Login page
 	 * 
-	 * @param event
+	 * @param event Button was Pressed
 	 */
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
@@ -153,7 +171,7 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 	/**
 	 * This event handler switches scenes to Create New Request page
 	 * 
-	 * @param event
+	 * @param event Button was Pressed
 	 */
 	@FXML
 	public void newChangeRequestWasPressed(ActionEvent event) {
@@ -173,7 +191,7 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 		
 	}
 	/**
-	 * 
+	 * fill the report fields
 	 * @param message contain EvaluatorReport of the request
 	 */
 	public void fillReportFilds(MessageObject message) {
@@ -188,7 +206,10 @@ public class EvaluatorReportSubmitionFX extends BaseFX {
 		result.setEditable(false);
 		});
 	}
-
+	/**
+	 * handle show additional information from DB
+	 * @param message cintain the information from the server
+	 */
 	public void handleShowAdditionalInfo(MessageObject message) {
 		String info = message.getArgs().get(0).toString();
 		if (info == "") {

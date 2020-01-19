@@ -31,14 +31,19 @@ import Utilities.MailSender;
 import Utilities.MessageObject;
 import Utilities.RequestType;
 import ocsf.server.ConnectionToClient;
+import server.DBServer;
 import server.UserConnectivityManager;
 
+/**
+ * This class handles the requests to the Database through sql.
+ *
+ */
 public class SqlRequestHandler {
 	/**
 	 * a method that saves a new user in to the db
 	 * 
-	 * @param uid
-	 * @param pwd
+	 * @param uid user id
+	 * @param pwd password
 	 */
 	public void saveUserToDB(String uid, String pwd) {
 		Statement stmt;
@@ -120,10 +125,11 @@ public class SqlRequestHandler {
 	 * false if not also checks if the user is already logged in or not are returns
 	 * the appropriate message to the client
 	 * 
-	 * @param userID
-	 * @param password
-	 * @return
-	 * @throws SQLException
+	 * @param userID id
+	 * @param password password
+	 * @param client client
+	 * @return data
+	 * @throws SQLException exception
 	 */
 	// It will not stay boolean, but will change to AcademicUser or another entity.
 	public MessageObject checkUserCredentials(String userID, String password, ConnectionToClient client)
@@ -168,8 +174,8 @@ public class SqlRequestHandler {
 	 * requests information if it was found in the db the first value in the
 	 * MessageObject Array list indicates if it was found or not [True|False]
 	 * 
-	 * @param msg
-	 * @return
+	 * @param msg data
+	 * @return data
 	 */
 	public MessageObject searchRequest(Object msg) {
 		MessageObject message = (MessageObject) msg;
@@ -231,8 +237,7 @@ public class SqlRequestHandler {
 	 * 
 	 * @param msg userID
 	 * @return User that contain all relevant requests
-	 * @throws SQLException
-
+	 * @throws SQLException exception
 	 */
 	public MessageObject viewRequestTable(MessageObject msg) throws SQLException {
 		User currentUser = (User) msg.getArgs().get(0);
@@ -334,8 +339,8 @@ public class SqlRequestHandler {
 	/**
 	 * a Method to execute query's in the db
 	 * 
-	 * @param query
-	 * @return
+	 * @param query query
+	 * @return data
 	 */
 	public ResultSet executeQuery(String query) {
 
@@ -357,8 +362,8 @@ public class SqlRequestHandler {
 	/**
 	 * this method enables to change the status of a request in the db
 	 * 
-	 * @param msg
-	 * @return
+	 * @param msg data
+	 * @return data
 	 */
 	public MessageObject changeStatus(Object msg) {
 		int result = 0;
@@ -399,9 +404,7 @@ public class SqlRequestHandler {
 	 * appoint evaluator by the system shoham
 	 * 
 	 * @deprecated
-	 * @param requestID
-	 * 
-	 * @return
+	 * @param requestID id
 	 */
 	public void automaticAppointmentEvaluator(String requestID) {
 		ResultSet allISDUsers;
@@ -445,8 +448,8 @@ public class SqlRequestHandler {
 	/**
 	 * insert the current Evaluator to Evaluator Appointment Table
 	 * 
-	 * @param EvaluatorID
-	 * @return
+	 * @param EvaluatorID id
+	 * @param requestID id
 	 */
 	public void insertNewEvaluatorToEvaluatorTable(String EvaluatorID, String requestID) {
 
@@ -472,8 +475,7 @@ public class SqlRequestHandler {
 	 * delete evaluator from EvaluatorAppointment because he was approved by the
 	 * Supervisor
 	 * 
-	 * @param requestID
-	 * @param evaluatrorID
+	 * @param requestID id
 	 * 
 	 */
 	public void deleteApprovedEvaluator(String requestID) {
@@ -495,8 +497,9 @@ public class SqlRequestHandler {
 	/**
 	 * Update the EvaluatorID in the requests table to the given evaluatrorID
 	 * 
-	 * @param requestID
-	 * @param evaluatrorID
+	 * @param requestID id
+	 * @param evaluatorID id
+	 * @return data
 	 */
 	public MessageObject updateRequestEvaluator(String requestID, String evaluatorID) {
 
@@ -547,7 +550,7 @@ public class SqlRequestHandler {
 	 * Update the stage of requests table for RequestID Insert new Evaluation Stage
 	 * in StageTable in the DB
 	 * @deprecated
-	 * @param requestID
+	 * @param requestID id
 	 */
 	public void sinsertStageEvaluator(String requestID) {
 
@@ -586,8 +589,9 @@ public class SqlRequestHandler {
 	/**
 	 * This methods gets the Name and Evaluator ID of Information Systems
 	 * 
-
-	 * @throws SQLException
+	 * @param message data
+	 * @throws SQLException exception
+	 * @return data
 	 */
 	public MessageObject getInformationSystemDetails(MessageObject message) throws SQLException {
 		ResultSet rs;
@@ -623,8 +627,9 @@ public class SqlRequestHandler {
 	/**
 	 * This method gets the ID and Name of each User
 	 * 
-
-	 * @throws SQLException
+	 * @param message data
+	 * @throws SQLException exception
+	 * @return data
 	 */
 	public MessageObject getAllUserDetails(MessageObject message) throws SQLException {
 		ResultSet rs;
@@ -651,8 +656,9 @@ public class SqlRequestHandler {
 	/**
 	 * This method gets the Details of Users with Permanent Roles (roleName, ID)
 	 * 
-
-	 * @throws SQLException
+	 * @param message data
+	 * @throws SQLException exception
+	 * @return data
 	 */
 	public MessageObject getPermanentRolesDetails(MessageObject message) throws SQLException {
 		ResultSet rs;
@@ -678,8 +684,8 @@ public class SqlRequestHandler {
 
 	/** This method updates the evaluator of a certain Information System
 	 * 
-	 * @param message
-	 * @throws SQLException
+	 * @param message data
+	 * @throws SQLException exception
 	 */
 	public void updateEvaluator(MessageObject message) throws SQLException {
 		String queryInfoSys = "UPDATE InformationSystem SET evaluatorID = ? WHERE infoSysName = ?";
@@ -705,8 +711,8 @@ public class SqlRequestHandler {
 
 	/** This method updates the permanent roles holders
 	 * 
-	 * @param message
-	 * @throws SQLException
+	 * @param message data
+	 * @throws SQLException exception
 	 */
 	public void updatePermanentRoles(MessageObject message) throws SQLException {
 		ArrayList<Object> args = message.getArgs();
@@ -743,8 +749,8 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method gets the Evaluator Table and returns it
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject viewEvaluatorTable(MessageObject message) {
 		ResultSet rs = executeQuery(new String("Select RequestID,EvaluatorID,EvaulatorName from EvaluatorAppointment"));
@@ -771,8 +777,8 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method gets the ISE Workers Table and returns it
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject viewIseTable(MessageObject message) {
 		String Quary1 = "SELECT userID from PermanentEmployee )";
@@ -799,12 +805,12 @@ public class SqlRequestHandler {
 	/**
 	 * this method uploads the evaluator report to the db
 	 * 
-	 * @param requestID
-	 * @param description
-	 * @param constraints
-	 * @param result
-	 * @param evaluatorID
-	 * @return
+	 * @param requestID id
+	 * @param description description
+	 * @param constraints constraints
+	 * @param result result
+	 * @param evaluatorID id
+	 * @return was successful
 	 */
 	public boolean uploadEvaluatorReport(String requestID, String description, String constraints, String result,
 			String evaluatorID) {
@@ -842,10 +848,10 @@ public class SqlRequestHandler {
 	 * removing from the request the evaluator id and adding committee members to
 	 * the request
 	 * 
-	 * @param requestID
-	 * @param EvaluatorID
+	 * @param requestID id
+	 * @param EvaluatorID id
 	 * @deprecated
-	 * @return
+	 * @return was successful
 	 */
 	public boolean changeStageToInspectonAndDecision(String requestID, String EvaluatorID) {
 
@@ -872,7 +878,7 @@ public class SqlRequestHandler {
 	/**
 	 * getting from the DB all the information of the report
 	 * @param message ArrayList that contain the requestID of the report
-	 * @return 
+	 * @return Evaluator Report
 	 */
 	public EvaluatorReport getEvaluatorReport(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
@@ -897,7 +903,7 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method sets an additional info to be asked by the evaluator by the committee
-	 * @param message
+	 * @param message data
 	 */
 	public void askForAdditionalInfo(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
@@ -935,8 +941,8 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method gets the additional info required by the committee and returns it
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getAdditionalInfo(MessageObject message) {
 		ResultSet rs;
@@ -978,7 +984,7 @@ public class SqlRequestHandler {
 	
 	/**
 	 * This method swaps between gives stages
-	 * @param message
+	 * @param message data
 	 */
 	public void swapStage(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
@@ -1017,7 +1023,7 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method swaps between gives statuses
-	 * @param message
+	 * @param message data
 	 */
 	public void swapStatus(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
@@ -1059,14 +1065,14 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method executes the closing phase updates
-	 * @param requestID
-	 * @param updateStatusToStatusTableClosing
-	 * @param insertCurrentStatusToStatusTableLogClosing
-	 * @param updateStatusTableLogEndDateClosing
-	 * @param updateStageToStageTable
-	 * @param insertCurrentStageToStageTableLog
-	 * @param updateStageTableLogEndDate
-	 * @throws SQLException
+	 * @param requestID id
+	 * @param updateStatusToStatusTableClosing query
+	 * @param insertCurrentStatusToStatusTableLogClosing query
+	 * @param updateStatusTableLogEndDateClosing query
+	 * @param updateStageToStageTable query
+	 * @param insertCurrentStageToStageTableLog query
+	 * @param updateStageTableLogEndDate query
+	 * @throws SQLException exception
 	 */
 	private void executeClosingPhaseUpdates(String requestID, String updateStatusToStatusTableClosing,
 			String insertCurrentStatusToStatusTableLogClosing, String updateStatusTableLogEndDateClosing,
@@ -1086,13 +1092,13 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method updates the closing phase of the 
-	 * @param requestID
-	 * @param updateStatusToStatusTableClosing
-	 * @param insertCurrentStatusToStatusTableLogClosing
-	 * @param updateStatusTableLogEndDateClosing
-	 * @param status
-	 * @param ourJavaDateObject
-	 * @throws SQLException
+	 * @param requestID id
+	 * @param updateStatusToStatusTableClosing query
+	 * @param insertCurrentStatusToStatusTableLogClosing query
+	 * @param updateStatusTableLogEndDateClosing query
+	 * @param status status
+	 * @param ourJavaDateObject date
+	 * @throws SQLException exception
 	 */
 	private void updateClosingPhase(String requestID, String updateStatusToStatusTableClosing,
 			String insertCurrentStatusToStatusTableLogClosing, String updateStatusTableLogEndDateClosing, String status,
@@ -1121,13 +1127,13 @@ public class SqlRequestHandler {
 	
 	/** This method swaps between the given stages / statuses
 	 * 
-	 * @param requestID
-	 * @param newStage
-	 * @param currentStage
-	 * @param insertStageToStageTable
-	 * @param insertCurrentStageToStageTableLog
-	 * @param updateStageTableLogEndDate
-	 * @throws SQLException
+	 * @param requestID id
+	 * @param newStage stage
+	 * @param currentStage stage
+	 * @param insertStageToStageTable query
+	 * @param insertCurrentStageToStageTableLog query
+	 * @param updateStageTableLogEndDate query
+	 * @throws SQLException exception
 	 */
 	private void executeStage_Status_Swap(String requestID, String newStage, String currentStage,
 			String insertStageToStageTable, String insertCurrentStageToStageTableLog, String updateStageTableLogEndDate)
@@ -1188,8 +1194,8 @@ public class SqlRequestHandler {
 
 	/** This method gets test rejection info
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getTestRejectionInfo(MessageObject message) {
 		ResultSet rs;
@@ -1221,8 +1227,8 @@ public class SqlRequestHandler {
 
 	/** This method updates test rejection info
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject updateTestRejectionInfo(MessageObject message) {
 		String requestID = (String) message.getArgs().get(0);
@@ -1257,8 +1263,8 @@ public class SqlRequestHandler {
 
 	/** This method gets the time extension table rows
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getTimeExtensionTable(MessageObject message) {
 		ResultSet rs;
@@ -1298,8 +1304,8 @@ public class SqlRequestHandler {
 
 	/** This method gets the time assessment table rows
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getTimeAssessmentTable(MessageObject message) {
 		ResultSet rs;
@@ -1337,8 +1343,8 @@ public class SqlRequestHandler {
 
 	/** This method gets the execution leader table rows
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getExecutionLeaderTable(MessageObject message) {
 		ResultSet rs;
@@ -1370,7 +1376,8 @@ public class SqlRequestHandler {
 	
 	/** This method gets the evaluator table rows
 	 * 
-	 * @param message
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getEvaluatorTable(MessageObject message) {
 		ResultSet rs;
@@ -1404,7 +1411,7 @@ public class SqlRequestHandler {
 
 	/** This method handles a new time assessment acceptance
 	 * 
-	 * @param message
+	 * @param message data
 	 */
 	public void timeAssessmentAccepted(MessageObject message) {
 		String addQuery = "INSERT INTO TimeAssessmentLog (RequestID, UserID, JobDescription, StartTime, EndTime) SELECT * FROM TimeAssessment WHERE RequestID = ?";
@@ -1438,11 +1445,11 @@ public class SqlRequestHandler {
 
 	/** This method handles a new time assessment rejection
 	 * 
-	 * @param message
+	 * @param message data
 	 */
 	public void timeAssessmentRejected(MessageObject message) {
 		ResultSet rs;
-		String addQuery = "INSERT INTO TimeAssessmentRejectionInfo VALUES (?,?,?)";
+		String addQuery = "INSERT INTO TimeAssessmentRejectionInfo VALUES (?,?,?) ON DUPLICATE KEY UPDATE RejectionInfo = ?";
 		String deleteQuery = "DELETE FROM TimeAssessment WHERE RequestID = ?";
 		
 		PreparedStatement stmt;
@@ -1455,11 +1462,14 @@ public class SqlRequestHandler {
 			stmt.setString(1, message.getArgs().get(0).toString());
 			stmt.setString(2, UserID);
 			stmt.setString(3, RejectionInfo);
+			stmt.setString(4, RejectionInfo);
 			stmt.executeUpdate();
 			
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(deleteQuery);
 			stmt.setString(1, message.getArgs().get(0).toString());
 			stmt.executeUpdate();
+			
+			MailSender.getInstance().send(UserID, "TIME ASSESSMENT REJECTION", "Your time assessment request for Request ID " + message.getArgs().get(0).toString() + " has been rejected. Reason: " + RejectionInfo, DBServer.getInstance().isPopup());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1468,7 +1478,7 @@ public class SqlRequestHandler {
 	
 	/** This method handles a new time extension acceptance
 	 * 
-	 * @param message
+	 * @param message data
 	 */
 	public void timeExtensionAccepted(MessageObject message) {
 		String addQuery = "INSERT INTO TimeExtensionLog (RequestID, UserID, JobDescription, StartTime, EndTime, Stage) SELECT * FROM TimeExtension WHERE RequestID = ?";
@@ -1494,6 +1504,8 @@ public class SqlRequestHandler {
 			stmt.setString(2, message.getArgs().get(0).toString());
 			stmt.setString(3, message.getArgs().get(2).toString());
 			stmt.executeUpdate();
+			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1502,31 +1514,32 @@ public class SqlRequestHandler {
 
 	/** This method handles a new time extension rejection
 	 * 
-	 * @param message
+	 * @param message data
 	 */
 	public void timeExtensionRejected(MessageObject message) {
 		ResultSet rs;
-		String addQuery = "INSERT INTO TimeExtensionRejectionInfo VALUES (?,?,?,?)";
+		String addQuery = "INSERT INTO TimeExtensionRejectionInfo VALUES (?,?,?) ON DUPLICATE KEY UPDATE RejectionInfo = ?";
 		String deleteQuery = "DELETE FROM TimeExtension WHERE RequestID = ?";
 		
 		PreparedStatement stmt;
 		try {
 			
 			String RequestID = message.getArgs().get(0).toString();
-			String UserID = message.getArgs().get(2).toString();
-			String RejectionInfo = message.getArgs().get(1).toString();
-			String Stage = message.getArgs().get(3).toString();
+			String UserID = message.getArgs().get(1).toString();
+			String RejectionInfo = message.getArgs().get(2).toString();
 			
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(addQuery);
 			stmt.setString(1, RequestID);
 			stmt.setString(2, UserID);
 			stmt.setString(3, RejectionInfo);
-			stmt.setString(4, Stage);
+			stmt.setString(4, RejectionInfo);
 			stmt.executeUpdate();
 			
 			stmt = mysqlConnection.getInstance().getConnection().prepareStatement(deleteQuery);
 			stmt.setString(1, message.getArgs().get(0).toString());
 			stmt.executeUpdate();
+			
+			MailSender.getInstance().send(UserID, "TIME EXTENSION REJECTION", "Your time assessment request for Request ID " + message.getArgs().get(0).toString() + " has been rejected. Reason: " + RejectionInfo, DBServer.getInstance().isPopup());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1535,8 +1548,9 @@ public class SqlRequestHandler {
 
 	/** This method creates a new time extension and returns an appropriate messageObject
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @throws ParseException exception
+	 * @return data
 	 */
 	public MessageObject NewTimeExtension(MessageObject message) throws ParseException {
 		ResultSet rs;
@@ -1590,7 +1604,7 @@ public class SqlRequestHandler {
 			String subject = "EXTENSION REQUESTED - ICM Request ID " + RequestID + " " + Stage;
 			String content = "Your request is currently at stage of " + Stage + 
 					",\nand an extension was requested today: " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MMMM yyyy")) + ".";
-			MailSender.getInstance().send(rs.getString("Email"), subject, content);
+			MailSender.getInstance().send(rs.getString("Email"), subject, content, DBServer.getInstance().isPopup());
 			
 			return message;
 		} catch (Exception e) {
@@ -1605,8 +1619,9 @@ public class SqlRequestHandler {
 
 	/** This method creates a new time assessment and returns an appropriate messageObject
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @throws ParseException exception
+	 * @return data
 	 */
 	public MessageObject NewTimeAssessment(MessageObject message) throws ParseException {
 		ResultSet rs;
@@ -1650,7 +1665,11 @@ public class SqlRequestHandler {
 		}
 	}
 	
-	/** Was time assessment accepted for this request stage? */
+	/** Was time assessment accepted for this request stage
+	 * 
+	 * @param message data
+	 * @return data
+	 */
 	public MessageObject getStageDeadline(MessageObject message) {
 		ResultSet rs;
 		String getQuery = "SELECT * FROM StageTable WHERE requestId = ? AND stage = ? AND deadlineTime IS NOT NULL";
@@ -1706,8 +1725,8 @@ public class SqlRequestHandler {
 
 	/** This method gets the committee details and returns an appropriate messageObject
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getCommittee(MessageObject message) {
 		ResultSet get_rs, name_rs;
@@ -1746,8 +1765,8 @@ public class SqlRequestHandler {
 	
 	/** This method sets a tester to the request returns an appropriate messageObject
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject setTester(MessageObject message) {
 		String setQuery = "UPDATE Requests SET TesterID = ?, adhoc = TRUE WHERE RequestID = ?";
@@ -1772,8 +1791,8 @@ public class SqlRequestHandler {
 
 	/** This method gets the 'waits for execution leader appointment' state and returns an appropriate messageObject
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getWaitsExecutionLeaderAppointment(MessageObject message) {
 		ResultSet rs;
@@ -1801,8 +1820,8 @@ public class SqlRequestHandler {
 	
 	/** This method sets the 'waits for execution leader appointment' state and returns an appropriate messageObject
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject setWaitsExecutionLeaderAppointment(MessageObject message) {
 		String setQuery = "INSERT INTO ExecutionLeaderAppointment VALUES (?,?) ON DUPLICATE KEY UPDATE StartTime = ?";
@@ -1830,8 +1849,8 @@ public class SqlRequestHandler {
 
 	/** This method gets the options for execution leaders and returns an appropriate messageObject
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getExecutionLeaderOptions(MessageObject message) {
 		ResultSet get_rs, name_rs;
@@ -1867,8 +1886,8 @@ public class SqlRequestHandler {
 	
 	/** This method sets the execution leader and returns an appropriate messageObject
 	 * 
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject setExecutionLeader(MessageObject message) {
 		String setQuery = "UPDATE Requests SET ExecutionLeaderID = ? WHERE RequestID = ?";
@@ -1898,7 +1917,7 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method sets the chairman to initiate Testing stage
-	 * @param message
+	 * @param message data
 	 */
 	public void setTesterBeforeAdhoc(MessageObject message) {
 		ResultSet rs;
@@ -1923,8 +1942,8 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method gets the Employee ISE Table
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getEmployeeTable(MessageObject message) {
 		ResultSet rs;
@@ -1952,8 +1971,8 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method gets the current request table
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getRequestTable(MessageObject message) {
 		ResultSet rs;
@@ -1978,8 +1997,8 @@ public class SqlRequestHandler {
 	
 	/**
 	 * This method gets the report status data.
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getReportStatusData(MessageObject message) {
 		ResultSet rs;
@@ -2016,8 +2035,8 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method gets the rejection report data.
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getReportRejectedData(MessageObject message) {
 		ResultSet rs1, rs2;
@@ -2057,8 +2076,8 @@ public class SqlRequestHandler {
 	
 	/**
 	 * This method gets the extensions report data.
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getReportExtensionsData(MessageObject message) {
 		ResultSet rs;
@@ -2087,8 +2106,8 @@ public class SqlRequestHandler {
 
 	/**
 	 * This method gets the durations report data.
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getReportDurationsData(MessageObject message) {
 		ResultSet rs_finalEndTime, rs_firstAssessments;
@@ -2143,8 +2162,8 @@ public class SqlRequestHandler {
 	
 	/**
 	 * This method gets the delays report data.
-	 * @param message
-	 * @return
+	 * @param message data
+	 * @return data
 	 */
 	public MessageObject getReportDelaysData(MessageObject message) {
 		ResultSet rs;
@@ -2182,6 +2201,11 @@ public class SqlRequestHandler {
 		return null;
 	}
 
+	/**
+	 * This method gets mail string by id
+	 * @param id id
+	 * @return mail
+	 */
 	public String getMailByUID(String id) {
 		ResultSet rs;
 		String getQuery = "SELECT * FROM Users WHERE UserID = ?";
@@ -2202,6 +2226,9 @@ public class SqlRequestHandler {
 		return null;
 	}
 	
+	/**
+	 * This method sends mails for one day before stage end.
+	 */
 	public void SendMailsOneDayBeforeStageEnd() {
 		ResultSet rs;
 		String getStagesQuery = "SELECT Users.UserID, Users.Email, Requests.RequestID, Requests.Stage, StageTable.deadlineTime "
@@ -2256,7 +2283,7 @@ public class SqlRequestHandler {
 					
 					// Send Mail
 					MailSender.getInstance().send(email, "DEADLINE TOMMOROW - ICM Request ID " + requestID + " " + stage, 
-					"Your request is currently at stage of " + stage + ",\nand its deadline is due tommorow: " + now.format(DateTimeFormatter.ofPattern("dd.MMMM yyyy")) + ".");
+					"Your request is currently at stage of " + stage + ",\nand its deadline is due tommorow: " + now.format(DateTimeFormatter.ofPattern("dd.MMMM yyyy")) + ".", DBServer.getInstance().isPopup());
 				}
 			}
 		} catch (Exception e) {
@@ -2264,6 +2291,9 @@ public class SqlRequestHandler {
 		}
 	}
 
+	/**
+	 * This method sends a mail of exception from deadline
+	 */
 	public void SendMailsExceptionFromDeadline() {
 		ResultSet rs;
 		String getStagesQuery = "SELECT Users.UserID, Users.Email, Requests.RequestID, Requests.Stage, StageTable.deadlineTime "
@@ -2320,12 +2350,12 @@ public class SqlRequestHandler {
 					
 					if (stage.equals("Closing")) {}
 					else if (stage.equals("Decision"))
-						MailSender.getInstance().send(chairmanMail, title, message);
-					else MailSender.getInstance().send(email, title, message);
+						MailSender.getInstance().send(chairmanMail, title, message, DBServer.getInstance().isPopup());
+					else MailSender.getInstance().send(email, title, message, DBServer.getInstance().isPopup());
 					
 					// Send Mail
-					MailSender.getInstance().send(supervisorMail, title, message);
-					MailSender.getInstance().send(isdMail, title, message);
+					MailSender.getInstance().send(supervisorMail, title, message, DBServer.getInstance().isPopup());
+					MailSender.getInstance().send(isdMail, title, message, DBServer.getInstance().isPopup());
 				}
 			}
 		} catch (Exception e) {
@@ -2333,6 +2363,10 @@ public class SqlRequestHandler {
 		}
 	}
 
+	/**
+	 * This method saves the report to the database.
+	 * @param message data
+	 */
 	public void saveReport(MessageObject message) {
 		String query = "INSERT INTO IssuedGraph (graphName, issueDate) VALUES (?,?)";
 		String queryLog = "INSERT INTO IssuedGraphLog (issuedIndex, category, value) VALUES (?,?, ?)";
@@ -2360,6 +2394,11 @@ public class SqlRequestHandler {
 		}
 	}
 
+	/** Get Statistics Reports
+	 * 
+	 * @param message data
+	 * @return data
+	 */
 	public MessageObject getReports(MessageObject message) {
 		ResultSet rs, rs_log;
 		String query = "SELECT * FROM IssuedGraph";

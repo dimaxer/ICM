@@ -9,6 +9,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import javafx.scene.control.Alert.AlertType;
+
 /** This class allows sending mails from the server to remote client mails */
 public class MailSender {
 	private static final String smtp = "smtp.gmail.com";
@@ -36,9 +38,21 @@ public class MailSender {
 		return singletonInstance;
 	}
 	
-	public void send(String recipient, String subject, String content) {
+	/**
+	 * This method sends the email (or popup) to the recipient.
+	 * @param recipient recipient
+	 * @param subject subject
+	 * @param content content
+	 * @param popup popup
+	 */
+	public void send(String recipient, String subject, String content, boolean popup) {
 		if (recipient == "" || subject == "" || content == "" || recipient == null || subject == null || content == null)
 			throw new IllegalArgumentException("Illegal Mail Arguments Sent.");
+		
+		if (popup) {
+			Alert.showAlert(AlertType.INFORMATION, "Mail has been sent:\n" + subject, content);
+			return;
+		}
 		
 		// Get the session object  
 		Properties props = new Properties();

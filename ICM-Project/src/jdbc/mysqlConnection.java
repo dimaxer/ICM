@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/** This class represents the mysql connection */
 public class mysqlConnection {
 
 	// Instance variables **********************************************
@@ -13,10 +14,18 @@ public class mysqlConnection {
 
 	// Constructors ****************************************************
 
+	/**
+	 * This returns the request handler
+	 * @return request handler
+	 */
 	public SqlRequestHandler handle() {
 		return requestHandler;
 	}
 	
+	/**
+	 * This returns the connection
+	 * @return connection connection
+	 */
 	public Connection getConnection() {
 		return con;
 	}
@@ -59,11 +68,11 @@ public class mysqlConnection {
 	/**
 	 * a method to connect to a db using custom values
 	 * 
-	 * @param hostname
-	 * @param dbname
-	 * @param username
-	 * @param password
-	 * @return
+	 * @param hostname host name
+	 * @param dbname db name
+	 * @param username user name
+	 * @param password pass word
+	 * @return was successful
 	 */
 	public boolean connectToDB(String hostname, String dbname, String username, String password) {
 		defineDriver();
@@ -73,15 +82,20 @@ public class mysqlConnection {
 	/**
 	 * a method that connects the braude default db
 	 * 
-	 * @return
+	 * @return was successful
 	 */
 	public boolean connectToBraudeDefault() {
 		defineDriver();
 		return establishDBConnection("localhost", "request_db", "root", "Aa123456");
 	}
 
-	/**
-	 * this method establishes a connection to the database
+	/** this method establishes a connection to the database
+	 * 
+	 * @param hostname host name
+	 * @param dbname db name
+	 * @param username user name
+	 * @param password pass word
+	 * @return was successful
 	 */
 	private boolean establishDBConnection(String hostname, String dbname, String username, String password) {
 		try {
@@ -107,7 +121,7 @@ public class mysqlConnection {
 	/**
 	 * This method close's the db connection
 	 * 
-	 * @return
+	 * @return was successful
 	 */
 	public boolean closeConnectionToDB() {
 		try {

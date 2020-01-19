@@ -17,8 +17,15 @@ import Utilities.MessageObject;
 import Utilities.RequestType;
 import Utilities.ScreenManager;
 
+/** This class is the request handler of the Client UI */
 public class ClientRequestHandler {
+	
 	// Instance methods ************************************************
+	/** This method handles the requests of the Client UI
+	 * 
+	 * @param msg data
+	 * @throws Exception exception
+	 */
 	public void handle(Object msg) throws Exception {
 		MessageObject message = (MessageObject) msg;
 		Client.getInstance().printMessageRecieved(message);
@@ -172,34 +179,4 @@ public class ClientRequestHandler {
 			break;
 		}
 	}
-	/**
-	 * public void checkInstance(RequestType type, Object currentFX) { switch (type)
-	 * { case Login: if (!(currentFX instanceof LoginFX)) System.out.println("ERROR
-	 * CURRENT_FX NOT INSTANCE OF LoginFX"); break; case View_Req_Details: if
-	 * (!(currentFX instanceof RequestDetailsFX)) System.out.println("ERROR
-	 * CURRENT_FX NOT INSTANCE OF RequestDetailsFX"); break; case
-	 * refreshViewUserRequestTable: if (!(currentFX instanceof ViewAllRequestsFX))
-	 * System.out.println("ERROR CURRENT_FX NOT INSTANCE OF ViewAllRequestsFX");
-	 * break; case viewRequestTable: if (!(currentFX instanceof ViewAllRequestsFX))
-	 * System.out.println("ERROR CURRENT_FX NOT INSTANCE OF ViewAllRequestsFX");
-	 * break; case NewChangeRequest: if (!(currentFX instanceof NewChangeRequestFX))
-	 * System.out.println("ERROR CURRENT_FX NOT INSTANCE OF NewChangeRequestFX");
-	 * break; case ViewAttachedFiles: if (!(currentFX instanceof
-	 * ViewAttachedFilesFX)) System.out.println("ERROR CURRENT_FX NOT INSTANCE OF
-	 * ViewAttachedFilesFX"); case DownloadAttachedFiles: if (!(currentFX instanceof
-	 * ViewAttachedFilesFX)) System.out.println("ERROR CURRENT_FX NOT INSTANCE OF
-	 * ViewAttachedFilesFX"); break; case ApprovedEvaluator: if (!(currentFX
-	 * instanceof LoginFX)) System.out.println("ERROR CURRENT_FX NOT INSTANCE OF
-	 * EvaluatorApproveSceneFX"); break; case InformationSystem_Details: if
-	 * (!(currentFX instanceof ManagePermissionsFX)) if (!(currentFX instanceof
-	 * NewChangeRequestFX)) System.out.println("ERROR While trying to switch scene
-	 * from main panelS"); break; case AllUserDetails: if (!(currentFX instanceof
-	 * ManagePermissionsFX)) System.out.println("ERROR CURRENT_FX NOT INSTANCE OF
-	 * ManagePermissionsFX"); break; case PermanentRoles_Details: if (!(currentFX
-	 * instanceof ManagePermissionsFX)) System.out.println("ERROR CURRENT_FX NOT
-	 * INSTANCE OF ManagePermissionsFX"); break; case ViewEvaluatorTable: if
-	 * (!(currentFX instanceof ManageApprovesFX)) System.out.println("ERROR
-	 * CURRENT_FX NOT INSTANCE OF ManageApprovesFX"); break; default: break; } }
-	 */
-
 }

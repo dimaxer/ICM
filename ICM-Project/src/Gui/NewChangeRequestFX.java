@@ -31,6 +31,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
+/**
+ * New change request Fxml controller
+ *
+ */
 public class NewChangeRequestFX extends BaseFX {
 
 	@FXML
@@ -134,7 +138,9 @@ public class NewChangeRequestFX extends BaseFX {
 	}
 
 	/**
+	 * 
 	 * This method handles the form when submit was pressed
+	 * @param event submit button was pressed
 	 */
 	@FXML
 	public void submitWasPressed(ActionEvent event) {
@@ -151,7 +157,9 @@ public class NewChangeRequestFX extends BaseFX {
 
 		}
 	}
-
+	/**
+	 * inital String Fields values
+	 */
 	private void initStringFieldValues() {
 		date = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now());
 		// infSys = jfxinfSys.getText();
@@ -164,14 +172,17 @@ public class NewChangeRequestFX extends BaseFX {
 	/**
 	 * A method to initialize the Information Systems ComboBox for picking an
 	 * Information System.
+	 * @param idCanBeNull can id be null
 	 */
 	public void initInformationSystemDetails(Boolean idCanBeNull) {
 		newChangeRequestController.initInformationSystemDetails(idCanBeNull);
 	}
 
 	/**
-	 * A method to handle the initialization of the Information Systems ComboBox for
+	 *  A method to handle the initialization of the Information Systems ComboBox for
 	 * picking an Information System.
+	 *
+	 * @param message message object contain all inforamations of the information Systems
 	 */
 	public void handleInformationSystemComboBox(MessageObject message) {
 		infoSysComboBox.getItems().clear();
@@ -183,6 +194,7 @@ public class NewChangeRequestFX extends BaseFX {
 	/**
 	 * This method updates the Current Evaluator TextField whenever an item was
 	 * chosen
+	 * @param event the combo box was pressed
 	 */
 	@FXML
 	public void updateCurrentEvaluator(ActionEvent event) {
@@ -201,11 +213,10 @@ public class NewChangeRequestFX extends BaseFX {
 	}
 
 	/**
-	 * This method adds the field values to args ArrayList
+	 * 	 This method adds the field values to args ArrayList
 	 * 
-	 * @param args
-	 * @return ArrayList that includes the field arguments
-	 */
+	 * 
+	 */	 
 	private void addFieldsToArgs() {
 		args.add(date);
 		args.add(infoSysComboBox.getValue());
@@ -249,7 +260,10 @@ public class NewChangeRequestFX extends BaseFX {
 
 		validator.setMessage("*required");
 	}
-
+	/**
+	 * back was pressed event handler
+	 * @param event back button was pressed
+	 */
 	@FXML
 	public void backWasPressed(ActionEvent event) {
 		newChangeRequestController.switchScene("Panel");
@@ -259,7 +273,7 @@ public class NewChangeRequestFX extends BaseFX {
 	 * if the request was created successfully this method uploads the files to the
 	 * server if there are any
 	 * 
-	 * @param msg
+	 * @param msg contain all the information about the new request
 	 */
 	public void newCRHandler(MessageObject msg) {
 		MessageObject message = (MessageObject) msg;
@@ -275,7 +289,10 @@ public class NewChangeRequestFX extends BaseFX {
 		}
 
 	}
-
+/**
+ * add Files event handler
+ * @param event add file button was pressed
+ */
 	@FXML
 	public void addFilesWasPressed(ActionEvent event) {
 		browseFiles.setVisible(true);
@@ -289,7 +306,7 @@ public class NewChangeRequestFX extends BaseFX {
 	/**
 	 * create a list of files that are chosen by the user
 	 * 
-	 * @param event
+	 * @param event attach file was pressed
 	 */
 	@FXML
 	public void attachFilesWasPressed(ActionEvent event) {
@@ -304,7 +321,10 @@ public class NewChangeRequestFX extends BaseFX {
 		}
 
 	}
-
+	/**
+	 * close Attach files event handler
+	 * @param event close attach files was pressed
+	 */
 	@FXML
 	public void closeAttachFilesWasPressed(ActionEvent event) {
 		browseFiles.setVisible(false);
@@ -313,7 +333,6 @@ public class NewChangeRequestFX extends BaseFX {
 	/**
 	 * A method to clear all the fields in this form
 	 * 
-
 	 */
 	public void clearFields() {
 		// TODO Auto-generated method stub
@@ -328,17 +347,26 @@ public class NewChangeRequestFX extends BaseFX {
 	}
 
 	// ---------------------------------side panel methods--------------------
-
+/**
+ * Manage approves event handler
+ * @param event manage approves was pressed
+ */
 	@FXML
 	public void ManageApprovesWasPressed(ActionEvent event) {
 		newChangeRequestController.manageAprrovementWasPressed(event);
 	}
-
+	/**
+	 * view all request event handler
+	 * @param event view all request button was pressed
+	 */
 	@FXML
 	public void ViewAllRequestsWasPressed(ActionEvent event) {
 		newChangeRequestController.ViewAllRequestsWasPressed(event);
 	}
-
+	/**
+	 * log out event handler
+	 * @param event logout button was pressed 
+	 */
 	@FXML
 	public void logOutWasPressed(ActionEvent event) {
 		newChangeRequestController.logOutWasPressed(event);
@@ -349,19 +377,24 @@ public class NewChangeRequestFX extends BaseFX {
 	 * Manage permanent roles (supervisor, committee), and Information System's
 	 * evaluators.
 	 * 
-
-	 * @param event
+	 * @param event manage permisson was pressed
 	 */
 	@FXML
 	public void managePermissionsWasPressed(ActionEvent event) {
 		newChangeRequestController.managePermissionsWasPressed(event);
 	}
-
+/**
+ * view all system data event handler
+ * @param event view all system data button was pressed
+ */
 	@FXML
 	public void viewAllSystemDataWasPressed(ActionEvent event) {
 		newChangeRequestController.viewAllSystemDataWasPressed(event);
 	}
-
+	/**
+	 * view Statistics Report event handler
+	 * @param event view staatistics report was pressed
+	 */
 	@FXML
 	public void viewStatisticsReportWasPressed(ActionEvent event) {
 		newChangeRequestController.viewStatisticsReportWasPressed(event);

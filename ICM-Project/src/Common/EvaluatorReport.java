@@ -18,6 +18,14 @@ public class EvaluatorReport implements Serializable {
 	private String constraints;
 	private String result;
 	
+	/** Evaluator Report Constructor
+	 * 
+	 * @param requestID id
+	 * @param evaluatorID id
+	 * @param description description
+	 * @param constraints constraints
+	 * @param result result
+	 */
 	public EvaluatorReport(String requestID, String evaluatorID, String description, String constraints,
 			String result) {
 		super();
@@ -28,7 +36,7 @@ public class EvaluatorReport implements Serializable {
 		this.result = result;
 	}
 	/**
-	 * 
+	 * Evaluator Report Constructor
 	 * @param report ResultSet that contain all the information from the DB about EvaluatorReport
 	 */
 	public EvaluatorReport(ResultSet report) {
@@ -47,33 +55,82 @@ public class EvaluatorReport implements Serializable {
 		
 	}
 	
+	/** get request id
+	 * 
+	 * @return id
+	 */
 	public String getRequestID() {
 		return requestID;
 	}
+	
+	/** set request id
+	 * 
+	 * @param requestID id
+	 */
 	public void setRequestID(String requestID) {
 		this.requestID = requestID;
 	}
+	
+	/** get evaluator id
+	 * 
+	 * @return id
+	 */
 	public String getEvaluatorID() {
 		return evaluatorID;
 	}
+	
+	/** set evaluator id
+	 * 
+	 * @param evaluatorID id
+	 */
 	public void setEvaluatorID(String evaluatorID) {
 		this.evaluatorID = evaluatorID;
 	}
+	
+	/** get description
+	 * 
+	 * @return description
+	 */
 	public String getDescription() {
 		return description;
 	}
+	
+	/** set description
+	 * 
+	 * @param description description
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	/** get constraints
+	 * 
+	 * @return constraints
+	 */
 	public String getConstraints() {
 		return constraints;
 	}
+	
+	/** set constraints
+	 * 
+	 * @param constraints constraints
+	 */
 	public void setConstraints(String constraints) {
 		this.constraints = constraints;
 	}
+	
+	/** get result
+	 * 
+	 * @return result
+	 */
 	public String getResult() {
 		return result;
 	}
+	
+	/** set result
+	 * 
+	 * @param result result
+	 */
 	public void setResult(String result) {
 		this.result = result;
 	}

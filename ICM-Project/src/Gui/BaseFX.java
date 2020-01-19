@@ -21,8 +21,6 @@ import javafx.scene.paint.Color;
  * This abstract class serves as a base FX controller for all the other FX
  * controllers.
  * 
- * @author Malka
- * @author Noam
  */
 public abstract class BaseFX implements Initializable {
 
@@ -31,10 +29,19 @@ public abstract class BaseFX implements Initializable {
 	@Override
 	public abstract void initialize(URL arg0, ResourceBundle arg1);
 
+	/** handle view request details request
+	 * 
+	 * @param message data
+	 */
 	public void handleViewRequestDetailsRequest(MessageObject message) {
 		baseController.handleViewRequestDetailsRequest(message);
 	}
 
+	/**
+	 * Handle of Login
+	 * @param message data
+	 * @param currentFX current fx
+	 */
 	public void loginHandle(MessageObject message, Object currentFX) {
 		baseController.loginHandle(message);
 		((LoginFX) currentFX).loginHandle(message);
@@ -45,8 +52,9 @@ public abstract class BaseFX implements Initializable {
 	 * the boolean and switches screens to the request form with the message object
 	 * so that it could be initialized with the request's information
 	 * 
-	 * @param message in args(0) : boolean request exist, args(1) : String user role
-	 *                in request, args(2) Request the request
+	 * @param message in args(0) : boolean request exist, args(1) : String user role in request, args(2) Request the request
+	 * @param currentFX currentFX
+	 *             
 	 */
 	public void handleSearchRequest(MessageObject message, Object currentFX) {
 
@@ -57,8 +65,8 @@ public abstract class BaseFX implements Initializable {
 	 * this method show an error message dialog because the some one else is already
 	 * logged in with this userID
 	 * 
-	 * @param message
-	 * @param currentFX
+	 * @param message data
+	 * @param currentFX current FX
 	 */
 	public void loginErrorAllreadyLoggedIn(MessageObject message, Object currentFX) {
 		JOptionPane.showMessageDialog(null, "Error this user is already logged in");
