@@ -8,22 +8,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="922.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ConnectServerManualyFX">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="454.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Gui.ConnectServerManualyFX">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="86.0" prefWidth="922.0" style="-fx-background-color: #4682b4;">
-         <children>
-            <Text fill="#fffdfd" layoutX="228.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect to Server Manually">
-               <font>
-                  <Font name="System Bold" size="36.0" />
-               </font>
-            </Text>
-            <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Images/ICM_LOGO.png" />
-               </image>
-            </ImageView>
-         </children></AnchorPane>
-      <JFXButton fx:id="connect" buttonType="RAISED" layoutX="124.0" layoutY="345.0" onAction="#connectWasPressed" prefHeight="53.0" prefWidth="268.0" style="-fx-background-color: #4682b4; -fx-background-radius: 30;" text="Connect" textFill="#fff8f8">
+      <JFXButton fx:id="connect" buttonType="RAISED" layoutX="124.0" layoutY="345.0" onAction="#connectWasPressed" prefHeight="53.0" prefWidth="268.0" style="-fx-background-color: #00008B; -fx-background-radius: 30;" text="Connect" textFill="#fff8f8">
          <font>
             <Font name="Tahoma" size="24.0" />
          </font></JFXButton>
@@ -32,7 +19,7 @@
          <font>
             <Font size="20.0" />
          </font></Text>
-      <JFXButton fx:id="connectDefault" buttonType="RAISED" layoutX="450.0" layoutY="345.0" onAction="#connectToDefaultWasPressed" prefHeight="53.0" prefWidth="328.0" style="-fx-background-color: #4682b4; -fx-background-radius: 30;" text="Connect to Default Server" textFill="#fff9f9">
+      <JFXButton fx:id="connectDefault" buttonType="RAISED" layoutX="450.0" layoutY="345.0" onAction="#connectToDefaultWasPressed" prefHeight="53.0" prefWidth="328.0" style="-fx-background-color: #00008B; -fx-background-radius: 30;" text="Connect to Default Server" textFill="#fff9f9">
          <font>
             <Font name="Tahoma" size="24.0" />
          </font>
@@ -40,6 +27,16 @@
       <Text fx:id="errorMessage" fill="#e40202" layoutX="135.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="629.24609375">
          <font>
             <Font name="System Bold" size="16.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/ICM_LOGO.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="185.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connect to Server Manually">
+         <font>
+            <Font name="System Bold" size="36.0" />
          </font>
       </Text>
    </children>
