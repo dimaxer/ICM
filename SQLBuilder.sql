@@ -40,11 +40,11 @@ CREATE TABLE `AdditionalInfo` (
 --
 
 INSERT INTO `AdditionalInfo` (`requestID`, `additionalInfo`) VALUES
-('1', 'D'),
-('2', 'a'),
-('3', '3'),
-('4', 'F'),
-('5', '1');
+('1', 'How much money it will cost to make an agreement with the company that holds the rights to this software'),
+('2', 'Why visual studio is not enough is the expanded and more expensive version of visual studio code'),
+('3', 'How much will it cost to replace computers and how many computers with this problem there are'),
+('4', 'Why does the student actually need these courses if he or she has already completed them'),
+('5', 'What is the cost of adaptation of a mobile site and whether such an adjustment would be useful to students');
 
 -- --------------------------------------------------------
 
@@ -65,11 +65,11 @@ CREATE TABLE `EvaluationReport` (
 --
 
 INSERT INTO `EvaluationReport` (`RequestID`, `EvaluatorID`, `Description`, `Constraints`, `Result`) VALUES
-('1', '006', 'AD', 'BD', 'CD'),
-('2', '006', 'aA', 'bBB', 'CCC'),
-('3', '007', 'DA', 'BD', 'CD'),
-('4', '010', 'AB', 'BB', 'CB'),
-('5', '011', '3G', '3G', '4G');
+('1', '006', 'The request was to install an notepad++ in the Class PCs ', 'need to check if we have an agreement with the suplier of this software and if not condider to buy one', 'I think that it benfit to the student so I recoment make the change'),
+('2', '006', 'The request was to install an visual studio code in the Class PCs ', 'need to check if we have an agreement with the suplier of this software and if not condider to buy one', 'I think that it can benfit to the student so I recoment to make the change'),
+('3', '007', 'problems with the internet in the Farm', 'old computers that can	t make internet connection', 'need to replece all the computers that make problemes'),
+('4', '010', 'some of the older courses of the student not appear because the lecturer decision', 'it is up to the lecturer decision', 'I think we need to make this courses visible to the students'),
+('5', '011', 'The site is not optimized for mobile', 'This requires widespread change with great financial cost ', 'The cost is worth the money and the change will be very useful');
 
 -- --------------------------------------------------------
 CREATE TABLE `IssuedGraph` (
@@ -255,11 +255,11 @@ CREATE TABLE `Requests` (
 --
 
 INSERT INTO `Requests` (`RequestID`, `Date`, `InformationSystem`, `RequestedChange`, `CurrentSituation`, `RequestReason`, `Note`, `AttachFiles`, `Stage`, `Status`, `InitiatorID`, `TesterID`, `ExecutionLeaderID`, `EvaluatorID`, `adhoc`) VALUES
-(1, '2020-01-15', 'Class PCs', 'A', 'B', 'C', 'D', 0, 'Closing', 'Closed', '006', '004', '006', '006', 1),
-(2, '2020-01-16', 'Class PCs', 'A', 'B', 'C', 'D', 0, 'Closing', 'Active', '006', NULL, NULL, '006', 0),
-(3, '2020-01-16', 'Farm', 'A', 'B', 'C', 'D', 0, 'Execution', 'Active', '007', '003', '008', '007', 1),
-(4, '2020-01-16', 'Moodle', 'A', 'B', 'C', 'D', 0, 'Closing', 'Active', '010', '003', '010', '010', 1),
-(5, '2020-01-17', 'Website', 'A', 'B', 'C', 'D', 0, 'Closing', 'Closed', '001', '002', '002', '011', 0);
+(1, '2020-01-15', 'Class PCs', 'notepad++ in the PCs', 'there is no notepad ++ in the computers', 'I need notepad++ for Lab tasks', 'notepad++ is free software', 0, 'Closing', 'Closed', '006', '004', '006', '006', 1),
+(2, '2020-01-16', 'Class PCs', 'visual studio code in the PCs', 'there is no visual studio code in the computers', 'I need visual studio code for Lab tasks', 'visual studio code is free software', 0, 'Closing', 'Active', '006', NULL, NULL, '006', 0),
+(3, '2020-01-16', 'Farm', 'problems with the internet', 'not all computers connected to the internet', 'I don’t have intenet in the computer', 'some of the computers has internet', 0, 'Execution', 'Active', '007', '003', '008', '007', 1),
+(4, '2020-01-16', 'Moodle', 'fix the moodle view courses', 'some of my courses not appear', 'cant get access to my courses', 'some of the courses I can access to', 0, 'Closing', 'Active', '010', '003', '010', '010', 1),
+(5, '2020-01-17', 'Website', 'make the site compatiable with phones', 'I cant view the website in my samsung galaxy 10', 'want to get access to website information from my phone', 'Im my mothers phone (Iphone 10) it worked just fine ', 0, 'Closing', 'Closed', '001', '002', '002', '011', 0);
 
 -- --------------------------------------------------------
 
