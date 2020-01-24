@@ -5,7 +5,7 @@ B.Sc. Software Engineering 3rd year project - ONGOING.
 Cloud DB - username: ZZUehgwcK6 | password: hfwrGUeVv7
 
 <a href="https://www.youtube.com/watch?v=3AGqTbqhAU4&t=2660s"><img src="https://stickershop.line-scdn.net/stickershop/v1/product/5951468/LINEStorePC/main.png;compress=true" title="ICM on Steroids" alt="ICM on Steroids"></a>
-> ICM on Steroids v1.6.0 Stable - 
+> ICM on Steroids v1.7.1 Stable - 
 ![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)
 
 ### DO NOT CONTINUE WORKING ON THE MAIN BEFORE TALKING TO MALKA OR DIMA ###
